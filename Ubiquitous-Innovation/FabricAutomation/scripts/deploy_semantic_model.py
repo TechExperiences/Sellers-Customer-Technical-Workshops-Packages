@@ -53,12 +53,24 @@ RELATIONSHIPS = [
     ("EquipmentQualification", "PlantID", "Plant", "PlantID"),
 ]
 
+LAKEHOUSE_TABLE_READY_ATTEMPTS = 120
+DIRECT_LAKE_REFRESH_ATTEMPTS = 12
+RETRY_DELAY_SECONDS = 5
+
 
 def token(name: str) -> str:
     value = os.environ.get(name)
     if not value:
         raise RuntimeError(f"{name} is missing. Run this script through .\\up.ps1.")
     return value
+
+
+class FabricRequestError(RuntimeError):
+    """A Fabric REST failure that preserves the status code for retry decisions."""
+
+    def __init__(self, method: str, path: str, status_code: int, response_text: str) -> None:
+        super().__init__(f"{method} {path} -> {status_code}: {response_text}")
+        self.status_code = status_code
 
 
 class FabricApi:
@@ -69,7 +81,7 @@ class FabricApi:
     def request(self, method: str, path: str, body: dict | None = None) -> dict:
         response = self.session.request(method, f"{FABRIC_API}{path}", json=body, timeout=60)
         if not response.ok:
-            raise RuntimeError(f"{method} {path} -> {response.status_code}: {response.text}")
+            raise FabricRequestError(method, path, response.status_code, response.text)
         if response.status_code == 202 and response.headers.get("x-ms-operation-id"):
             return self.wait(response.headers["x-ms-operation-id"])
         return response.json() if response.content else {}
@@ -183,6 +195,48 @@ def find_semantic_model(items: list[dict], display_name: str) -> dict | None:
     )
 
 
+def expected_source_entities() -> set[str]:
+    """Return the physical Lakehouse entities required by the Direct Lake model."""
+    return {str(source["entity"]) for source in LAKEHOUSE_TABLES.values()}
+
+
+def missing_source_entities(tables: list[dict]) -> set[str]:
+    """Return Direct Lake source entities not yet surfaced by the Lakehouse API."""
+    available = {
+        str(table["name"])
+        for table in tables
+        if table.get("name")
+    }
+    return expected_source_entities() - available
+
+
+def wait_for_lakehouse_tables(fabric: FabricApi, workspace_id: str, lakehouse_id: str) -> None:
+    """Wait for the Lakehouse catalog to expose every Direct Lake source entity."""
+    path = f"/workspaces/{workspace_id}/lakehouses/{lakehouse_id}/tables"
+    last_missing = expected_source_entities()
+    for attempt in range(1, LAKEHOUSE_TABLE_READY_ATTEMPTS + 1):
+        try:
+            tables = fabric.list_all(path)
+        except FabricRequestError as error:
+            if error.status_code not in {404, 409, 429, 500, 502, 503, 504}:
+                raise
+            tables = []
+        missing = missing_source_entities(tables)
+        if not missing:
+            return
+        last_missing = missing
+        print(
+            "Lakehouse table metadata is not ready for Direct Lake; waiting "
+            f"{RETRY_DELAY_SECONDS} seconds (attempt {attempt}/{LAKEHOUSE_TABLE_READY_ATTEMPTS}). "
+            f"Missing: {', '.join(sorted(missing))}"
+        )
+        time.sleep(RETRY_DELAY_SECONDS)
+    raise TimeoutError(
+        "Lakehouse table metadata did not become ready for Direct Lake within ten minutes. "
+        f"Missing: {', '.join(sorted(last_missing))}."
+    )
+
+
 def wait_for_semantic_model(fabric: FabricApi, workspace_id: str, display_name: str) -> dict:
     for _ in range(24):
         item = find_semantic_model(fabric.list_all(f"/workspaces/{workspace_id}/items"), display_name)
@@ -208,25 +262,53 @@ def deploy_semantic_model(fabric: FabricApi, workspace_id: str, lakehouse_id: st
     return wait_for_semantic_model(fabric, workspace_id, display_name)["id"]
 
 
+def is_transient_direct_lake_source_error(refresh: dict) -> bool:
+    """Recognize Fabric's temporary Direct Lake table-catalog propagation error."""
+    details = json.dumps(refresh, sort_keys=True).casefold()
+    return (
+        "modelrefresh_shortmessage_processingerror" in details
+        and "source tables either do not exist or access was denied" in details
+    )
+
+
 def refresh_semantic_model(workspace_id: str, semantic_model_id: str) -> None:
-    """Refresh Direct Lake framing so the new model and Data Agent can query tables."""
+    """Refresh Direct Lake framing, retrying only temporary table-readiness failures."""
     base = f"https://api.powerbi.com/v1.0/myorg/groups/{workspace_id}/datasets/{semantic_model_id}"
     session = requests.Session()
     session.headers.update({"Authorization": f"Bearer {token('AZURE_POWERBI_ACCESS_TOKEN')}", "Content-Type": "application/json"})
-    response = session.post(f"{base}/refreshes", json={"type": "full"}, timeout=60)
-    if not response.ok:
-        raise RuntimeError(f"POST {base}/refreshes -> {response.status_code}: {response.text}")
-    for _ in range(24):
-        time.sleep(5)
-        response = session.get(f"{base}/refreshes", timeout=60)
-        response.raise_for_status()
-        refreshes = response.json().get("value", [])
-        latest = refreshes[0] if refreshes else None
-        if latest and latest.get("status") == "Completed":
-            return
-        if latest and latest.get("status") == "Failed":
-            raise RuntimeError(f"Semantic model refresh failed: {json.dumps(latest, indent=2)}")
-    raise TimeoutError("Semantic model refresh did not complete within two minutes.")
+    last_failure: dict | None = None
+    for refresh_attempt in range(1, DIRECT_LAKE_REFRESH_ATTEMPTS + 1):
+        response = session.post(f"{base}/refreshes", json={"type": "full"}, timeout=60)
+        if not response.ok:
+            raise RuntimeError(f"POST {base}/refreshes -> {response.status_code}: {response.text}")
+        for _ in range(24):
+            time.sleep(RETRY_DELAY_SECONDS)
+            response = session.get(f"{base}/refreshes", timeout=60)
+            response.raise_for_status()
+            refreshes = response.json().get("value", [])
+            latest = refreshes[0] if refreshes else None
+            if latest and latest.get("status") == "Completed":
+                return
+            if latest and latest.get("status") == "Failed":
+                last_failure = latest
+                if not is_transient_direct_lake_source_error(latest):
+                    raise RuntimeError(f"Semantic model refresh failed: {json.dumps(latest, indent=2)}")
+                break
+        else:
+            raise TimeoutError("Semantic model refresh did not complete within two minutes.")
+
+        if refresh_attempt < DIRECT_LAKE_REFRESH_ATTEMPTS:
+            print(
+                "Direct Lake table metadata is still propagating; retrying semantic model refresh "
+                f"in {RETRY_DELAY_SECONDS} seconds (attempt {refresh_attempt}/{DIRECT_LAKE_REFRESH_ATTEMPTS})."
+            )
+            time.sleep(RETRY_DELAY_SECONDS)
+
+    raise RuntimeError(
+        "Semantic model refresh could not read the Lakehouse tables after retrying metadata propagation. "
+        "Verify that the service principal owns or has read access to the Lakehouse. "
+        f"Last refresh result: {json.dumps(last_failure, indent=2)}"
+    )
 
 
 def main() -> None:
@@ -237,6 +319,7 @@ def main() -> None:
     args = parser.parse_args()
 
     fabric = FabricApi(token("AZURE_FABRIC_ACCESS_TOKEN"))
+    wait_for_lakehouse_tables(fabric, args.workspace_id, args.lakehouse_id)
     semantic_model_id = deploy_semantic_model(fabric, args.workspace_id, args.lakehouse_id, args.semantic_model_name)
     refresh_semantic_model(args.workspace_id, semantic_model_id)
     print(json.dumps({"semanticModelId": semantic_model_id}))
