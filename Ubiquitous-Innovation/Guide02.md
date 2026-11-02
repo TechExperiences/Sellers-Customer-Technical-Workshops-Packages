@@ -1230,7 +1230,27 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
    - To: **<inject key="AzureAdUserEmail"></inject>**
    - Subject: `Caldova market launch validator`
-   - Body: `What are Caldova's main priorities for the November launch?`
+   - Body: 
+      ```
+      Hello Caldova Business Intelligence Agent,
+
+      Please review the relevant documents and updates available in the connected SharePoint knowledge source and identify Caldova’s main priorities for the November launch.
+
+      Please provide:
+
+      - **Key Priorities:** The most important objectives for the November launch.
+      - **Critical milestones:** Important dates, deliverables, and readiness checkpoints.
+      - **Risks and dependencies:** Any blockers, outstanding actions, or cross-team dependencies.
+      - **Recommended next steps:** Actions required to keep the launch on track.
+
+      Base your response on the available SharePoint content.Include document references or links where available. If the information is missing or insufficient, clearly state that rather than making assumptions.
+
+      Please return a concise, well-structured response  suitable for business stakeholders.
+
+      Thank you,  
+      Caldova Launch Team
+
+      ```
 
    ![](../Sandbox-Environment-Guides/Images/NewEmail.png)
 
@@ -1347,6 +1367,15 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
    ![](../Sandbox-Environment-Guides/Images/openedinteams.png)
 
 1. Click **Market Launch Coordinator** to open the chat and verify that the agent is available.
+
+1. Copy the below prompt and paste it in chat window
+
+   ```
+   What are Caldova's main priorities for the November launch?
+   ```
+1. Review the response provided by agent
+
+   ![](../Sandbox-Environment-Guides/Images/teamsrespond.png)
 
 In this topic, we explored how **Microsoft Copilot Studio** coordinates specialized agents to support end-to-end business workflows.
 
