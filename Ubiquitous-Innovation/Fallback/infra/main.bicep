@@ -27,10 +27,12 @@ param portalUserPrincipalId string
 
 var storageBlobDataContributorRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')
 var storageBlobDataOwnerRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b')
+var storageBlobDataReaderRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1')
 var storageAccountContributorRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '17d1049b-9a84-46fb-8f53-869881c3d3ab')
 var cosmosDbOperatorRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '230815da-be43-4aae-9cb4-875f7bd000aa')
 var searchIndexDataContributorRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '8ebe5a00-799e-43f5-93ac-243d3dce84a7')
 var searchServiceContributorRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7ca78c08-252a-4471-8644-bb5ff32d4ba0')
+var cognitiveServicesUserRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'a97b65f3-24c7-4388-baec-2e87135dc908')
 var foundryUserRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '53ca6127-db72-4b80-b1b0-d745d6d5456d')
 var foundryProjectManagerRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'eadc314b-1a2d-4efa-be10-5d325db5065e')
 
@@ -213,6 +215,27 @@ resource gpt54Deployment 'Microsoft.CognitiveServices/accounts/deployments@2025-
   }
 }
 
+// Foundry IQ uses this embedding deployment to chunk and vectorize documents
+// from the data container into the generated Azure AI Search index.
+resource textEmbedding3SmallDeployment 'Microsoft.CognitiveServices/accounts/deployments@2025-06-01' = {
+  parent: foundryAccount
+  name: 'textembedding3small'
+  dependsOn: [
+    foundryProject
+  ]
+  sku: {
+    name: 'GlobalStandard'
+    capacity: 10
+  }
+  properties: {
+    model: {
+      format: 'OpenAI'
+      name: 'text-embedding-3-small'
+      version: '1'
+    }
+  }
+}
+
 // These role assignments are deterministic, so ARM treats an already-created
 // assignment as the same resource rather than creating a duplicate.
 resource automationStorageContributor 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
@@ -222,6 +245,50 @@ resource automationStorageContributor 'Microsoft.Authorization/roleAssignments@2
     principalId: automationPrincipalId
     principalType: 'ServicePrincipal'
     roleDefinitionId: storageBlobDataContributorRoleId
+  }
+}
+
+// The provisioning service principal creates the Foundry IQ knowledge source
+// and knowledge base through the Azure AI Search data-plane API.
+resource automationSearchServiceContributor 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(searchService.id, automationPrincipalId, searchServiceContributorRoleId)
+  scope: searchService
+  properties: {
+    principalId: automationPrincipalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: searchServiceContributorRoleId
+  }
+}
+
+resource automationSearchIndexContributor 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(searchService.id, automationPrincipalId, searchIndexDataContributorRoleId)
+  scope: searchService
+  properties: {
+    principalId: automationPrincipalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: searchIndexDataContributorRoleId
+  }
+}
+
+// Azure AI Search's managed identity reads the ADLS Gen2 data container and
+// calls the Foundry model deployments during Foundry IQ indexing and retrieval.
+resource searchStorageBlobReader 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(storageAccount.id, searchService.id, storageBlobDataReaderRoleId)
+  scope: storageAccount
+  properties: {
+    principalId: searchService.identity.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: storageBlobDataReaderRoleId
+  }
+}
+
+resource searchFoundryCognitiveServicesUser 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(foundryAccount.id, searchService.id, cognitiveServicesUserRoleId)
+  scope: foundryAccount
+  properties: {
+    principalId: searchService.identity.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: cognitiveServicesUserRoleId
   }
 }
 

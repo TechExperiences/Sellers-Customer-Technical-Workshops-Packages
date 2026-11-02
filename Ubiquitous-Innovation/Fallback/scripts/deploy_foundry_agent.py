@@ -1,4 +1,4 @@
-"""Create a Foundry agent with ADLS knowledge and the source Fabric Data Agent tool."""
+"""Create a Foundry agent with Foundry IQ knowledge and Fabric analytics tools."""
 from __future__ import annotations
 
 import argparse
@@ -11,7 +11,6 @@ from azure.ai.projects.models import (
     AgentEndpointConfig,
     BotServiceRbacAuthorizationScheme,
     EntraAuthorizationScheme,
-    FileSearchTool,
     MCPTool,
     PromptAgentDefinition,
     ProtocolConfiguration,
@@ -21,9 +20,16 @@ from azure.core.exceptions import HttpResponseError
 from azure.identity import ClientSecretCredential
 
 
-INSTRUCTIONS = "You are my Supply chain agent."
+INSTRUCTIONS = """You are my Supply chain agent.
+
+Use the Caldova document knowledge base for policies, procedures, launch plans,
+and other uploaded documents. Use the Fabric Data Agent for governed numerical
+analytics about manufacturing, plants, inventory, products, and production.
+When the document knowledge base provides sources, include its citations in
+your answer. If neither source contains the answer, say that you do not know."""
 AGENT_NAME = "Ubiquitous-Supply-Chain-BI-Agent"
 FABRIC_CONNECTION_NAME = "fabric-data-agent"
+KNOWLEDGE_CONNECTION_NAME = "caldova-docs-kb-connection"
 
 
 def credential_from_environment() -> ClientSecretCredential:
@@ -47,13 +53,23 @@ def create_project_client(endpoint: str, credential: ClientSecretCredential) -> 
 
 
 def create_agent_when_ready(
-    project: AIProjectClient, model_deployment_name: str, vector_store_id: str, fabric_mcp_url: str
+    project: AIProjectClient,
+    model_deployment_name: str,
+    knowledge_base_mcp_url: str,
+    fabric_mcp_url: str,
 ) -> object:
     definition = PromptAgentDefinition(
         model=model_deployment_name,
         instructions=INSTRUCTIONS,
         tools=[
-            FileSearchTool(vector_store_ids=[vector_store_id]),
+            MCPTool(
+                server_label="caldova_document_knowledge",
+                server_url=knowledge_base_mcp_url,
+                server_description="Grounded Caldova supply-chain documents indexed by Foundry IQ.",
+                project_connection_id=KNOWLEDGE_CONNECTION_NAME,
+                allowed_tools=["knowledge_base_retrieve"],
+                require_approval="never",
+            ),
             MCPTool(
                 server_label="fabric_data_agent",
                 server_url=fabric_mcp_url,
@@ -100,7 +116,7 @@ def main() -> None:
     parser.add_argument("--foundry-account-name", required=True)
     parser.add_argument("--project-name", required=True)
     parser.add_argument("--model-deployment-name", required=True)
-    parser.add_argument("--vector-store-id", required=True)
+    parser.add_argument("--knowledge-base-mcp-url", required=True)
     parser.add_argument("--fabric-mcp-url", required=True)
     args = parser.parse_args()
 
@@ -111,7 +127,7 @@ def main() -> None:
         agent = create_agent_when_ready(
             project,
             args.model_deployment_name,
-            args.vector_store_id,
+            args.knowledge_base_mcp_url,
             args.fabric_mcp_url,
         )
         agent_id = getattr(agent, "id", None)

@@ -207,18 +207,21 @@ try {
         python (Join-Path $PSScriptRoot 'scripts/upload_to_adls.py') --storage-account-name $StorageAccountName --container data --source-folder $BlobSourceFolder
     } 'ADLS Gen2 data upload failed.'
 
-    Write-Host 'Indexing the data container in the Foundry knowledge base...' -ForegroundColor Cyan
-    $knowledgeOutput = & python (Join-Path $PSScriptRoot 'scripts/create_knowledge_base.py') `
-        --storage-account-name $StorageAccountName --foundry-account-name $FoundryAccountName --project-name $FoundryProjectName
-    if ($LASTEXITCODE -ne 0) { throw 'Foundry knowledge-base creation failed.' }
-    $vectorStoreId = [string]($knowledgeOutput | Select-Object -Last 1)
-    if (-not $vectorStoreId) { throw 'Foundry knowledge-base creation did not return a vector store ID.' }
+    Write-Host 'Creating and indexing the Foundry IQ document knowledge base...' -ForegroundColor Cyan
+    $knowledgeOutput = & python (Join-Path $PSScriptRoot 'scripts/create_foundry_iq_knowledge.py') `
+        --subscription-id $env:AZURE_SUBSCRIPTION_ID --resource-group $ResourceGroupName `
+        --storage-account-name $StorageAccountName --search-service-name $SearchServiceName `
+        --foundry-account-name $FoundryAccountName --project-name $FoundryProjectName `
+        --chat-deployment-name gpt54 --embedding-deployment-name textembedding3small
+    if ($LASTEXITCODE -ne 0) { throw 'Foundry IQ knowledge-base creation failed.' }
+    $knowledge = ($knowledgeOutput | Select-Object -Last 1 | ConvertFrom-Json)
+    if (-not $knowledge.mcpUrl) { throw 'Foundry IQ knowledge-base creation did not return an MCP endpoint.' }
 
-    Write-Host 'Creating the Foundry Supply Chain agent with Fabric analytics and document knowledge tools...' -ForegroundColor Cyan
+    Write-Host 'Creating the Foundry Supply Chain agent with Foundry IQ knowledge and Fabric analytics...' -ForegroundColor Cyan
     Invoke-Checked {
         python (Join-Path $PSScriptRoot 'scripts/deploy_foundry_agent.py') `
             --foundry-account-name $FoundryAccountName --project-name $FoundryProjectName --model-deployment-name gpt54 `
-            --vector-store-id $vectorStoreId --fabric-mcp-url $sourceAgent.mcpUrl
+            --knowledge-base-mcp-url $knowledge.mcpUrl --fabric-mcp-url $sourceAgent.mcpUrl
     } 'Foundry agent deployment failed.'
 
     Write-Host "Completed. Storage account: $StorageAccountName; container: data; Search: $SearchServiceName; Cosmos: $CosmosAccountName; Foundry project: $FoundryProjectName; Foundry agent: Ubiquitous-Supply-Chain-BI-Agent." -ForegroundColor Green
