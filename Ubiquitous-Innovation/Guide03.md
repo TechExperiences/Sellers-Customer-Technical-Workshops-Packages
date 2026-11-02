@@ -49,6 +49,10 @@ Before adding the **Data Agent** to the Microsoft Foundry agent, verify that the
 
 1. Click **Go to Foundry**.
 
+1. Select **Build** tab.
+
+   ![](../Ubiquitous-Innovation/Images/ui48.png)  
+
 1. Navigate to **Agents (1)** and then select **Ubiquitous-Supply-Chain-BI-Agent (2)**.
 
    ![](../Ubiquitous-Innovation/Images/ui14.png)
@@ -636,9 +640,9 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
 ### Activity 3.3 – Confirm the Copilot Studio Model and Connect the Foundry Specialist Agent
 
-Connect a **Microsoft Foundry Agent** to the **Market Launch Coordinator**.
+Connect a **Microsoft Foundry Agent** to the **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>**.
 
-1. Navigate to the existing **Market Launch Coordinator** agent and Select the **Agents** tab.
+1. Navigate to the existing **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** Agent. Click on `+7` **(1)** tab and select the **Agents (2)** tab.
 
    ![](../Sandbox-Environment-Guides/Images/tools.png) 
 
@@ -654,24 +658,39 @@ Connect a **Microsoft Foundry Agent** to the **Market Launch Coordinator**.
 
    ![](../Sandbox-Environment-Guides/Images/nextbutton.png) 
 
-1. Provide the details required to connect to the existing Microsoft Foundry agent.
+1. Provide the details required to connect to the existing **Microsoft Foundry agent**.   
 
-1. Locate and select the existing **Ubiquitous-Supply-Chain-BI-Agent**.
+1. On the **Connect to Azure AI Foundry Agent Service** page,
 
-1. Configure the connection details as prompted by the interface.
+   - Select **Microsoft Entra ID User Login (1)** for **Authentication Type**.
+   - Provide the Foundry project endpoint **(2)**. To get the Endpoint follow the below steps.
+
+      - Navigate to the **Foundry Agent** that you were working before.
+      - Select **Build** tab from top. If asked to **Save**, plesae Save and proceed.
+      - Copy the **Project Endpoint**.
+
+       ![](../Ubiquitous-Innovation/Images/ui49.png) 
+
+    - Click on **Create (3)**   
+
+   ![](../Ubiquitous-Innovation/Images/ui51.png) 
 
 1. In the **Details** section, configure the following information:
 
-   - **Name:** `Supply-Chain-BI-Agent`
-   - **Description:** `Supply chain BI agent will handle retail business for Caldova`
-   - **AgentId:** `Supply-Chain-BI-Agent`
+   - **Name:** `Ubiquitous-Supply-Chain-BI-Agent` **(1)**
+   - **Description:** `Ubiquitous chain BI agent will handle retail business for Caldova` **(2)**
+   - **AgentId:** `Ubiquitous-Supply-Chain-BI-Agent` **(3)**
+
+   - Click **Add and configure (4)**
+
+   ![](../Ubiquitous-Innovation/Images/ui50.png)    
 
 1. Verify that the agent identifier references the correct Foundry agent.
 
 ---
 ### Activity 3.4 – Assess Launch Impact and Return a Mitigation
 
-1. Navigate back to **Market Launch Coordinator** agent in Microsoft Copilot Studio.
+1. Navigate back to **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** agent in **Microsoft Copilot Studio**.
 
 2. In the **Test your agent** panel on the right, copy the prompt provided below and paste it into the chat input box.
 
