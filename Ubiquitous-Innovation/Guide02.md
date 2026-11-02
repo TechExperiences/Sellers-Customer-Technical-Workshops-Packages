@@ -246,7 +246,16 @@ Treat the document as a draft for review, not as an approved implementation plan
 
      ![](../Ubiquitous-Innovation/Images/u86.png)
 
-1. Once Copilot starts generating the response, monitor the process closely. 
+1. Once Copilot starts generating the response, monitor the process closely.
+1. **Note**: If you see a prompt to save the **validation**, select **Yes**, then append the changes as a **draft** and click on submit.
+
+    ![](../Ubiquitous-Innovation/Images/AC22.png)
+
+1. If prompted with **What name and email should be used for the git commit author?**:
+   1. Enter your Git username and email address <inject key="AzureAdUserEmail"></inject> in the Enter your answer field.
+   2. Click **Submit** to continue.
+
+  ![](../Ubiquitous-Innovation/Images/UPnnew.png)
 
 1. Click **Plan** and choose **Agent**
 
