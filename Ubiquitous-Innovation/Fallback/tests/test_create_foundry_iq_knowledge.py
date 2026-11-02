@@ -18,7 +18,6 @@ class FoundryIqKnowledgePayloadTests(unittest.TestCase):
         source = knowledge.build_blob_knowledge_source(
             "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/adls",
             "https://foundry.services.ai.azure.com",
-            "gpt54",
             "textembedding3small",
         )
 
@@ -31,9 +30,8 @@ class FoundryIqKnowledgePayloadTests(unittest.TestCase):
             parameters["connectionString"],
             "ResourceId=/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/adls",
         )
-        self.assertEqual(
-            ingestion["chatCompletionModel"]["azureOpenAIParameters"]["deploymentId"], "gpt54"
-        )
+        self.assertTrue(ingestion["disableImageVerbalization"])
+        self.assertNotIn("chatCompletionModel", ingestion)
         self.assertEqual(
             ingestion["embeddingModel"]["azureOpenAIParameters"]["deploymentId"],
             "textembedding3small",

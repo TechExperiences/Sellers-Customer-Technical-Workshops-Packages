@@ -59,7 +59,6 @@ def request_json(
 def build_blob_knowledge_source(
     storage_resource_id: str,
     foundry_resource_uri: str,
-    chat_deployment_name: str,
     embedding_deployment_name: str,
 ) -> dict[str, Any]:
     return {
@@ -75,14 +74,6 @@ def build_blob_knowledge_source(
                 "networkAccessMode": "public",
                 "identity": None,
                 "disableImageVerbalization": True,
-                "chatCompletionModel": {
-                    "kind": "azureOpenAI",
-                    "azureOpenAIParameters": {
-                        "resourceUri": foundry_resource_uri,
-                        "deploymentId": chat_deployment_name,
-                        "modelName": "gpt-5.4",
-                    },
-                },
                 "embeddingModel": {
                     "kind": "azureOpenAI",
                     "azureOpenAIParameters": {
@@ -223,7 +214,6 @@ def main() -> None:
         build_blob_knowledge_source(
             storage_resource_id,
             foundry_resource_uri,
-            args.chat_deployment_name,
             args.embedding_deployment_name,
         ),
         "Foundry IQ Blob knowledge source",
