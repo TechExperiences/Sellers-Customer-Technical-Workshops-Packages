@@ -884,8 +884,6 @@ This approach helps us measure the agent's response quality and validate whether
    •	Apply only approved improvements, rerun the  evaluation, and compare before-and-after results.
    •	Produce an evaluation report summarizing test   coverage, metrics, identified gaps, improvements,    comparison results, and remaining issues.
    •	Never fabricate test results, metrics, costs, or evaluation outcomes. Clearly report any unavailable measurements.
-
-
    ```
  
  1. Click **Send** to execute above prompt.
