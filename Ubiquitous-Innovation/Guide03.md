@@ -494,15 +494,18 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
      ![](../Ubiquitous-Innovation/Images/ui37.png)
 
-1. Search **Agent** and click **Agent**.
+1. Click **+** to add next activity.
+
+   ![](../Ubiquitous-Innovation/Images/ui38.png) 
+
+1. Search **Agent (1)** and click **Agent (2)**.
 
    ![](../Sandbox-Environment-Guides/Images/Agent-Selection.png)
 
 1. Configure **Agent**.
 
-   ![](../Sandbox-Environment-Guides/Images/Agent-Config.png)
+   - Provide Agent Instruction **(1)**.
 
-   - Provide agent instruction.
       ```
       You are the Caldova Market Launch Coordinator.
 
@@ -529,10 +532,15 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
       ```
    
-   - Select model: `Sonnet 5`
-   - Click `+` sign in **Knowledge**
+   - Select model: `Sonnet 5` **(2)**
 
-1. To connect SharePoint, provide SharePoint document site link **(1)** and click **Add (2)**.
+   - Click `+` sign in **Knowledge** **(3)**
+
+     ![](../Sandbox-Environment-Guides/Images/Agent-Config.png)   
+
+1. To connect SharePoint,
+
+ 1. provide SharePoint document site link **(1)** and click **Add (2)**.
 
    - Click **Add to agent (3)**.
 
