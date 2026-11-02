@@ -18,7 +18,6 @@ class FoundryIqKnowledgePayloadTests(unittest.TestCase):
         source = knowledge.build_blob_knowledge_source(
             "/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/adls",
             "https://foundry.services.ai.azure.com",
-            "gpt54",
             "textembedding3small",
         )
 
@@ -31,9 +30,8 @@ class FoundryIqKnowledgePayloadTests(unittest.TestCase):
             parameters["connectionString"],
             "ResourceId=/subscriptions/sub/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/adls",
         )
-        self.assertEqual(
-            ingestion["chatCompletionModel"]["azureOpenAIParameters"]["deploymentId"], "gpt54"
-        )
+        self.assertTrue(ingestion["disableImageVerbalization"])
+        self.assertNotIn("chatCompletionModel", ingestion)
         self.assertEqual(
             ingestion["embeddingModel"]["azureOpenAIParameters"]["deploymentId"],
             "textembedding3small",
@@ -41,7 +39,7 @@ class FoundryIqKnowledgePayloadTests(unittest.TestCase):
 
     def test_knowledge_base_and_connection_target_foundry_iq_mcp(self) -> None:
         knowledge_base = knowledge.build_knowledge_base(
-            "https://foundry.services.ai.azure.com", "gpt54"
+            "https://foundry.services.ai.azure.com", "gpt-5.4"
         )
         mcp_url = (
             "https://search.search.windows.net/knowledgebases/caldova-docs-kb/"
@@ -54,6 +52,22 @@ class FoundryIqKnowledgePayloadTests(unittest.TestCase):
         self.assertEqual(connection["properties"]["category"], "RemoteTool")
         self.assertEqual(connection["properties"]["authType"], "ProjectManagedIdentity")
         self.assertEqual(connection["properties"]["target"], mcp_url)
+
+    def test_completed_sync_without_optional_status_is_successful(self) -> None:
+        self.assertTrue(
+            knowledge.sync_succeeded(
+                {"endTime": "2026-11-02T00:00:00Z", "itemsUpdatesFailed": 0}
+            )
+        )
+        self.assertFalse(knowledge.sync_succeeded({"status": "failed", "itemsUpdatesFailed": 0}))
+        self.assertFalse(
+            knowledge.sync_succeeded({"status": "success", "itemsUpdatesFailed": 1})
+        )
+
+    def test_processed_count_supports_preview_api_response_spellings(self) -> None:
+        self.assertEqual(knowledge.processed_count({"itemUpdatesProcessed": 5}), 5)
+        self.assertEqual(knowledge.processed_count({"itemsUpdatesProcessed": "3"}), 3)
+        self.assertIsNone(knowledge.processed_count({}))
 
 
 if __name__ == "__main__":

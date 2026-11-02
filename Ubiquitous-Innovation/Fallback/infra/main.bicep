@@ -196,7 +196,7 @@ resource foundryProject 'Microsoft.CognitiveServices/accounts/projects@2025-04-0
 
 resource gpt54Deployment 'Microsoft.CognitiveServices/accounts/deployments@2025-06-01' = {
   parent: foundryAccount
-  name: 'gpt54'
+  name: 'gpt-5.4'
   dependsOn: [
     foundryProject
   ]
@@ -221,11 +221,15 @@ resource textEmbedding3SmallDeployment 'Microsoft.CognitiveServices/accounts/dep
   parent: foundryAccount
   name: 'textembedding3small'
   dependsOn: [
-    foundryProject
+    // Foundry permits only one account-level update at a time.  Deploying
+    // the embedding model after the chat model prevents RequestConflict.
+    gpt54Deployment
   ]
   sku: {
     name: 'GlobalStandard'
-    capacity: 10
+    // Global Standard capacity is allocated in 1K TPM units. This reserves
+    // 50K TPM for document indexing and knowledge-base retrieval.
+    capacity: 50
   }
   properties: {
     model: {
@@ -423,6 +427,9 @@ resource accountCapabilityHost 'Microsoft.CognitiveServices/accounts/capabilityH
     capabilityHostKind: 'Agents'
   }
   dependsOn: [
+    // This is also an account-level Foundry operation, so keep it after
+    // both model deployments have completed.
+    textEmbedding3SmallDeployment
     projectStorageAccountContributor
     projectStorageBlobContributor
     projectStorageBlobOwner
