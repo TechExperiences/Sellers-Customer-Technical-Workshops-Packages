@@ -55,7 +55,7 @@ Before adding the **Data Agent** to the Microsoft Foundry agent, verify that the
 
 1. Verify that the **Fabric Data Agent** is attached under the **Tools** section.
 
-   ![](../Ubiquitous-Innovation/Images/ui15.png)   
+   ![](../Ubiquitous-Innovation/Images/ui18.png)   
 
 1. Confirm that the **Data Agent** is connected and configured correctly.
 
@@ -67,7 +67,7 @@ Before adding the **Data Agent** to the Microsoft Foundry agent, verify that the
 
 1. Review the response provided by the Foundry agent and verify that it retrieves the expected manufacturing data through the Fabric Data Agent.
 
-   ![](../Ubiquitous-Innovation/Images/ui6.png)
+   ![](../Ubiquitous-Innovation/Images/ui27.png)
 
 
 ### Activity 1.2: Ground the Agent with Enterprise Knowledge
@@ -98,7 +98,7 @@ Confirm that all five documents are present before proceeding with the knowledge
 
 1. Navigate back to the **Agent** in **Foundry**. Verify that the **Foundry IQ knowledge base** is configured under the **Knowledge** section of the existing Foundry agent.
 
-   ![](../Ubiquitous-Innovation/Images/u99.png)
+   ![](../Ubiquitous-Innovation/Images/ui19.png)
 
 1. Confirm that the knowledge base is connected properly and the relevant manufacturing documents are available for retrieval.
 
@@ -110,7 +110,7 @@ Confirm that all five documents are present before proceeding with the knowledge
 
 1. Review the response provided by the Foundry agent and verify that it uses the relevant manufacturing documents to provide a grounded answer.
 
-   ![](../Sandbox-Environment-Guides/Images/knowledgeresponse.png)
+   ![](../Ubiquitous-Innovation/Images/ui20.png)
 
 ### Activity 1.3: Add Organizational Context
 
@@ -139,11 +139,11 @@ Before connecting the enterprise knowledge source to the agent, verify that the 
 
 1. Click **Add (1)** frop down and then select **Add tools (2)**.
 
-   ![](../Ubiquitous-Innovation/Images/ui16.png)
+   ![](../Ubiquitous-Innovation/Images/ui21.png)
 
 1. Select **SharePoint (1)** and then **Add tool (2)**.
 
-   ![](../Ubiquitous-Innovation/Images/ui11.png)
+   ![](../Ubiquitous-Innovation/Images/ui22.png)
 
 1. Enter the below **Site URL (1)** and then **Connect (2)**.
 
@@ -151,11 +151,11 @@ Before connecting the enterprise knowledge source to the agent, verify that the 
    https://sandboxailabs1002.sharepoint.com/sites/EnterpriseAIKnowledgeBase/Shared%20Documents/Forms/AllItems.aspx
    ```
 
-   ![](../Ubiquitous-Innovation/Images/ui12.png)
+   ![](../Ubiquitous-Innovation/Images/ui23.png)
 
 1. Confirm that the **SharePoint** source is connected properly and the relevant business-context documents are accessible.
 
-   ![](../Ubiquitous-Innovation/Images/ui17.png)
+   ![](../Ubiquitous-Innovation/Images/ui24.png)
 
 1. Copy the following prompt and paste it into the **Agent Playground**:
 
@@ -163,7 +163,7 @@ Before connecting the enterprise knowledge source to the agent, verify that the 
    What are Caldova's main priorities for the November launch?
    ```
 
-    ![](../Sandbox-Environment-Guides/Images/sharepointresponse.png)
+   ![](../Ubiquitous-Innovation/Images/ui25.png)
 
 1. Review the response provided by the Foundry agent and verify that it uses the relevant organizational context, including launch priorities, business commitments, and team responsibilities.
 
@@ -177,7 +177,7 @@ Before connecting the enterprise knowledge source to the agent, verify that the 
 
 1. Review the responses and confirm that all integrations work as expected.
 
-   ![](../Sandbox-Environment-Guides/Images/comboresponse.png)
+   ![](../Ubiquitous-Innovation/Images/ui26.png)
 
 
 ## Topic 2: From One Agent to a Coordinated System 
@@ -218,9 +218,9 @@ Dedicated environment need to created for each user to allocate capacity usage a
 
 1. Then click **Save** to create environment.   
 
-1. Wait for sometime to popup green message on the screen once environment created.
+1. Please wait until your **UI-<inject key="Deployment-ID" enableCopy="false"/>** environment is **Ready** before proceeding.
 
-   ![](../Sandbox-Environment-Guides/Images/Env-Cretaed.png) 
+   ![](../Ubiquitous-Innovation/Images/ui28.png)
 
 ### Step 2: Create and Configure a New Agent in Copilot Studio
 
