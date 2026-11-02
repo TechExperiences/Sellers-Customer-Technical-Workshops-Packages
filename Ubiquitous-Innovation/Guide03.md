@@ -714,13 +714,23 @@ Connect a **Microsoft Foundry Agent** to the **Market Launch Coordinator<inject 
 
 ### Activity 3.5 – Shape, Publish and Run the Participant Experience 
 
-1. Click on **Publish** button
+1. Click on **Publish** button from top right.
 
-1. Navigate back to **Market Launch Coordinator** agent and navigate to the **Channels** tab.
+   ![](../Ubiquitous-Innovation/Images/ui55.png)
+
+1. Select **Publish**.
+
+   ![](../Ubiquitous-Innovation/Images/ui56.png)
+
+1. Navigate back to **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** agent and navigate to the **Channels (1)** tab.
+
+- Under **Microsoft channels**, select **Microsoft 365 and Microsoft Teams (2)**.
 
    ![](../Sandbox-Environment-Guides/Images/channelteam.png)
 
-1. Under **Microsoft channels**, select **Microsoft 365 and Microsoft Teams**.
+1. Click **Add channel**.
+
+   ![](../Ubiquitous-Innovation/Images/ui57.png)
 
 1. In the agent configuration panel, click **See agent in Teams**.
 
@@ -730,11 +740,19 @@ Connect a **Microsoft Foundry Agent** to the **Market Launch Coordinator<inject 
 
    ![](../Sandbox-Environment-Guides/Images/usewebapp.png)
 
+1. Click on **Add**
+
+   ![](../Ubiquitous-Innovation/Images/ui58.png)
+
+1. Click **Open**.
+
+   ![](../Ubiquitous-Innovation/Images/ui59.png)
+
 1. Microsoft Teams will open in your browser. Locate **Market Launch Coordinator** under **Chats**.
 
    ![](../Sandbox-Environment-Guides/Images/openedinteams.png)
 
-1. Click **Market Launch Coordinator** to open the chat and verify that the agent is available.
+1. Click **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** to open the chat and verify that the agent is available.
 
 In this topic, we explored how **Microsoft Copilot Studio** coordinates specialized agents to support end-to-end business workflows.
 
