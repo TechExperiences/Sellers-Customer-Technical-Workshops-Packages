@@ -5,7 +5,6 @@ import argparse
 import base64
 import json
 import os
-import sys
 import time
 import uuid
 
@@ -55,9 +54,8 @@ RELATIONSHIPS = [
 ]
 
 LAKEHOUSE_TABLE_READY_ATTEMPTS = 120
-DIRECT_LAKE_REFRESH_ATTEMPTS = 20
+DIRECT_LAKE_REFRESH_ATTEMPTS = 12
 RETRY_DELAY_SECONDS = 5
-REFRESH_RETRY_DELAY_SECONDS = 15
 
 
 def token(name: str) -> str:
@@ -220,11 +218,6 @@ def wait_for_lakehouse_tables(fabric: FabricApi, workspace_id: str, lakehouse_id
         try:
             tables = fabric.list_all(path)
         except FabricRequestError as error:
-            if error.status_code == 400 and "UnsupportedOperationForSchemasEnabledLakehouse" in str(error):
-                # The Lakehouse tables API does not support schema-enabled Lakehouses (this pipeline creates one),
-                # so the catalog cannot be polled here. The refresh retry below handles the propagation delay.
-                print("Lakehouse table listing is not supported for schema-enabled Lakehouses; relying on refresh retries.", file=sys.stderr, flush=True)
-                return
             if error.status_code not in {404, 409, 429, 500, 502, 503, 504}:
                 raise
             tables = []
@@ -235,8 +228,7 @@ def wait_for_lakehouse_tables(fabric: FabricApi, workspace_id: str, lakehouse_id
         print(
             "Lakehouse table metadata is not ready for Direct Lake; waiting "
             f"{RETRY_DELAY_SECONDS} seconds (attempt {attempt}/{LAKEHOUSE_TABLE_READY_ATTEMPTS}). "
-            f"Missing: {', '.join(sorted(missing))}",
-            file=sys.stderr, flush=True,
+            f"Missing: {', '.join(sorted(missing))}"
         )
         time.sleep(RETRY_DELAY_SECONDS)
     raise TimeoutError(
@@ -308,10 +300,9 @@ def refresh_semantic_model(workspace_id: str, semantic_model_id: str) -> None:
         if refresh_attempt < DIRECT_LAKE_REFRESH_ATTEMPTS:
             print(
                 "Direct Lake table metadata is still propagating; retrying semantic model refresh "
-                f"in {REFRESH_RETRY_DELAY_SECONDS} seconds (attempt {refresh_attempt}/{DIRECT_LAKE_REFRESH_ATTEMPTS}).",
-                file=sys.stderr, flush=True,
+                f"in {RETRY_DELAY_SECONDS} seconds (attempt {refresh_attempt}/{DIRECT_LAKE_REFRESH_ATTEMPTS})."
             )
-            time.sleep(REFRESH_RETRY_DELAY_SECONDS)
+            time.sleep(RETRY_DELAY_SECONDS)
 
     raise RuntimeError(
         "Semantic model refresh could not read the Lakehouse tables after retrying metadata propagation. "
