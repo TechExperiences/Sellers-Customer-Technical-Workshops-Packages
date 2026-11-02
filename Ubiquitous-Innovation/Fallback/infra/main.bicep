@@ -221,7 +221,9 @@ resource textEmbedding3SmallDeployment 'Microsoft.CognitiveServices/accounts/dep
   parent: foundryAccount
   name: 'textembedding3small'
   dependsOn: [
-    foundryProject
+    // Foundry permits only one account-level update at a time.  Deploying
+    // the embedding model after the chat model prevents RequestConflict.
+    gpt54Deployment
   ]
   sku: {
     name: 'GlobalStandard'
@@ -423,6 +425,9 @@ resource accountCapabilityHost 'Microsoft.CognitiveServices/accounts/capabilityH
     capabilityHostKind: 'Agents'
   }
   dependsOn: [
+    // This is also an account-level Foundry operation, so keep it after
+    // both model deployments have completed.
+    textEmbedding3SmallDeployment
     projectStorageAccountContributor
     projectStorageBlobContributor
     projectStorageBlobOwner
