@@ -157,6 +157,14 @@ def sync_succeeded(last_sync: dict[str, Any]) -> bool:
     return status == "success" and failures == 0 and not last_sync.get("errors")
 
 
+def processed_count(last_sync: dict[str, Any]) -> int | None:
+    # The preview API has used both spellings in synchronization responses.
+    for key in ("itemUpdatesProcessed", "itemsUpdatesProcessed"):
+        if last_sync.get(key) is not None:
+            return int(last_sync[key])
+    return None
+
+
 def wait_for_initial_sync(search_url: str, headers: dict[str, str]) -> None:
     status_url = (
         f"{search_url}/knowledgesources/{KNOWLEDGE_SOURCE_NAME}/status"
@@ -175,6 +183,11 @@ def wait_for_initial_sync(search_url: str, headers: dict[str, str]) -> None:
         last_sync = (body or {}).get("lastSynchronizationState") or {}
         if last_sync.get("endTime"):
             if sync_succeeded(last_sync):
+                if processed_count(last_sync) == 0:
+                    raise RuntimeError(
+                        "Foundry IQ indexing completed but processed 0 documents. "
+                        "Check that the ADLS data container has files and the Search identity can read it."
+                    )
                 return
             raise RuntimeError(
                 "Foundry IQ indexing failed: "

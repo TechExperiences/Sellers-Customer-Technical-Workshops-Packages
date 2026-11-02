@@ -64,6 +64,11 @@ class FoundryIqKnowledgePayloadTests(unittest.TestCase):
             knowledge.sync_succeeded({"status": "success", "itemsUpdatesFailed": 1})
         )
 
+    def test_processed_count_supports_preview_api_response_spellings(self) -> None:
+        self.assertEqual(knowledge.processed_count({"itemUpdatesProcessed": 5}), 5)
+        self.assertEqual(knowledge.processed_count({"itemsUpdatesProcessed": "3"}), 3)
+        self.assertIsNone(knowledge.processed_count({}))
+
 
 if __name__ == "__main__":
     unittest.main()
