@@ -43,7 +43,7 @@ Whiteboarding is connected directly to Caldova's six-month market-launch story a
 
 1. Use the **Zoom out** option to view the Whiteboard template clearly.
 
-   ![](../Sandbox-Environment-Guides/Images/UICustomerWorkshopNewrrr.png)
+   ![](../Ubiquitous-Innovation/Images/UICustomerWorkshopNewAAA.png)
 
 1. Please follow along as the **Facilitator** guides you through the **Business** and **Technical** Envisioning Session. During the session, you will identify key business challenges, define priorities, assess the current environment, and design a future-state solution architecture.
 
