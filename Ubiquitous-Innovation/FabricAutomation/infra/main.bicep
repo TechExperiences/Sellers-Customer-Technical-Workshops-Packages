@@ -121,6 +121,52 @@ resource gptMiniDeployment 'Microsoft.CognitiveServices/accounts/deployments@202
   }
 }
 
+// Standalone deployment reserved for future workloads. The existing dummy
+// Foundry agent remains explicitly bound to the gpt5mini deployment.
+resource gpt54Deployment 'Microsoft.CognitiveServices/accounts/deployments@2025-06-01' = {
+  parent: foundryAccount
+  name: 'gpt-5.4'
+  dependsOn: [
+    // Serialize account-level Foundry updates to avoid RequestConflict.
+    gptMiniDeployment
+  ]
+  sku: {
+    name: 'GlobalStandard'
+    // Global Standard capacity uses 1K TPM units.
+    capacity: 50
+  }
+  properties: {
+    model: {
+      format: 'OpenAI'
+      name: 'gpt-5.4'
+      version: '2026-03-05'
+    }
+  }
+}
+
+// This deployment is only for semantic vector indexing and is not connected
+// to the dummy Foundry agent.
+resource textEmbedding3SmallDeployment 'Microsoft.CognitiveServices/accounts/deployments@2025-06-01' = {
+  parent: foundryAccount
+  name: 'text-embedding-3-small'
+  dependsOn: [
+    // Foundry permits one account-level update at a time.
+    gpt54Deployment
+  ]
+  sku: {
+    name: 'GlobalStandard'
+    // Global Standard capacity uses 1K TPM units.
+    capacity: 50
+  }
+  properties: {
+    model: {
+      format: 'OpenAI'
+      name: 'text-embedding-3-small'
+      version: '1'
+    }
+  }
+}
+
 resource foundryAutomationUser 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(foundryProject.id, foundryAutomationPrincipalId, foundryUserRoleDefinitionId)
   scope: foundryProject
