@@ -754,6 +754,36 @@ Connect a **Microsoft Foundry Agent** to the **Market Launch Coordinator<inject 
 
 1. Click **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** to open the chat and verify that the agent is available.
 
+1. Copy the below prompt and paste it in chat window
+
+   ```
+   What are Caldova's main priorities for the November launch?
+   ```
+
+   ![](../Ubiquitous-Innovation/Images/ui60.png)
+
+1. If prompted to connect, click **Open connection manager** link.
+
+   ![](../Ubiquitous-Innovation/Images/ui61.png)
+
+1. Click on **Connect**.
+
+   ![](../Ubiquitous-Innovation/Images/ui62.png)
+
+1. Once you see the connection, select **Submit**
+
+   ![](../Ubiquitous-Innovation/Images/ui63.png)
+
+1. Navigate back to **Team Channel**, open the **Agent** and send the prompt again.
+
+   ```
+   What are Caldova's main priorities for the November launch?
+   ```
+
+1. Review the response provided by agent
+
+   ![](../Ubiquitous-Innovation/Images/ui64.png)
+
 In this topic, we explored how **Microsoft Copilot Studio** coordinates specialized agents to support end-to-end business workflows.
 
 However, enterprise AI also requires strong security, governance, and cost management. In this final topic, we will explore how **Agent 365** and **Microsoft Purview** help manage agent identity, protect sensitive data, monitor activities, and understand costs.
