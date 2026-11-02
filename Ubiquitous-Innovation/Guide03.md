@@ -238,13 +238,15 @@ Dedicated environment need to created for each user to allocate capacity usage a
 
    ![](../Sandbox-Environment-Guides/Images/agentstandard.png) 
 
-1. Provide **Market Launch Coordinator** for the agent.and Click **Create** to create the agent.
+1. Provide the name as **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/> (1)** for the agent and click **Create (2)** to create the agent.
 
-1. Once the agent is created, navigate to the **Instructions** tab.
+   ![](../Ubiquitous-Innovation/Images/ui30.png) 
 
-1. Copy the instructions provided below and paste them into the **Instructions** field.
+1. Once the agent is created, scroll down and navigate to the **Instructions** tab. Click on **Edit**.
 
-   ![](../Sandbox-Environment-Guides/Images/intro.png)
+   ![](../Ubiquitous-Innovation/Images/ui31.png)
+
+1. Copy the instructions provided below and paste them into the **Instructions** field **(1)**.
 
    ```
    # Caldova Market Launch Coordinator — Agent Instructions
@@ -453,6 +455,11 @@ Dedicated environment need to created for each user to allocate capacity usage a
 
    - "Who owns the next action?"
    ```
+
+   - Click on **Save (2)**.
+
+   ![](../Ubiquitous-Innovation/Images/ui32.png)
+
  ---
 
 ### Activity 3.2 - Detect and Structure a Launch – Readiness Change 
