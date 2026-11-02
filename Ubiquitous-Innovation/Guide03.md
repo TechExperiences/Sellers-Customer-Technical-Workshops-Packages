@@ -538,15 +538,17 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
      ![](../Sandbox-Environment-Guides/Images/Agent-Config.png)   
 
-1. To connect SharePoint,
+1. To connect SharePoint, select **SharePoint**.
 
- 1. provide SharePoint document site link **(1)** and click **Add (2)**.
+   ![](../Ubiquitous-Innovation/Images/ui39.png) 
+
+ 1. Provide SharePoint document site URL **(1)** and click **Add (2)**.
+
+   - **URL (1)**: [SharePointSite URL](https://sandboxailabs1002.sharepoint.com/sites/EnterpriseAIKnowledgeBase/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents%2FAI%20Knowledge%20Base&viewid=2aae9886%2D5883%2D4e2a%2D8949%2D612beaeb50ac&xsdata=MDV8MDJ8fGY0MTA3NTFkMzdiMzRlOTNjODM2MDhkZjM0Yzc4OGI3fDcyZjk4OGJmODZmMTQxYWY5MWFiMmQ3Y2QwMTFkYjQ3fDB8MHw2MzkyODc3MDM3MDY3ODE3NTB8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKRFFTSTZJbFJsWVcxelgwRlVVRk5sY25acFkyVmZVMUJQVEU5R0lpd2lWaUk2SWpBdU1DNHdNREF3SWl3aVVDSTZJbGRwYmpNeUlpd2lRVTRpT2lKUGRHaGxjaUlzSWxkVUlqb3hNWDA9fDF8TDJOb1lYUnpMekU1T2prME5qazNNalJsTWpJMk5qUTRORFk0WkRCbE56TTJObUZpWW1NMk16WXhRSFJvY21WaFpDNTJNaTl0WlhOellXZGxjeTh4Tnprek1UY3pOVGN3TXpnNXwxZjlkMzliOWYxZjY0Yjg3NWFlMDA4ZGYzNGM3ODhiN3xhNTQ0ODdkNzE0MjE0NjVlYTM1YjcyNDdiNjQzMmY3YQ%3D%3D&sdata=NE5HYmRQaGx1c1pQcEJ2UDBEb0ZxUjgxZjRGMWtGeWtONDduc2YyUENzST0%3D&ovuser=72f988bf-86f1-41af-91ab-2d7cd011db47%2Csidhartha%40waferwire.com)
 
    - Click **Add to agent (3)**.
 
-   - URL: [SharePointSite URL](https://sandboxailabs1002.sharepoint.com/sites/EnterpriseAIKnowledgeBase/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents%2FAI%20Knowledge%20Base&viewid=2aae9886%2D5883%2D4e2a%2D8949%2D612beaeb50ac&xsdata=MDV8MDJ8fGY0MTA3NTFkMzdiMzRlOTNjODM2MDhkZjM0Yzc4OGI3fDcyZjk4OGJmODZmMTQxYWY5MWFiMmQ3Y2QwMTFkYjQ3fDB8MHw2MzkyODc3MDM3MDY3ODE3NTB8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKRFFTSTZJbFJsWVcxelgwRlVVRk5sY25acFkyVmZVMUJQVEU5R0lpd2lWaUk2SWpBdU1DNHdNREF3SWl3aVVDSTZJbGRwYmpNeUlpd2lRVTRpT2lKUGRHaGxjaUlzSWxkVUlqb3hNWDA9fDF8TDJOb1lYUnpMekU1T2prME5qazNNalJsTWpJMk5qUTRORFk0WkRCbE56TTJObUZpWW1NMk16WXhRSFJvY21WaFpDNTJNaTl0WlhOellXZGxjeTh4Tnprek1UY3pOVGN3TXpnNXwxZjlkMzliOWYxZjY0Yjg3NWFlMDA4ZGYzNGM3ODhiN3xhNTQ0ODdkNzE0MjE0NjVlYTM1YjcyNDdiNjQzMmY3YQ%3D%3D&sdata=NE5HYmRQaGx1c1pQcEJ2UDBEb0ZxUjgxZjRGMWtGeWtONDduc2YyUENzST0%3D&ovuser=72f988bf-86f1-41af-91ab-2d7cd011db47%2Csidhartha%40waferwire.com)
-
-   ![](../Sandbox-Environment-Guides/Images/SP-Add.png)
+     ![](../Ubiquitous-Innovation/Images/ui40.png)
 
 1. Click **Collapse** button to minimize the section.
 
@@ -556,26 +558,35 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
 1. Click `+` icon in the center pan to add another new activity. 
 
-1. Click **Connector** and click **Office 365 Outlook** to navigate activity selection pan. Click **Send an email**. 
+   ![](../Ubiquitous-Innovation/Images/ui41.png) 
+
+1. Click **Connector (1)** tab and click **Office 365 Outlook (2)** to navigate activity selection pan. 
+
+   ![](../Ubiquitous-Innovation/Images/ui42.png) 
+
+1. Search for **Send an email (1)** and click **Send an email (2)**. 
 
    ![](../Sandbox-Environment-Guides/Images/Send-Email.png)
 
 1. While configuring, provide below details.
 
-   - To (Whom you want to send): **<inject key="AzureAdUserEmail"></inject>**
-   - Subject: `Market Launch Agent Response`
-   - Body: `Click **Dynamic content** icon` and select **Agent Response**
+   - To (Whom you want to send): **<inject key="AzureAdUserEmail"></inject> (1)**
+   - Subject: `Market Launch Agent Response` **(2)**
 
-   ![](../Sandbox-Environment-Guides/Images/SendEmail-Config.png)
+     ![](../Ubiquitous-Innovation/Images/ui43.png) 
 
-1. After these configuration, click **Save** and wait to **Publish** button enable to publish.
+   - Body: Click **Dynamic content (1)** icon and select **Agent Response (2)**
 
-   ![](../Sandbox-Environment-Guides/Images/Save-Publish.png)
+     ![](../Ubiquitous-Innovation/Images/ui44.png) 
+
+1. After these configuration, click **Save (1)** and wait to **Publish (2)** button enable to publish.
+
+   ![](../Ubiquitous-Innovation/Images/ui45.png) 
 
 1. Nagivate to **Workflow** section and see if it created or not.
 
-   ![](../Sandbox-Environment-Guides/Images/Workflow-Created.png)
-
+   ![](../Ubiquitous-Innovation/Images/ui46.png) 
+   
 1. Open **Outlook** by browsing [Outlook](https://outlook.office365.com/mail/) and sign in.
 
 1. Compose one email with providing below and **Send**
@@ -610,9 +621,9 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
 1. Once email arrived, validate the **Workflow** in the **Activity** tab.
 
-   ![](../Sandbox-Environment-Guides/Images/Workflow-Execution.png)
+   ![](../Ubiquitous-Innovation/Images/ui47.png) 
 
-1. Click left side **Execution** section to see the details.
+1. Click on the **Run** to naviagte to **Execution** section to see the details.
 
    ![](../Sandbox-Environment-Guides/Images/Detailed-Execution.png)
 
