@@ -171,6 +171,8 @@ After Copilot finishes, open `Design-Review.md` in the Project Explorer. Check t
 
 Treat the document as a draft for review, not as an approved implementation plan. It becomes the reference for the next activity, where you will confirm the requirements and resolve any gaps before delegating the build.
 
+
+<!--
 1. To prepare plan, click **Agent**
 
    ![](../Ubiquitous-Innovation/Images/PlanAuto.png)
@@ -180,6 +182,8 @@ Treat the document as a draft for review, not as an approved implementation plan
       /plan
       ```
 ![](../Ubiquitous-Innovation/Images/PlanImg.png)
+
+-->
 
 1. Click on **Default permission (1)** and then set it to **Allow all (2)**.
 
@@ -207,13 +211,14 @@ Treat the document as a draft for review, not as an approved implementation plan
 
    ![](../Ubiquitous-Innovation/Images/u33.png)
 
-1. Click **Plan** and choose **Agent**
+   >**Note:** If you're unable to select the **Models**, please wait for `2-3 minutes` then check and make sure you're signed in properly.
 
-   ![](../Ubiquitous-Innovation/Images/PlanAuto.png)
 
-    >**Note:** If you're unable to select the **Models**, please wait for `2-3 minutes` then check and make sure you're signed in properly.
-    
+1. Click **Agent** and choose **Plan**
 
+   ![](../Ubiquitous-Innovation/Images/planmode.png)
+
+ 
 1. Please copy the below prompt and paste it in the copilot chat window
 
    >- This activity is required to validate the **future-state architecture** before development begins and ensure the proposed solution aligns with the business requirement.
@@ -242,6 +247,10 @@ Treat the document as a draft for review, not as an approved implementation plan
      ![](../Ubiquitous-Innovation/Images/u86.png)
 
 1. Once Copilot starts generating the response, monitor the process closely. 
+
+1. Click **Plan** and choose **Agent**
+
+   ![](../Ubiquitous-Innovation/Images/agentmode.png)
 
 1. Run this below prompt to create Design-Review.md
 
@@ -414,14 +423,18 @@ Finally, introduce Copilot Fusion (formerly Auto), which automatically selects t
 
 1. In the left pane under **Projects**, pick your project and session (for example, *Add Supply Chain BI Agent*).
 
-#### Step 2: Session configuration
+#### Session configuration (Optional): 
 Sometime we may not see selected GitHub Repositor under the session seciton. 
 
 >Note: Repository is already added then skip this part.
 
 1. In this case we need to click `+` to add a new session.
 
-   ![](../Sandbox-Environment-Guides/Images/CloneRepo.png)
+   ![](../Sandbox-Environment-Guides/Images/Nosync.png)
+
+1. Click **Add from URL**
+
+   ![](../Sandbox-Environment-Guides/Images/URLaddition.png)
 
 1. Select **Clone repository** and provide below repository URL.
 
@@ -459,6 +472,8 @@ User can select Auto option which can help while executing tasks and select appr
 
 1. Now user can see **Copilot fusion**
 
+> **Note:** Copilot Fusion mode brings multiple AI agents and business capabilities together to collaborate on complex tasks. It enables agents to share context, coordinate specialist capabilities, and combine insights from different sources to deliver more comprehensive responses. It reduces manual hand-offs, improves workflow automation, and helps accelerate decision-making while maintaining business context and governance.
+
 ---
 
 ### **Activity 1.5: Hand the Build to the Coding Agent**
@@ -493,10 +508,20 @@ Do not merge solely because the coding agent reports completion. Human review, r
 
    >Note: Please track and answer followup questions to make it proper interactive
 
+1. If it ask below follow up question to trust the repository then please choose **always trust repository**
+
+   ![](../Sandbox-Environment-Guides/Images/WStrust.png)
+
 **Validation**
 1. After executing the prompt, GitHub Copilot will create a Pull Request (PR) containing the proposed changes for review.
 
    ![](../Sandbox-Environment-Guides/Images/PRCreated.png)
+
+   >**Note:** If you are unable to see view PR then follow the below steps.
+   
+   1. Click **Create Draft PR** drop-down and check is there any **View PR**
+
+      ![](../Sandbox-Environment-Guides/Images/noviewpr.png)
 
 ---
 
@@ -548,6 +573,17 @@ Validate business requirements, governance, risk controls, and security findings
    ![](../Ubiquitous-Innovation/Images/MergePR-I.png)
 
    >Note: There should not be any unresolved issues.
+
+   >**Note:** If you are unable to click **Ready for review** then you can run below prompt
+
+   1. Please copy below prompt if there is no view PR
+
+      ```
+      Please allow me to view my draft PR
+      ```
+      ![](../Sandbox-Environment-Guides/Images/ReviewPR.png)
+
+   1. then follow above steps to **Merge pull request**
 
 1. After successfull merge, we can see the confirmation message.
 
