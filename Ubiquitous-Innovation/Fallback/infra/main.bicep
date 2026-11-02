@@ -227,7 +227,9 @@ resource textEmbedding3SmallDeployment 'Microsoft.CognitiveServices/accounts/dep
   ]
   sku: {
     name: 'GlobalStandard'
-    capacity: 10
+    // Global Standard capacity is allocated in 1K TPM units. This reserves
+    // 50K TPM for document indexing and knowledge-base retrieval.
+    capacity: 50
   }
   properties: {
     model: {
