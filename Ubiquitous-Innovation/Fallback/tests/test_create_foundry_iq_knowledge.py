@@ -53,6 +53,17 @@ class FoundryIqKnowledgePayloadTests(unittest.TestCase):
         self.assertEqual(connection["properties"]["authType"], "ProjectManagedIdentity")
         self.assertEqual(connection["properties"]["target"], mcp_url)
 
+    def test_completed_sync_without_optional_status_is_successful(self) -> None:
+        self.assertTrue(
+            knowledge.sync_succeeded(
+                {"endTime": "2026-11-02T00:00:00Z", "itemsUpdatesFailed": 0}
+            )
+        )
+        self.assertFalse(knowledge.sync_succeeded({"status": "failed", "itemsUpdatesFailed": 0}))
+        self.assertFalse(
+            knowledge.sync_succeeded({"status": "success", "itemsUpdatesFailed": 1})
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

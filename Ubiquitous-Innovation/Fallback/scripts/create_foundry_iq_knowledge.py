@@ -149,6 +149,14 @@ def put_when_ready(
         time.sleep(10)
 
 
+def sync_succeeded(last_sync: dict[str, Any]) -> bool:
+    # Foundry IQ can omit the optional status property for a completed sync.
+    # A run with no failures or errors is successful in that response shape.
+    status = str(last_sync.get("status") or "success").casefold()
+    failures = int(last_sync.get("itemsUpdatesFailed") or 0)
+    return status == "success" and failures == 0 and not last_sync.get("errors")
+
+
 def wait_for_initial_sync(search_url: str, headers: dict[str, str]) -> None:
     status_url = (
         f"{search_url}/knowledgesources/{KNOWLEDGE_SOURCE_NAME}/status"
@@ -166,13 +174,12 @@ def wait_for_initial_sync(search_url: str, headers: dict[str, str]) -> None:
             )
         last_sync = (body or {}).get("lastSynchronizationState") or {}
         if last_sync.get("endTime"):
-            status = str(last_sync.get("status", "")).casefold()
-            failures = int(last_sync.get("itemsUpdatesFailed") or 0)
-            if status == "success" and failures == 0:
+            if sync_succeeded(last_sync):
                 return
             raise RuntimeError(
                 "Foundry IQ indexing failed: "
-                f"status={last_sync.get('status')}, itemsUpdatesFailed={failures}, "
+                f"status={last_sync.get('status')}, "
+                f"itemsUpdatesFailed={last_sync.get('itemsUpdatesFailed')}, "
                 f"errors={last_sync.get('errors')}"
             )
         print(f"Foundry IQ is indexing the data container; waiting 10 seconds (attempt {attempt}/180)...")
