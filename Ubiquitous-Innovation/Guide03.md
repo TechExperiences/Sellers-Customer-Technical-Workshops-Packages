@@ -467,10 +467,10 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
 1. To create **Workflow**
 
-   - Click **Workflow** icon
-   - Click **New workflows** dropdown and select **Workflows**
+   - Click **Workflow (1)** icon
+   - Click **New workflows (2)** dropdown and select **Workflows (3)**
 
-   ![](../Sandbox-Environment-Guides/Images/Workflow-Create.png)
+   ![](../Ubiquitous-Innovation/Images/ui33.png)
    
 1. Click **Start** action and change to **Connector**
 
