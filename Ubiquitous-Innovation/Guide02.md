@@ -1264,6 +1264,28 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
    ![](../Sandbox-Environment-Guides/Images/foundryagent.png) 
 
+1. Under Connection, select Create new connection
+
+   ![](../Sandbox-Environment-Guides/Images/createnew.png) 
+
+1. In the Azure AI Foundry Agent Service connection window:
+
+1. Select Microsoft **Entra ID User** Login as the Authentication Type.
+
+   ![](../Sandbox-Environment-Guides/Images/foundryconnection.png) 
+
+1. To get the project endpoint, open your Microsoft Foundry project and copy the **Project endpoint** from the project overview page.
+
+   ![](../Sandbox-Environment-Guides/Images/projectendpoint.png) 
+
+1. Paste the endpoint into Copilot Studio and select **Create**.
+
+   ![](../Sandbox-Environment-Guides/Images/creation.png) 
+
+1. When prompted, select your sandbox account (ODL_User) to sign in.
+
+   ![](../Sandbox-Environment-Guides/Images/userselection.png) 
+
 1. Review the connection information or create a new connection if required. and Click **Next** to continue.
 
    ![](../Sandbox-Environment-Guides/Images/nextbutton.png) 
