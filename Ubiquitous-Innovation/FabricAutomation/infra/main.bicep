@@ -8,7 +8,6 @@ param foundryAccountName string
 param foundryProjectName string
 param foundryAutomationPrincipalId string
 param foundryPortalUserPrincipalId string
-param foundryLocation string
 
 var storageBlobDataContributorRoleDefinitionId = subscriptionResourceId(
   'Microsoft.Authorization/roleDefinitions',
@@ -73,7 +72,8 @@ resource storageBlobDataContributor 'Microsoft.Authorization/roleAssignments@202
 
 resource foundryAccount 'Microsoft.CognitiveServices/accounts@2025-04-01-preview' = {
   name: foundryAccountName
-  location: foundryLocation
+  // Foundry and all child model deployments are intentionally fixed to West US.
+  location: 'westus'
   kind: 'AIServices'
   identity: {
     type: 'SystemAssigned'
@@ -92,7 +92,7 @@ resource foundryAccount 'Microsoft.CognitiveServices/accounts@2025-04-01-preview
 resource foundryProject 'Microsoft.CognitiveServices/accounts/projects@2025-04-01-preview' = {
   parent: foundryAccount
   name: foundryProjectName
-  location: foundryLocation
+  location: 'westus'
   identity: {
     type: 'SystemAssigned'
   }

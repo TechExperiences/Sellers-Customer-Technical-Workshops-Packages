@@ -87,7 +87,6 @@ foreach ($required in @('AZURE_SUBSCRIPTION_ID', 'AZURE_TENANT_ID', 'AZURE_CLIEN
 }
 
 $Location = $env:AZURE_LOCATION
-$FoundryLocation = 'westus'
 $ResourceGroupName = $env:AZURE_RESOURCE_GROUP
 $CapacityAdministratorUpn = $env:FABRIC_CAPACITY_ADMIN_UPN
 $LakehouseName = if ($configuration.Contains('LAKEHOUSE_NAME') -and $configuration['LAKEHOUSE_NAME']) { $configuration['LAKEHOUSE_NAME'] } else { 'Ubiquitous_Lakehouse' }
@@ -150,7 +149,7 @@ Invoke-Checked {
         --parameters capacityName=$capacityName location=$Location capacityAdministratorObjectId=$capacityAdministratorObjectId capacityAdministratorUpn=$CapacityAdministratorUpn `
         storageAccountName=$StorageAccountName storageBlobDataContributorPrincipalId=$capacityAdministratorObjectId `
         foundryAccountName=$foundryAccountName foundryProjectName=$foundryProjectName foundryAutomationPrincipalId=$capacityAdministratorObjectId `
-        foundryPortalUserPrincipalId=$workspaceAdminPrincipalId foundryLocation=$FoundryLocation --only-show-errors 1>$null
+        foundryPortalUserPrincipalId=$workspaceAdminPrincipalId --only-show-errors 1>$null
 } 'Fabric capacity, ADLS Gen2, or Foundry project deployment failed.'
 
 $capacityResourceId = (& az resource show --resource-group $ResourceGroupName --resource-type Microsoft.Fabric/capacities --name $capacityName --query id -o tsv).Trim()
