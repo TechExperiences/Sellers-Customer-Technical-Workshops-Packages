@@ -196,7 +196,7 @@ resource foundryProject 'Microsoft.CognitiveServices/accounts/projects@2025-04-0
 
 resource gpt54Deployment 'Microsoft.CognitiveServices/accounts/deployments@2025-06-01' = {
   parent: foundryAccount
-  name: 'gpt54'
+  name: 'gpt-5.4'
   dependsOn: [
     foundryProject
   ]

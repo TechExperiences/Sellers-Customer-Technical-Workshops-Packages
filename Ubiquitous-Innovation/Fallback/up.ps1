@@ -212,7 +212,7 @@ try {
         --subscription-id $env:AZURE_SUBSCRIPTION_ID --resource-group $ResourceGroupName `
         --storage-account-name $StorageAccountName --search-service-name $SearchServiceName `
         --foundry-account-name $FoundryAccountName --project-name $FoundryProjectName `
-        --chat-deployment-name gpt54 --embedding-deployment-name textembedding3small
+        --chat-deployment-name gpt-5.4 --embedding-deployment-name textembedding3small
     if ($LASTEXITCODE -ne 0) { throw 'Foundry IQ knowledge-base creation failed.' }
     $knowledge = ($knowledgeOutput | Select-Object -Last 1 | ConvertFrom-Json)
     if (-not $knowledge.mcpUrl) { throw 'Foundry IQ knowledge-base creation did not return an MCP endpoint.' }
@@ -220,7 +220,7 @@ try {
     Write-Host 'Creating the Foundry Supply Chain agent with Foundry IQ knowledge and Fabric analytics...' -ForegroundColor Cyan
     Invoke-Checked {
         python (Join-Path $PSScriptRoot 'scripts/deploy_foundry_agent.py') `
-            --foundry-account-name $FoundryAccountName --project-name $FoundryProjectName --model-deployment-name gpt54 `
+            --foundry-account-name $FoundryAccountName --project-name $FoundryProjectName --model-deployment-name gpt-5.4 `
             --knowledge-base-mcp-url $knowledge.mcpUrl --fabric-mcp-url $sourceAgent.mcpUrl
     } 'Foundry agent deployment failed.'
 

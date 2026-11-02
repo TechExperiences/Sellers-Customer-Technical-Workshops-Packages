@@ -39,7 +39,7 @@ class FoundryIqKnowledgePayloadTests(unittest.TestCase):
 
     def test_knowledge_base_and_connection_target_foundry_iq_mcp(self) -> None:
         knowledge_base = knowledge.build_knowledge_base(
-            "https://foundry.services.ai.azure.com", "gpt54"
+            "https://foundry.services.ai.azure.com", "gpt-5.4"
         )
         mcp_url = (
             "https://search.search.windows.net/knowledgebases/caldova-docs-kb/"
