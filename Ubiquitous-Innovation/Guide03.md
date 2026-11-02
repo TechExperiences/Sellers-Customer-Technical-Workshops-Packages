@@ -692,16 +692,21 @@ Connect a **Microsoft Foundry Agent** to the **Market Launch Coordinator<inject 
 
 1. Navigate back to **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** agent in **Microsoft Copilot Studio**.
 
-2. In the **Test your agent** panel on the right, copy the prompt provided below and paste it into the chat input box.
+   ![](../Ubiquitous-Innovation/Images/ui52.png)  
 
-   ![](../Sandbox-Environment-Guides/Images/testing.png)
+2. In the **Test your agent** panel on the right, copy the prompt provided below and paste it into the chat input box.
 
    ```
    What are Caldova's main priorities for the November launch?
    ```
+
+   ![](../Ubiquitous-Innovation/Images/ui53.png)
+
    ```
    What is the November capacity utilization of PL01?
    ```
+
+   ![](../Ubiquitous-Innovation/Images/ui54.png)
 
 1. Review the response provided by agent
 
