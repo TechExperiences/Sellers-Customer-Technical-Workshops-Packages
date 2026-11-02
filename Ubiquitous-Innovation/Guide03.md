@@ -226,9 +226,9 @@ Dedicated environment need to created for each user to allocate capacity usage a
 
 1. Open **[Microsoft Copilot Studio](https://copilotstudio.microsoft.com/)**.
 
-1. Select the created environment and start the further work.
+1. Click on the **Sandbox** default env **(1)**. Search for  **UI-<inject key="Deployment-ID" enableCopy="false"/> (2)** and then select the created environment  **UI-<inject key="Deployment-ID" enableCopy="false"/>** **(3)**.
 
-   ![](../Sandbox-Environment-Guides/Images/Env-Selection.png) 
+   ![](../Ubiquitous-Innovation/Images/ui29.png) 
 
 1. Navigate to the **Agents** section.
 
