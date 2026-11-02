@@ -890,6 +890,18 @@ This approach helps us measure the agent's response quality and validate whether
  
  1. Click **Send** to execute above prompt.
 
+ **Validation:**
+
+ 1. Navigate to Azure portal
+
+ 1. Open **Rg-Ubiquitous** Resource group and open the foundry project.
+
+ 1. Click on **Evaluations** and select created evaluation runs 
+
+   ![](../Sandbox-Environment-Guides/Images/evalution.png)
+
+   ![](../Sandbox-Environment-Guides/Images/evaluationcompleted.png)
+
  In this topic, we explored how agents use enterprise data and knowledge to provide context-aware insights. However, complex business processes often require multiple specialized agents to work together.
 
  In the next topic, we will explore how **Microsoft Copilot Studio** coordinates workflows, connects with **Microsoft Foundry agents**, and brings their outputs together through a **Market Launch Coordinator**.
