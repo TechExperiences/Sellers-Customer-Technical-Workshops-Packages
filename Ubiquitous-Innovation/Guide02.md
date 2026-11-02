@@ -909,7 +909,7 @@ This approach helps us measure the agent's response quality and validate whether
 # Topic 3: From One Agent to a Coordinated System 
 opic 3 implements an automated market launch-readiness workflow using Copilot Studio, Power Automate, and Microsoft Foundry. Copilot Studio orchestrates the Market Launch Coordinator, while Power Automate detects incoming launch emails, structures workstream updates, and triggers the appropriate agent to validate launch details and assess business risks using Work IQ context.
 
-Approval and escalation workflows ensure that conflicting, uncertain, or high-impact changes receive human oversight before mitigation actions proceed. The solution is published through Microsoft Teams or Microsoft 365 Copilot, providing a coordinated experience from launch-update detection and risk assessment to approval and action.
+The coordinator identifies conflicting information, missing evidence, and decisions requiring human review. This exercise produces assessments and recommendations. Formal approvals and mitigation actions require separately configured workflows.The solution is published through Microsoft Teams or Microsoft 365 Copilot, providing a coordinated experience from launch-update detection and risk assessment to approval and action.
 
 ### Activity 3.1 – Create the  Market Launch Cordinator
 
@@ -1316,9 +1316,9 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
 1. In the **Details** section, configure the following information:
 
-   - **Name:** `Supply-Chain-BI-Agent`
-   - **Description:** `Supply chain BI agent will handle retail business for Caldova`
-   - **AgentId:** `Supply-Chain-BI-Agent`
+   - **Name:** `supply-chain-bi-agent`
+   - **Description:** `Use for Caldova manufacturing capacity, plant utilization, supplier-delay impact, and supply-chain dependencies. Do not use for general launch communications or approval decisions`
+   - **AgentId:** `supply-chain-bi-agent`
 
 1. Verify that the agent identifier references the correct Foundry agent.
 
