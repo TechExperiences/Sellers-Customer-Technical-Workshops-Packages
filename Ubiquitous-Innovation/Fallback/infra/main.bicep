@@ -192,23 +192,23 @@ resource foundryProject 'Microsoft.CognitiveServices/accounts/projects@2025-04-0
   }
 }
 
-resource gpt51Deployment 'Microsoft.CognitiveServices/accounts/deployments@2025-06-01' = {
+resource gpt54Deployment 'Microsoft.CognitiveServices/accounts/deployments@2025-06-01' = {
   parent: foundryAccount
-  name: 'gpt51'
+  name: 'gpt54'
   dependsOn: [
     foundryProject
   ]
   sku: {
     name: 'GlobalStandard'
     // Global Standard capacity is allocated in 1K TPM units. This reserves
-    // 50K TPM for the Foundry Supply Chain agent's gpt-5.1 deployment.
+    // 50K TPM for the Foundry Supply Chain agent's gpt-5.4 deployment.
     capacity: 50
   }
   properties: {
     model: {
       format: 'OpenAI'
-      name: 'gpt-5.1'
-      version: '2025-11-13'
+      name: 'gpt-5.4'
+      version: '2026-03-05'
     }
   }
 }
