@@ -472,20 +472,27 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
    ![](../Ubiquitous-Innovation/Images/ui33.png)
    
-1. Click **Start** action and change to **Connector**
+1. Click **Start** action and then click on **Manual** dropdown **(2)**.
 
-   ![](../Sandbox-Environment-Guides/Images/Connector.png)
+   ![](../Ubiquitous-Innovation/Images/ui34.png)
 
-1. Click **Office 365 Outlook** to navigate activity selection pan. Click **When a new email arrives**.
+1. Change to **Connector**
+
+   ![](../Ubiquitous-Innovation/Images/ui35.png)
+
+1. Click **Office 365 Outlook** to navigate activity selection pan.
+
+1. Click **When a new email arrives**.
 
    ![](../Sandbox-Environment-Guides/Images/EmailArrive.png)
 
-1. Configure arrival emails. Click `+` to add next activity.
+1. Click on **When a new email arrives (1)**. Make sure **<inject key="AzureAdUserEmail"></inject> (2)** connection is added and then click **Show all (3)**.
 
-   - To: **<inject key="AzureAdUserEmail"></inject>**
+   ![](../Ubiquitous-Innovation/Images/ui36.png)
+
    - Subject filter: `Caldova market launch validator`
 
-   ![](../Sandbox-Environment-Guides/Images/Email-Config.png)
+     ![](../Ubiquitous-Innovation/Images/ui37.png)
 
 1. Search **Agent** and click **Agent**.
 
