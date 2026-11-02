@@ -811,11 +811,13 @@ This adds organizational context to the agent's existing operational and enterpr
 1. Copy the below prompt and paste it in chat window
 
    ```
-   Follow the instructions below to connect the existing SharePoint documents as a **Work IQ** tool in the existing Microsoft Foundry agent (supply-chain-Bi-agent).
-   •	Use the following SharePoint URL to configure the **Work IQ** integration: https://sandboxailabs1002.sharepoint.com/sites/EnterpriseAIKnowledgeBase/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents%2FAI%20Knowledge%20Base&viewid=2aae9886%2D5883%2D4e2a%2D8949%2D612beaeb50ac&newTargetListUrl=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents&viewpath=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents%2FForms%2FAllItems%2Easpx
-   •	Connect the SharePoint source through **Work IQ** and add it under the Tools section of the existing Foundry agent.
-   •	Ensure the agent can retrieve and use relevant business-context documents, including launch priorities, business commitments, and team responsibilities.
-   •	Configure the agent to use **Work IQ** when answering questions about Caldova's business and organizational context.
+   Follow the instructions below to Connect the existing SharePoint document repository to the Microsoft Foundry agent (supply-chain-Bi-agent) using the Work IQ SharePoint MCP tool. Follow these instructions:
+   •	Configure the SharePoint Source: Use the following  SharePoint document path to configure the Work IQ MCP  integration: Caldova Enterprise AI Knowledge Base.
+   •	Integrate the Tool: Connect the SharePoint source  through Work IQ and add it under the Tools section of the existing Foundry agent.
+   •	Configure Agent Instructions: Update the agent  instructions to use Work IQ to retrieve and reference  relevant SharePoint documents when answering questions about Caldova’s business and organizational context,   including launch priorities, business commitments, and team responsibilities.
+   •	Validate the agent response to make sure there should not be any MCP error 
+   Note: Reuse the existing Foundry agent and SharePoint  repository. 
+
    ```
 
 1. Click **Send** to execute above prompt.
@@ -872,15 +874,17 @@ This approach helps us measure the agent's response quality and validate whether
 
    ```
    Follow the instructions below to evaluate the supply-chain-Bi-agent deployed in Microsoft Foundry.
+ 
+   •	Use the existing Microsoft Foundry agent supply-chain-Bi-agent; do not recreate or replace it.
+   •	Create a new Agent Evaluation with synthetic test  questions and expected outcomes covering connected Fabric Data Agent and knowledge-base sources.
+   •	Execute both data-focused and document/knowledge-based test cases.
+   •	Record evaluation metrics, including accuracy,  completeness, groundedness, incorrect responses, token usage, model details, latency, and estimated cost.
+   •	Identify weak areas and recommend improvements to  agent instructions, grounding, or configuration.
+   •	Present proposed changes for review and approval   before applying them. Preserve existing integrations and configuration.
+   •	Apply only approved improvements, rerun the  evaluation, and compare before-and-after results.
+   •	Produce an evaluation report summarizing test   coverage, metrics, identified gaps, improvements,    comparison results, and remaining issues.
+   •	Never fabricate test results, metrics, costs, or evaluation outcomes. Clearly report any unavailable measurements.
 
-   1. Review the existing agent's instructions, connected Fabric Data Agent, Foundry IQ knowledge base, and Work IQ integration without recreating the agent.
-   2. Define expected behavior and evaluation
-   3. Create a prompt evaluation using relevant test questions and expected  outcomes. Generate synthetic test questions to cover the connected data and  knowledge sources.
-   4. Run the evaluation and review the results to identify incorrect,  incomplete, or ungrounded responses.
-   5. Identify weak areas and recommend improvements to the agent's  instructions or grounding configuration.
-   6. Apply only necessary improvements, preserving the existing agent and   integrations, then rerun the evaluation to compare results.
-   7. Summarize the evaluation results, identified gaps, improvements made, and  remaining issues.
-   Do not invent evaluation results or modify the agent without reviewing the proposed changes.
 
    ```
  
