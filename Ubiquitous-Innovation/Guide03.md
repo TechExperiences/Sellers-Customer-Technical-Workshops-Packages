@@ -646,6 +646,10 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
    - Click **New workflows (2)** dropdown and select **Workflows (3)**
 
    ![](../Ubiquitous-Innovation/Images/ui33.png)
+
+1. Name the Workflow as **Market Launch Response Validator (1)** and the click **Save (2)**.
+
+   ![](../Ubiquitous-Innovation/Images/ui89.png)
    
 1. Click **Start** action and then click on **Manual** dropdown **(2)**.
 
@@ -808,161 +812,6 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
 >**Note:** Now, user can see the market launch details and move forward. Similarly, **Workflow** will help to create kinda decision making processes.
 
-
-### Activity 3.3 – Confirm the Copilot Studio Model and Connect the Foundry Specialist Agent
-
-Connect a **Microsoft Foundry Agent** to the **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>**.
-
-1. Navigate to the existing **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** Agent. Click on `+7` **(1)** tab and select the **Agents (2)** tab.
-
-   ![](../Sandbox-Environment-Guides/Images/tools.png) 
-
-1. Click **Add an agent**.
-
-   ![](../Sandbox-Environment-Guides/Images/addagent.png) 
-
-1. In the agent selection window, click the **Connect to an external agent** drop-down and Select **Microsoft Foundry**.
-
-   ![](../Sandbox-Environment-Guides/Images/foundryagent.png) 
-
-1. Review the connection information or create a new connection if required. and Click **Next** to continue.
-
-   ![](../Sandbox-Environment-Guides/Images/nextbutton.png) 
-
-1. Provide the details required to connect to the existing **Microsoft Foundry agent**.   
-
-1. On the **Connect to Azure AI Foundry Agent Service** page,
-
-   - Select **Microsoft Entra ID User Login (1)** for **Authentication Type**.
-   - Provide the Foundry project endpoint **(2)**. To get the Endpoint follow the below steps.
-
-      - Navigate to the **Foundry Agent** that you were working before.
-      - Select **Build** tab from top. If asked to **Save**, plesae Save and proceed.
-      - Copy the **Project Endpoint**.
-
-       ![](../Ubiquitous-Innovation/Images/ui49.png) 
-
-    - Click on **Create (3)**   
-
-   ![](../Ubiquitous-Innovation/Images/ui51.png) 
-
-1. In the **Details** section, configure the following information:
-
-   - **Name:** `Ubiquitous-Supply-Chain-BI-Agent` **(1)**
-   - **Description:** `Ubiquitous chain BI agent will handle retail business for Caldova` **(2)**
-   - **AgentId:** `Ubiquitous-Supply-Chain-BI-Agent` **(3)**
-
-   - Click **Add and configure (4)**
-
-   ![](../Ubiquitous-Innovation/Images/ui50.png)    
-
-1. Verify that the agent identifier references the correct Foundry agent.
-
----
-### Activity 3.4 – Assess Launch Impact and Return a Mitigation
-
-1. Navigate back to **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** agent in **Microsoft Copilot Studio**.
-
-   ![](../Ubiquitous-Innovation/Images/ui52.png)  
-
-2. In the **Test your agent** panel on the right, copy the prompt provided below and paste it into the chat input box.
-
-   ```
-   What are Caldova's main priorities for the November launch?
-   ```
-
-   ![](../Ubiquitous-Innovation/Images/ui53.png)
-
-   ```
-   What is the November capacity utilization of PL01?
-   ```
-
-   ![](../Ubiquitous-Innovation/Images/ui54.png)
-
-1. Review the response provided by agent
-
----
-
-### Activity 3.5 – Shape, Publish and Run the Participant Experience 
-
-1. Click on **Publish** button from top right.
-
-   ![](../Ubiquitous-Innovation/Images/ui55.png)
-
-1. Select **Publish**.
-
-   ![](../Ubiquitous-Innovation/Images/ui56.png)
-
-1. Navigate back to **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** agent and navigate to the **Channels (1)** tab.
-
-- Under **Microsoft channels**, select **Microsoft 365 and Microsoft Teams (2)**.
-
-   ![](../Sandbox-Environment-Guides/Images/channelteam.png)
-
-1. Click **Add channel**.
-
-   ![](../Ubiquitous-Innovation/Images/ui57.png)
-
-1. In the agent configuration panel, click **See agent in Teams**.
-
-   ![](../Sandbox-Environment-Guides/Images/seeagents.png)
-
-1. When prompted to choose how to access Teams, select **Use the web app instead**.
-
-   ![](../Sandbox-Environment-Guides/Images/usewebapp.png)
-
-1. Click on **Add**
-
-   ![](../Ubiquitous-Innovation/Images/ui58.png)
-
-1. Click **Open**.
-
-   ![](../Ubiquitous-Innovation/Images/ui59.png)
-
-1. Microsoft Teams will open in your browser. Locate **Market Launch Coordinator** under **Chats**.
-
-   ![](../Sandbox-Environment-Guides/Images/openedinteams.png)
-
-1. Click **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** to open the chat and verify that the agent is available.
-
-1. Copy the below prompt and paste it in chat window
-
-   ```
-   What are Caldova's main priorities for the November launch?
-   ```
-
-   ![](../Ubiquitous-Innovation/Images/ui60.png)
-
-1. If prompted to connect, click **Open connection manager** link.
-
-   ![](../Ubiquitous-Innovation/Images/ui61.png)
-
-1. Click on **Connect**.
-
-   ![](../Ubiquitous-Innovation/Images/ui62.png)
-
-1. Once you see the connection, select **Submit**
-
-   ![](../Ubiquitous-Innovation/Images/ui63.png)
-
-1. Navigate back to **Team Channel**, open the **Agent** and send the prompt again.
-
-   ```
-   What are Caldova's main priorities for the November launch?
-   ```
-
-1. Review the response provided by agent
-
-   ![](../Ubiquitous-Innovation/Images/ui64.png)
-
-In this topic, we explored how **Microsoft Copilot Studio** coordinates specialized agents to support end-to-end business workflows.
-
-However, enterprise AI also requires strong security, governance, and cost management. In this final topic, we will explore how **Agent 365** and **Microsoft Purview** help manage agent identity, protect sensitive data, monitor activities, and understand costs.
-
-**Think about this:** How can we ensure agents operate securely, responsibly, and cost-effectively?
-
-Let's explore the key governance and security considerations for enterprise AI.
-
 ---
 # Topic 4: Trust and Cost Are the Same Conversation
 Topic 4 governs Caldova’s agent ecosystem through centralized visibility, identity management, security monitoring, and cost control. Agent 365, Entra, Purview, Foundry Guardrails, and Defender support agent discovery, access control, data protection, and security oversight. The team validates protection against prompt injection and sensitive-data exposure while monitoring security events, token usage, model routing, and costs to ensure responsible, secure, and cost-efficient AI operations.
@@ -975,17 +824,17 @@ Topic 4 governs Caldova’s agent ecosystem through centralized visibility, iden
 
    ![](../Sandbox-Environment-Guides/Images/agent365.png)
 
-1. In the search box, enter `supply-chain` to locate the **Supply-Chain-BI-Agent**.
+1. In the search box, enter `Ubiquitous-Supply-Chain-BI-Agent` and  locate the last **Ubiquitous-Supply-Chain-BI-Agent (1)** Agent to get more accurate data.
 
-1. Select the agent's **More options (...)** menu and click **View in map**.
+   - Select the agent's **More options (...) (2)** menu and click **View in map (3)**.
 
-   ![](../Sandbox-Environment-Guides/Images/viewinmap.png)
+   ![](../Ubiquitous-Innovation/Images/ui90.png) 
 
 1. Review the agent map to understand the agent's connections and dependencies, including the configured tools, connected data agents, SharePoint resources, and associated users.
 
-   ![](../Sandbox-Environment-Guides/Images/map.png)
+   ![](../Ubiquitous-Innovation/Images/ui91.png) 
 
-1. Verify that the required tools and resources are connected to the **Supply-Chain-BI-Agent** and review the available tool usage information.
+1. Verify that the required tools and resources are connected to the **Ubiquitous-Supply-Chain-BI-Agent** and review the available tool usage information.
 
 1. Use the agent map to understand how the agent interacts with its connected tools and resources to support supply-chain business queries.
 
@@ -1039,34 +888,40 @@ Review the following relationships:
 - **Overall Security:** Combine identity management, least-privilege access, data governance, AI safety controls, and threat protection to help secure the Supply-Chain-BI-Agent.
 
 ---
-### Activity 4.4 – Review the Security Event
+### Activity 4.3 – Review the Security Event
 
 Review the agent's details, connected tools, security protections, permissions, and usage activity in Microsoft Agent 365. Investigate exceptions and available security findings using the linked Microsoft security portals.
 
+1. Click **All agents (1)**. Search for **Ubiquitous-supply-chain-bi-agent (1)** and  click the last Agent **(3)**.
+
+   ![](../Ubiquitous-Innovation/Images/ui92.png) 
+
 1. Select the **Details** tab.
 
-1. Review the agent's availability and platform.
+   - Review the agent's availability and platform.
 
-1. Under **Overview**, inspect the following details:
-   - Created and last-updated dates
-   - Last published and last-used dates
-   - Channel and publisher information
-   - Publisher type and owner
-   - Created-by information and Entra agent ID
+   - Under **Overview**, inspect the following details:
+      - Created and last-updated dates
+      - Last published and last-used dates
+      - Channel and publisher information
+      - Publisher type and owner
+      - Created-by information and Entra agent ID
 
-1. Identify any missing or incomplete metadata.
+   - Identify any missing or incomplete metadata.
 
-   ![](../Sandbox-Environment-Guides/Images/suuplychain.png)
+     ![](../Ubiquitous-Innovation/Images/ui93.png) 
 
 1. Select the **Data & tools** tab.
 
-1. Review the agent's capabilities and data-access information.
+   ![](../Ubiquitous-Innovation/Images/ui94.png) 
 
-1. Check the **Can read** and **Graph connectors** fields.
+   - Review the agent's capabilities and data-access information.
 
-1. Under **Tools**, inspect the configured tools, such as:
-   - `knowledge-base`
-   - `WorkIQSharePoint2`
+   - Check the **Can read** and **Graph connectors** fields.
+
+   - Under **Tools**, inspect the configured tools, such as:
+      - `caldova_document_knowledge`
+      - `fabric_data_agent`
 
 1. Verify that the listed tools are expected and appropriate for the agent's purpose.
 
