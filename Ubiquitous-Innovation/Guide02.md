@@ -824,7 +824,7 @@ This adds organizational context to the agent's existing operational and enterpr
 
    ```
    Follow the instructions below to Connect the existing SharePoint document repository to the Microsoft Foundry agent (supply-chain-Bi-agent) using the Work IQ SharePoint MCP tool. Follow these instructions:
-   •	Configure the SharePoint Source: Use the following  SharePoint document path to configure the Work IQ MCP  integration: Caldova Enterprise AI Knowledge Base.
+   •	Configure the SharePoint Source: Use the following  SharePoint document path to configure the Work IQ MCP  integration:(https://sandboxailabs1002.sharepoint.com/sites/EnterpriseAIKnowledgeBase/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents%2FAI%20Knowledge%20Base&viewid=2aae9886%2D5883%2D4e2a%2D8949%2D612beaeb50ac&newTargetListUrl=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents&viewpath=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents%2FForms%2FAllItems%2Easpx)
    •	Integrate the Tool: Connect the SharePoint source  through Work IQ and add it under the Tools section of the existing Foundry agent.
    •	Configure Agent Instructions: Update the agent  instructions to use Work IQ to retrieve and reference  relevant SharePoint documents when answering questions about Caldova’s business and organizational context,   including launch priorities, business commitments, and team responsibilities.
    •	Validate the agent response to make sure there should not be any MCP error 
