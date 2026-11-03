@@ -1330,9 +1330,35 @@ Dedicated environment need to created for each user to allocate capacity usage a
    ```
    What are Caldova's main priorities for the November launch?
    ```
+
 1. Review the response provided by agent
 
    ![](../Sandbox-Environment-Guides/Images/teamsrespond.png)
+
+>**Note:** Similarly you can test agent with below prompts.
+
+   ```
+   Assess the reported supplier delay using the available launch context
+   ```
+
+   ```
+   Ask the supply-chain specialist to identify affected dependencies
+   ```
+
+   ```
+   Recommend mitigation options and identify what requires human approval
+   ```
+
+   ```
+   What is the November capacity utilization of PL01?
+
+   ```
+
+   ```
+   According to Caldova's scheduling guidance, what should we consider when planning a production batch?
+   ```
+
+---
 
 ### Activity 3.5 - Detect and Structure a Launch – Readiness Change 
 Build a Copilot Studio workflow to automatically detect incoming market launch emails and extract key launch details. The workflow will engage the designated agent to validate and confirm the launch information, then send a confirmation email summarizing the agreed launch details to the relevant stakeholders.
