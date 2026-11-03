@@ -1152,12 +1152,16 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
    ![](../Sandbox-Environment-Guides/Images/EmailArrive.png)
 
-1. Configure arrival emails. Click `+` to add next activity.
+1. Under **Advanced parameters**, select **Show all** to view the available configuration options.
 
-   - To: **<inject key="AzureAdUserEmail"></inject>**
+   ![](../Sandbox-Environment-Guides/Images/showall.png)
+
+ - To: **<inject key="AzureAdUserEmail"></inject>**
    - Subject filter: `Caldova market launch validator`
 
    ![](../Sandbox-Environment-Guides/Images/Email-Config.png)
+
+1. Configure arrival emails. Click `+` to add next activity.
 
 1. Search **Agent** and click **Agent**.
 
@@ -1361,9 +1365,17 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
 1. Under **Microsoft channels**, select **Microsoft 365 and Microsoft Teams**.
 
+1. Select **Add channel** to continue.
+
+   ![](../Sandbox-Environment-Guides/Images/addchannelimage.png)
+
 1. In the agent configuration panel, click **See agent in Teams**.
 
    ![](../Sandbox-Environment-Guides/Images/seeagents.png)
+
+1. Click **Add**.
+
+   ![](../Sandbox-Environment-Guides/Images/addchannelagent.png)
 
 1. When prompted to choose how to access Teams, select **Use the web app instead**.
 
