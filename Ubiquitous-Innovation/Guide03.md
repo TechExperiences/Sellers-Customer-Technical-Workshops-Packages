@@ -499,6 +499,143 @@ Connect a **Microsoft Foundry Agent** to the **Market Launch Coordinator<inject 
 
 1. Verify that the agent identifier references the correct Foundry agent.
 
+### Activity 3.3 – Assess Launch Impact and Return a Mitigation
+
+1. Navigate back to **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** agent in Microsoft Copilot Studio.
+
+1. Click **Preview** to test the Agent.
+
+   ![](../Ubiquitous-Innovation/Images/ui81.png) 
+
+1. Copy the prompt provided below and paste it into the chat input box.   
+
+   ```
+   What are Caldova's main priorities for the November launch?
+   ```
+   ```
+   What is the November capacity utilization of PL01?
+   ```
+
+1. Review the response provided by agent
+
+   ![](../Ubiquitous-Innovation/Images/ui82.png) 
+
+### Add an optional skill
+
+1. Navigate back to **Build (1)**. Under `Skill`, select the **+ (2)** icon.
+
+   ![](../Ubiquitous-Innovation/Images/ui83.png)
+
+1. Click **Create from blank**
+
+   ![](../Sandbox-Environment-Guides/Images/blankskill.png)
+
+1. Provoide below details:
+
+   - Name: `launch-impact-assessment` **(1)**
+   - Description: `Assess launch-readiness changes, supplier delays, dependencies, and mitigation options.` **(2)**
+   - Instructions: **(3)**
+      ```
+      - Identify the change and missing information.
+      - Retrieve and cite authorized business context.
+      - Request Foundry specialist analysis when relevant.
+      - Separate facts, reported information, inferences, and  unknowns.
+      - Return impact, mitigation options, and required review.
+      - Never approve decisions, update records, or send communications.
+      ```
+   - Click **Create (4)**.
+
+     ![](../Ubiquitous-Innovation/Images/ui84.png)
+
+1. Now User can see skill is added **(1)**, click on **Save (2)** and click **Preview (3)** to test.
+
+   ![](../Ubiquitous-Innovation/Images/ui86.png)
+
+1. Copy the prompt provided below and paste it into the chat input box.
+
+   ```
+   A key pharmaceutical supplier has reported a two-week delay. Assess its impact on Caldova's November launch, identify dependencies, risks, and mitigation options, and cite supporting sources.
+   ```
+
+   ![](../Sandbox-Environment-Guides/Images/skilltest.png)
+
+>**Note:** Now our agent is ready to publish and add channel to access from other tools.
+
+---
+
+### Activity 3.4 – Shape, Publish and Run the Participant Experience 
+
+1. Navigate back to **Build (1)** agent. Under `Channels`, select the **+ (2)** icon.
+
+   ![](../Ubiquitous-Innovation/Images/ui87.png)
+
+1. From the available channels, select **Teams + Microsoft 365.**
+
+   ![](../Sandbox-Environment-Guides/Images/teamschannel.png)
+
+1. Select **Add channel**.
+
+   ![](../Sandbox-Environment-Guides/Images/addchannel1.png)
+
+1. Click **Save (1)** icon to save the agent configuration and **Publish (2)** the Agent.
+
+   ![](../Sandbox-Environment-Guides/Images/saveandpublish.png)
+
+1. Select **Publish agent** to publish the latest changes.
+
+   ![](../Sandbox-Environment-Guides/Images/publishagent.png)
+
+1. Once agent published successfully, Click **View in Teams**.
+
+   ![](../Sandbox-Environment-Guides/Images/viewinteams.png)
+
+1. When prompted to choose how to access Teams, select **Use the web app instead**.
+
+   ![](../Sandbox-Environment-Guides/Images/usewebapp.png)
+
+1. Click on **Add**
+
+   ![](../Ubiquitous-Innovation/Images/ui58.png)
+
+1. Click **Open**.
+
+   ![](../Ubiquitous-Innovation/Images/ui59.png)
+
+1. Copy the below prompt and paste it in **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** chat window.
+
+   ```
+   What are Caldova's main priorities for the November launch?
+   ```
+
+1. Review the response provided by agent
+
+   ![](../Ubiquitous-Innovation/Images/ui88.png)   
+
+   >**Note:** Similarly you can test agent with below prompts.
+
+   ```
+   Assess the reported supplier delay using the available launch context
+   ```
+
+   ```
+   Ask the supply-chain specialist to identify affected dependencies
+   ```
+
+   ```
+   Recommend mitigation options and identify what requires human approval
+   ```
+
+   ```
+   What is the November capacity utilization of PL01?
+
+   ```
+
+   ```
+   According to Caldova's scheduling guidance, what should we consider when planning a production batch?
+   ```
+
+---
+
 
 ## Activity 3.2 - Detect and Structure a Launch – Readiness Change 
 Build a Copilot Studio workflow to automatically detect incoming market launch emails and extract key launch details. The workflow will engage the designated agent to validate and confirm the launch information, then send a confirmation email summarizing the agreed launch details to the relevant stakeholders.
