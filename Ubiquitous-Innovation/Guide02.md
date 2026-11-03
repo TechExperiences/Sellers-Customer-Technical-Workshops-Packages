@@ -251,11 +251,12 @@ Treat the document as a draft for review, not as an approved implementation plan
 
     ![](../Ubiquitous-Innovation/Images/AC22.png)
 
-1. If prompted with **What name and email should be used for the git commit author?**:
-   1. Enter your Git username and email address <inject key="AzureAdUserEmail"></inject> in the Enter your answer field.
-   2. Click **Submit** to continue.
+1. If prompted with **What name and email should be used for the git commit author?**
 
-  ![](../Ubiquitous-Innovation/Images/UPnnew.png)
+   - Enter your Git username and email address <inject key="AzureAdUserEmail"></inject> in the Enter your answer field.
+   - Click **Submit** to continue.
+
+   ![](../Ubiquitous-Innovation/Images/UPnnew.png)
 
 1. Click **Plan** and choose **Agent**
 
