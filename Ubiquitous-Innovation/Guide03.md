@@ -183,6 +183,42 @@ Before connecting the enterprise knowledge source to the agent, verify that the 
 
    ![](../Ubiquitous-Innovation/Images/ui26.png)
 
+### Activity 1.4: Evaluating the Business Intelligence Agent
+
+After connecting the Fabric Data Agent, Foundry IQ knowledge base, and **Work IQ** integration, the next step is to evaluate the existing `supply-chain-Bi-agent` in Microsoft Foundry. This helps determine whether the agent can provide accurate, complete, and grounded answers to Caldova Pharma's business questions.
+
+Traditionally, evaluating an agent involves manually preparing test questions, reviewing its responses, identifying gaps, and repeating the tests after making improvements. In this activity, we will use GitHub Copilot to help define expected behavior, prepare synthetic test questions, and guide the evaluation process using the **Evaluation** tab in Microsoft Foundry.   
+
+### Steps to Create and Run an Evaluation
+
+1. Navigate to the **Evaluation (1)** tab. If prompted **Save** the Agent and then click **Create (2)**.
+
+   ![](../Ubiquitous-Innovation/Images/ui68.png)
+
+1. Select **Agent** if it is not selected **(1)** and then click **Next (2)**.
+
+   ![](../Ubiquitous-Innovation/Images/ui66.png)
+
+1. Click **Next** for all steps till Review and provide **Evaluation Name** as **UI-Evaluation (1)** and Click **Submit (2)**
+
+   ![](../Ubiquitous-Innovation/Images/ui67.png)
+
+1. Click on **Evaluations (1)** and select **Ubiquitous-Supply-Chain-BI-Agent (2)**. This may take around `10 mins` to complete. You no need to wait, You can proceed with the next Topic.
+
+   ![](../Ubiquitous-Innovation/Images/ui69.png)
+
+1. Select the Run.
+
+   ![](../Ubiquitous-Innovation/Images/ui70.png)
+
+1. Review the Metric results.
+
+   ![](../Ubiquitous-Innovation/Images/ui71.png)
+
+In this topic, we explored how agents use enterprise data and knowledge to provide context-aware insights. However, complex business processes often require multiple specialized agents to work together.
+
+In the next topic, we will explore how **Microsoft Copilot Studio** coordinates workflows, connects with **Microsoft Foundry agents**, and brings their outputs together through a **Market Launch Coordinator**.
+
 
 ## Topic 2: From One Agent to a Coordinated System 
 
@@ -234,24 +270,22 @@ Dedicated environment need to created for each user to allocate capacity usage a
 
    ![](../Ubiquitous-Innovation/Images/ui29.png) 
 
-1. Navigate to the **Agents** section.
+1. Navigate to the **Agents (1)** section.
 
-1. Click the drop-down arrow next to **New agent**.
+   - Click the drop-down arrow next to **New agent (2)**.
 
-1. Under **Other ways to build**, select **Agent (Standard)** to create an agent with predefined rules and flows.
+   - Under the **GitHub Copilot** option, select **Agent (3)**.
 
-   ![](../Sandbox-Environment-Guides/Images/agentstandard.png) 
+    ![](../Ubiquitous-Innovation/Images/UI72.png)
 
-1. Provide the name as **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/> (1)** for the agent and click **Create (2)** to create the agent.
+1. Provide the name as **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/> (1)** for the agent and click **Save (2)** to create the agent.
 
-   ![](../Ubiquitous-Innovation/Images/ui30.png) 
+   ![](../Ubiquitous-Innovation/Images/ui73.png) 
 
-1. Once the agent is created, scroll down and navigate to the **Instructions** tab. Click on **Edit**.
-
-   ![](../Ubiquitous-Innovation/Images/ui31.png)
+1. Once the agent is created, scroll down and navigate to the **Instructions** tab. 
 
 1. Copy the instructions provided below and paste them into the **Instructions** field **(1)**.
-
+ 
    ```
    # Caldova Market Launch Coordinator — Agent Instructions
  
@@ -268,83 +302,56 @@ Dedicated environment need to created for each user to allocate capacity usage a
    Help users with:
 
    - Overall launch readiness and milestone status.
-
    - Workstream updates, owners, deadlines, and open actions.
-
    - Supplier delays, component availability, and supply-chain dependencies.
-
    - Engineering validation and testing dependencies.
-
    - Quality and Regulatory deliverables, evidence, and outstanding reviews.
-
    - Product, Operations, and Sales launch dependencies.
-
    - Risk identification, impact assessment, mitigation options, and escalation.
-
    - Summaries of launch updates and preparation for readiness reviews.
-
    - Identification of missing information, conflicting updates, and decisions requiring  approval.
-   
    Politely redirect unrelated requests to the appropriate support channel.
    
    ## 3. Use of connected knowledge, tools, and agents
    
-   Use the connected SharePoint launch-readiness information as the governed source of    record when it is available and relevant.
+   Use the connected SharePoint launch-readiness information as the governed source of record when it is available and relevant.
    
-   Use the Supply-Chain-BI-Agent in Microsoft Foundry when a question requires   specialist supply-chain analysis, such as:
+   Use the Supply-Chain-BI-Agent in Microsoft Foundry when a question requires specialist supply-chain analysis, such as:
 
    - Assessing the potential impact of a supplier or component delay.
-
    - Identifying downstream dependencies and affected milestones.
-
    - Comparing supply-chain scenarios or mitigation options.
-
    - Evaluating supply-chain risks and missing evidence.
    
-   Invoke the specialist through its configured connection and provide the relevant    business context, including the reported change, affected workstream, known dates,  dependencies, and available evidence.
+   Invoke the specialist through its configured connection and provide the relevant business context, including the reported change, affected workstream, known dates, dependencies, and available evidence.
    
-   Use only knowledge sources, tools, and connections actually configured and available   to you. Do not claim that you accessed SharePoint, Work IQ, Microsoft Foundry, Teams  messages, or other systems unless the relevant information was successfully retrieved.
+   Use only knowledge sources, tools, and connections actually configured and available to you. Do not claim that you accessed SharePoint, Work IQ, Microsoft Foundry, Teams messages, or other systems unless the relevant information was successfully retrieved.
    
    Work IQ may be used only when an authorized and supported connection or tool is  available. Do not assume that access to Microsoft 365 context is automatically    available to every workflow.
    
    ## 4. Understand and classify business updates
    
-   When a user provides a launch update, extract the following information where    available:
+   When a user provides a launch update, extract the following information where available:
    
    - Source message or document.
-
    - Workstream.
-
    - Milestone or deliverable.
-
    - Current or previous status.
-
    - New or proposed status.
-
    - Current and proposed dates.
-
    - Responsible owner.
-
    - Dependencies and downstream milestones.
-
    - Supporting evidence or source link.
-
    - Potential impact on launch readiness.
-
    - Confidence in the assessment.
-
    - Missing information or conflicting evidence.
-
    - Recommended next step.
    
    Distinguish explicitly between:
 
    - Verified facts.
-
    - Information reported by a person or source.
-
    - Inferences and potential impacts.
-
    - Unknown or unverified information.
    
    Do not invent owners, dates, milestone statuses, evidence, approvals, or confidence    scores.
@@ -356,19 +363,12 @@ Dedicated environment need to created for each user to allocate capacity usage a
    When asked to assess a change or risk:
    
    1. Identify the affected workstream and milestone.
-
    2. Retrieve relevant launch-plan information and supporting evidence using available   connected sources.
-
    3. Identify dependencies and downstream milestones.
-
    4. Compare the reported change with the available plan and previous status, if that    information is available.
-
    5. Assess the potential effect on launch timing, readiness, and related workstreams.
-
    6. Identify missing evidence, conflicting updates, and assumptions.
-
    7. Recommend practical mitigation options and the appropriate owner or reviewer,    where known.
-
    8. State whether the assessment is preliminary or sufficiently supported by the  available evidence.
    
    Do not declare that a milestone will be delayed solely because a dependency might be   affected. Explain the dependency and evidence supporting the assessment.
@@ -380,29 +380,20 @@ Dedicated environment need to created for each user to allocate capacity usage a
    Use qualitative confidence levels unless a configured tool provides a validated  numerical confidence score.
    
    - High confidence: relevant, consistent evidence supports the assessment.
-
    - Medium confidence: some evidence is available, but important details remain    unverified.
-
    - Low confidence: evidence is insufficient, ambiguous, outdated, or conflicting.
-   
+  
    Do not manufacture numerical confidence scores or apply arbitrary thresholds.
    
    Request human review or escalate through a configured mechanism when:
 
    - Material evidence is missing.
-
    - Two sources conflict.
-
    - The potential launch impact is significant.
-
    - A critical milestone or dependency is at risk.
-
    - Ownership is unclear.
-
    - Quality or Regulatory review is required.
-
    - The proposed action requires approval.
-
    - The available information does not support a reliable recommendation.
    
    If an escalation mechanism is not configured, identify the need for escalation and  recommend the responsible role when known. Do not claim that an escalation was sent.
@@ -430,15 +421,10 @@ Dedicated environment need to created for each user to allocate capacity usage a
    For actions requiring approval:
 
    1. Summarize the proposed action.
-
    2. Explain the business reason and supporting evidence.
-
    3. Identify known risks and uncertainties.
-
    4. Request approval through the configured approval mechanism.
-
    5. Execute the controlled action only after the required approval is verified.
-
    6. Report the result only after the connected action confirms its outcome.
    
    A statement such as "yes" or "proceed" is not sufficient if the configured approval    process requires a formal approval record or an authorized approver.
@@ -454,19 +440,204 @@ Dedicated environment need to created for each user to allocate capacity usage a
    Examples:
 
    - "Which launch milestones depend on this component?"
-
    - "What evidence is still missing?"
-
    - "Who owns the next action?"
    ```
 
-   - Click on **Save (2)**.
+   - Click **Save (2)** to save the agent.
 
-   ![](../Ubiquitous-Innovation/Images/ui32.png)
+   ![](../Ubiquitous-Innovation/Images/ui74.png)    
 
  ---
 
-### Activity 3.2 - Detect and Structure a Launch – Readiness Change 
+### Activity 3.2 – Confirm the Copilot Studio Model and Connect the Foundry Specialist Agent
+
+Connect a **Microsoft Foundry Agent** to the **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>**
+
+1. Under **Models**, select **Claude Sonnet 5.5**,
+
+   - Under **Connected agents**, select the `+` icon **(2)**.
+
+     ![](../Ubiquitous-Innovation/Images/ui75.png) 
+
+1. Select the dropdown next to **Add** **(1)** and Choose Add **Foundry agent (2)**. 
+
+   ![](../Ubiquitous-Innovation/Images/ui76.png)
+
+1. Under Connection, select **Create new connection**.
+
+   ![](../Sandbox-Environment-Guides/Images/createnew.png) 
+
+1. On the **Connect to Azure AI Foundry Agent Service** page,
+
+   - Select **Microsoft Entra ID User Login (1)** for **Authentication Type**.
+   - Provide the Foundry project endpoint **(2)**. To get the Endpoint follow the below steps.
+
+      - Navigate to the **Foundry Agent** that you were working before.
+      - Select **Microsoft Foudry (1)** tab from top left. If asked to **Save**, plesae Save and proceed.
+      - Copy the **Project Endpoint (2)**.
+
+       ![](../Ubiquitous-Innovation/Images/ui80.png) 
+
+    - Click on **Create (3)**   
+
+   ![](../Ubiquitous-Innovation/Images/ui77.png) 
+
+1. Click on **Next**.
+
+   ![](../Ubiquitous-Innovation/Images/ui78.png) 
+
+1. In the **Review and add** section, configure the following information:
+
+   - **Name:** `Ubiquitous-Supply-Chain-BI-Agent` **(1)**
+   - **Description:** `Ubiquitous chain BI agent will handle retail business for Caldova` **(2)**
+   - **AgentId:** `Ubiquitous-Supply-Chain-BI-Agent` **(3)**
+
+   - Click **Add and configure (4)**
+
+   ![](../Ubiquitous-Innovation/Images/ui79.png)    
+
+1. Verify that the agent identifier references the correct Foundry agent.
+
+### Activity 3.3 – Assess Launch Impact and Return a Mitigation
+
+1. Navigate back to **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** agent in Microsoft Copilot Studio.
+
+1. Click **Preview** to test the Agent.
+
+   ![](../Ubiquitous-Innovation/Images/ui81.png) 
+
+1. Copy the prompt provided below and paste it into the chat input box.   
+
+   ```
+   What are Caldova's main priorities for the November launch?
+   ```
+   ```
+   What is the November capacity utilization of PL01?
+   ```
+
+1. Review the response provided by agent
+
+   ![](../Ubiquitous-Innovation/Images/ui82.png) 
+
+### Add an optional skill
+
+1. Navigate back to **Build (1)**. Under `Skill`, select the **+ (2)** icon.
+
+   ![](../Ubiquitous-Innovation/Images/ui83.png)
+
+1. Click **Create from blank**
+
+   ![](../Sandbox-Environment-Guides/Images/blankskill.png)
+
+1. Provoide below details:
+
+   - Name: `launch-impact-assessment` **(1)**
+   - Description: `Assess launch-readiness changes, supplier delays, dependencies, and mitigation options.` **(2)**
+   - Instructions: **(3)**
+      ```
+      - Identify the change and missing information.
+      - Retrieve and cite authorized business context.
+      - Request Foundry specialist analysis when relevant.
+      - Separate facts, reported information, inferences, and  unknowns.
+      - Return impact, mitigation options, and required review.
+      - Never approve decisions, update records, or send communications.
+      ```
+   - Click **Create (4)**.
+
+     ![](../Ubiquitous-Innovation/Images/ui84.png)
+
+1. Now User can see skill is added **(1)**, click on **Save (2)** and click **Preview (3)** to test.
+
+   ![](../Ubiquitous-Innovation/Images/ui86.png)
+
+1. Copy the prompt provided below and paste it into the chat input box.
+
+   ```
+   A key pharmaceutical supplier has reported a two-week delay. Assess its impact on Caldova's November launch, identify dependencies, risks, and mitigation options, and cite supporting sources.
+   ```
+
+   ![](../Sandbox-Environment-Guides/Images/skilltest.png)
+
+>**Note:** Now our agent is ready to publish and add channel to access from other tools.
+
+---
+
+### Activity 3.4 – Shape, Publish and Run the Participant Experience 
+
+1. Navigate back to **Build (1)** agent. Under `Channels`, select the **+ (2)** icon.
+
+   ![](../Ubiquitous-Innovation/Images/ui87.png)
+
+1. From the available channels, select **Teams + Microsoft 365.**
+
+   ![](../Sandbox-Environment-Guides/Images/teamschannel.png)
+
+1. Select **Add channel**.
+
+   ![](../Sandbox-Environment-Guides/Images/addchannel1.png)
+
+1. Click **Save (1)** icon to save the agent configuration and **Publish (2)** the Agent.
+
+   ![](../Sandbox-Environment-Guides/Images/saveandpublish.png)
+
+1. Select **Publish agent** to publish the latest changes.
+
+   ![](../Sandbox-Environment-Guides/Images/publishagent.png)
+
+1. Once agent published successfully, Click **View in Teams**.
+
+   ![](../Sandbox-Environment-Guides/Images/viewinteams.png)
+
+1. When prompted to choose how to access Teams, select **Use the web app instead**.
+
+   ![](../Sandbox-Environment-Guides/Images/usewebapp.png)
+
+1. Click on **Add**
+
+   ![](../Ubiquitous-Innovation/Images/ui58.png)
+
+1. Click **Open**.
+
+   ![](../Ubiquitous-Innovation/Images/ui59.png)
+
+1. Copy the below prompt and paste it in **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** chat window.
+
+   ```
+   What are Caldova's main priorities for the November launch?
+   ```
+
+1. Review the response provided by agent
+
+   ![](../Ubiquitous-Innovation/Images/ui88.png)   
+
+   >**Note:** Similarly you can test agent with below prompts.
+
+   ```
+   Assess the reported supplier delay using the available launch context
+   ```
+
+   ```
+   Ask the supply-chain specialist to identify affected dependencies
+   ```
+
+   ```
+   Recommend mitigation options and identify what requires human approval
+   ```
+
+   ```
+   What is the November capacity utilization of PL01?
+
+   ```
+
+   ```
+   According to Caldova's scheduling guidance, what should we consider when planning a production batch?
+   ```
+
+---
+
+
+## Activity 3.2 - Detect and Structure a Launch – Readiness Change 
 Build a Copilot Studio workflow to automatically detect incoming market launch emails and extract key launch details. The workflow will engage the designated agent to validate and confirm the launch information, then send a confirmation email summarizing the agreed launch details to the relevant stakeholders.
 
 1. To create **Workflow**
@@ -475,6 +646,10 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
    - Click **New workflows (2)** dropdown and select **Workflows (3)**
 
    ![](../Ubiquitous-Innovation/Images/ui33.png)
+
+1. Name the Workflow as **Market Launch Response Validator (1)** and the click **Save (2)**.
+
+   ![](../Ubiquitous-Innovation/Images/ui89.png)
    
 1. Click **Start** action and then click on **Manual** dropdown **(2)**.
 
@@ -637,161 +812,6 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
 >**Note:** Now, user can see the market launch details and move forward. Similarly, **Workflow** will help to create kinda decision making processes.
 
-
-### Activity 3.3 – Confirm the Copilot Studio Model and Connect the Foundry Specialist Agent
-
-Connect a **Microsoft Foundry Agent** to the **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>**.
-
-1. Navigate to the existing **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** Agent. Click on `+7` **(1)** tab and select the **Agents (2)** tab.
-
-   ![](../Sandbox-Environment-Guides/Images/tools.png) 
-
-1. Click **Add an agent**.
-
-   ![](../Sandbox-Environment-Guides/Images/addagent.png) 
-
-1. In the agent selection window, click the **Connect to an external agent** drop-down and Select **Microsoft Foundry**.
-
-   ![](../Sandbox-Environment-Guides/Images/foundryagent.png) 
-
-1. Review the connection information or create a new connection if required. and Click **Next** to continue.
-
-   ![](../Sandbox-Environment-Guides/Images/nextbutton.png) 
-
-1. Provide the details required to connect to the existing **Microsoft Foundry agent**.   
-
-1. On the **Connect to Azure AI Foundry Agent Service** page,
-
-   - Select **Microsoft Entra ID User Login (1)** for **Authentication Type**.
-   - Provide the Foundry project endpoint **(2)**. To get the Endpoint follow the below steps.
-
-      - Navigate to the **Foundry Agent** that you were working before.
-      - Select **Build** tab from top. If asked to **Save**, plesae Save and proceed.
-      - Copy the **Project Endpoint**.
-
-       ![](../Ubiquitous-Innovation/Images/ui49.png) 
-
-    - Click on **Create (3)**   
-
-   ![](../Ubiquitous-Innovation/Images/ui51.png) 
-
-1. In the **Details** section, configure the following information:
-
-   - **Name:** `Ubiquitous-Supply-Chain-BI-Agent` **(1)**
-   - **Description:** `Ubiquitous chain BI agent will handle retail business for Caldova` **(2)**
-   - **AgentId:** `Ubiquitous-Supply-Chain-BI-Agent` **(3)**
-
-   - Click **Add and configure (4)**
-
-   ![](../Ubiquitous-Innovation/Images/ui50.png)    
-
-1. Verify that the agent identifier references the correct Foundry agent.
-
----
-### Activity 3.4 – Assess Launch Impact and Return a Mitigation
-
-1. Navigate back to **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** agent in **Microsoft Copilot Studio**.
-
-   ![](../Ubiquitous-Innovation/Images/ui52.png)  
-
-2. In the **Test your agent** panel on the right, copy the prompt provided below and paste it into the chat input box.
-
-   ```
-   What are Caldova's main priorities for the November launch?
-   ```
-
-   ![](../Ubiquitous-Innovation/Images/ui53.png)
-
-   ```
-   What is the November capacity utilization of PL01?
-   ```
-
-   ![](../Ubiquitous-Innovation/Images/ui54.png)
-
-1. Review the response provided by agent
-
----
-
-### Activity 3.5 – Shape, Publish and Run the Participant Experience 
-
-1. Click on **Publish** button from top right.
-
-   ![](../Ubiquitous-Innovation/Images/ui55.png)
-
-1. Select **Publish**.
-
-   ![](../Ubiquitous-Innovation/Images/ui56.png)
-
-1. Navigate back to **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** agent and navigate to the **Channels (1)** tab.
-
-- Under **Microsoft channels**, select **Microsoft 365 and Microsoft Teams (2)**.
-
-   ![](../Sandbox-Environment-Guides/Images/channelteam.png)
-
-1. Click **Add channel**.
-
-   ![](../Ubiquitous-Innovation/Images/ui57.png)
-
-1. In the agent configuration panel, click **See agent in Teams**.
-
-   ![](../Sandbox-Environment-Guides/Images/seeagents.png)
-
-1. When prompted to choose how to access Teams, select **Use the web app instead**.
-
-   ![](../Sandbox-Environment-Guides/Images/usewebapp.png)
-
-1. Click on **Add**
-
-   ![](../Ubiquitous-Innovation/Images/ui58.png)
-
-1. Click **Open**.
-
-   ![](../Ubiquitous-Innovation/Images/ui59.png)
-
-1. Microsoft Teams will open in your browser. Locate **Market Launch Coordinator** under **Chats**.
-
-   ![](../Sandbox-Environment-Guides/Images/openedinteams.png)
-
-1. Click **Market Launch Coordinator<inject key="Deployment-ID" enableCopy="false"/>** to open the chat and verify that the agent is available.
-
-1. Copy the below prompt and paste it in chat window
-
-   ```
-   What are Caldova's main priorities for the November launch?
-   ```
-
-   ![](../Ubiquitous-Innovation/Images/ui60.png)
-
-1. If prompted to connect, click **Open connection manager** link.
-
-   ![](../Ubiquitous-Innovation/Images/ui61.png)
-
-1. Click on **Connect**.
-
-   ![](../Ubiquitous-Innovation/Images/ui62.png)
-
-1. Once you see the connection, select **Submit**
-
-   ![](../Ubiquitous-Innovation/Images/ui63.png)
-
-1. Navigate back to **Team Channel**, open the **Agent** and send the prompt again.
-
-   ```
-   What are Caldova's main priorities for the November launch?
-   ```
-
-1. Review the response provided by agent
-
-   ![](../Ubiquitous-Innovation/Images/ui64.png)
-
-In this topic, we explored how **Microsoft Copilot Studio** coordinates specialized agents to support end-to-end business workflows.
-
-However, enterprise AI also requires strong security, governance, and cost management. In this final topic, we will explore how **Agent 365** and **Microsoft Purview** help manage agent identity, protect sensitive data, monitor activities, and understand costs.
-
-**Think about this:** How can we ensure agents operate securely, responsibly, and cost-effectively?
-
-Let's explore the key governance and security considerations for enterprise AI.
-
 ---
 # Topic 4: Trust and Cost Are the Same Conversation
 Topic 4 governs Caldova’s agent ecosystem through centralized visibility, identity management, security monitoring, and cost control. Agent 365, Entra, Purview, Foundry Guardrails, and Defender support agent discovery, access control, data protection, and security oversight. The team validates protection against prompt injection and sensitive-data exposure while monitoring security events, token usage, model routing, and costs to ensure responsible, secure, and cost-efficient AI operations.
@@ -804,17 +824,17 @@ Topic 4 governs Caldova’s agent ecosystem through centralized visibility, iden
 
    ![](../Sandbox-Environment-Guides/Images/agent365.png)
 
-1. In the search box, enter `supply-chain` to locate the **Supply-Chain-BI-Agent**.
+1. In the search box, enter `Ubiquitous-Supply-Chain-BI-Agent` and  locate the last **Ubiquitous-Supply-Chain-BI-Agent (1)** Agent to get more accurate data.
 
-1. Select the agent's **More options (...)** menu and click **View in map**.
+   - Select the agent's **More options (...) (2)** menu and click **View in map (3)**.
 
-   ![](../Sandbox-Environment-Guides/Images/viewinmap.png)
+   ![](../Ubiquitous-Innovation/Images/ui90.png) 
 
 1. Review the agent map to understand the agent's connections and dependencies, including the configured tools, connected data agents, SharePoint resources, and associated users.
 
-   ![](../Sandbox-Environment-Guides/Images/map.png)
+   ![](../Ubiquitous-Innovation/Images/ui91.png) 
 
-1. Verify that the required tools and resources are connected to the **Supply-Chain-BI-Agent** and review the available tool usage information.
+1. Verify that the required tools and resources are connected to the **Ubiquitous-Supply-Chain-BI-Agent** and review the available tool usage information.
 
 1. Use the agent map to understand how the agent interacts with its connected tools and resources to support supply-chain business queries.
 
@@ -868,54 +888,60 @@ Review the following relationships:
 - **Overall Security:** Combine identity management, least-privilege access, data governance, AI safety controls, and threat protection to help secure the Supply-Chain-BI-Agent.
 
 ---
-### Activity 4.4 – Review the Security Event
+### Activity 4.3 – Review the Security Event
 
 Review the agent's details, connected tools, security protections, permissions, and usage activity in Microsoft Agent 365. Investigate exceptions and available security findings using the linked Microsoft security portals.
 
+1. Click **All agents (1)**. Search for **Ubiquitous-supply-chain-bi-agent (1)** and  click the last Agent **(3)**.
+
+   ![](../Ubiquitous-Innovation/Images/ui92.png) 
+
 1. Select the **Details** tab.
 
-1. Review the agent's availability and platform.
+   - Review the agent's availability and platform.
 
-1. Under **Overview**, inspect the following details:
-   - Created and last-updated dates
-   - Last published and last-used dates
-   - Channel and publisher information
-   - Publisher type and owner
-   - Created-by information and Entra agent ID
+   - Under **Overview**, inspect the following details:
+      - Created and last-updated dates
+      - Last published and last-used dates
+      - Channel and publisher information
+      - Publisher type and owner
+      - Created-by information and Entra agent ID
 
-1. Identify any missing or incomplete metadata.
+   - Identify any missing or incomplete metadata.
 
-   ![](../Sandbox-Environment-Guides/Images/suuplychain.png)
+     ![](../Ubiquitous-Innovation/Images/ui93.png) 
 
 1. Select the **Data & tools** tab.
 
-1. Review the agent's capabilities and data-access information.
+   ![](../Ubiquitous-Innovation/Images/ui94.png) 
 
-1. Check the **Can read** and **Graph connectors** fields.
+   - Review the agent's capabilities and data-access information.
 
-1. Under **Tools**, inspect the configured tools, such as:
-   - `knowledge-base`
-   - `WorkIQSharePoint2`
+   - Check the **Can read** and **Graph connectors** fields.
 
-1. Verify that the listed tools are expected and appropriate for the agent's purpose.
+   - Under **Tools**, inspect the configured tools, such as:
+      - `caldova_document_knowledge`
+      - `fabric_data_agent`
 
-   ![](../Sandbox-Environment-Guides/Images/datatools.png)
+   - Verify that the listed tools are expected and appropriate for the agent's purpose.
+
+     ![](../Ubiquitous-Innovation/Images/ui94.png) 
 
 1. Select the **Activity** tab.
 
-1. Review the selected date range and the last activity date.
+   - Review the selected date range and the last activity date.
 
-1. Under **Usage**, examine the available metrics:
-   - **Active users** – number of users who interacted with the agent.
-   - **Sessions** – number of recorded agent sessions.
-   - **Exceptions** – recorded exceptions during agent activity.
-   - **Agent run-time** – recorded agent execution time.
+   - Under **Usage**, examine the available metrics:
+      - **Active users** – number of users who interacted with the agent.
+      - **Sessions** – number of recorded agent sessions.
+      - **Exceptions** – recorded exceptions during agent activity.
+      - **Agent run-time** – recorded agent execution time.
 
-1. Review the **Active users over time** chart to identify usage patterns.
+   - Review the **Active users over time** chart to identify usage patterns.
 
-1. Review the **Sessions over time** chart to compare successful sessions and exceptions.
+   - Review the **Sessions over time** chart to compare successful sessions and exceptions.
 
-   ![](../Sandbox-Environment-Guides/Images/activity.png)
+    ![](../Ubiquitous-Innovation/Images/ui95.png) 
 
 1. Scroll down to the **Active users** table to inspect total sessions and last activity dates.
 
@@ -923,29 +949,29 @@ Review the agent's details, connected tools, security protections, permissions, 
 
 1. Select the **Permissions** tab.
 
-1. Review the permissions associated with the agent.
+   - Review the permissions associated with the agent.
 
-1. Select **See in portal** to open the relevant Defender for Cloud Apps view, where available.
+   - Select **See in portal** to open the relevant Defender for Cloud Apps view, where available.
 
-1. Select **View Permissions** to inspect the associated permissions in Microsoft Entra.
+   - Select **View Permissions** to inspect the associated permissions in Microsoft Entra.
 
-   ![](../Sandbox-Environment-Guides/Images/permission.png)
+     ![](../Ubiquitous-Innovation/Images/ui96.png) 
 
 1. Select the **Security** tab.
 
-1. Under **Enabled policies and protections**, review the available Microsoft Purview protections.
+   - Under **Enabled policies and protections**, review the available Microsoft Purview protections.
 
-1. Select **View agent activity** under *Monitor agent activity* to inspect monitored interactions.
+   - Select **View agent activity** under *Monitor agent activity* to inspect monitored interactions.
 
-1. Select **View sensitive interactions** under *Protect sensitive data* to review available sensitive-data findings.
+   - Select **View sensitive interactions** under *Protect sensitive data* to review available sensitive-data findings.
 
-1. Under *Evaluate compliance gaps*, select **Review** to inspect the available AI baseline assessment and compliance findings.
+   - Under *Evaluate compliance gaps*, select **Review** to inspect the available AI baseline assessment and compliance findings.
 
-1. Review the Microsoft Entra protections displayed on the page, if available.
+   - Review the Microsoft Entra protections displayed on the page, if available.
 
-1. Document any findings and recommended actions.
+   - Document any findings and recommended actions.
 
-   ![](../Sandbox-Environment-Guides/Images/review.png)
+     ![](../Ubiquitous-Innovation/Images/ui97.png) 
 
 After completing this activity, participants should be able to:
 
@@ -961,40 +987,44 @@ After completing this activity, participants should be able to:
 
 Test how the AI agent handles restricted R&D information stored in SharePoint. Review the agent's response and use Microsoft Purview to investigate sensitive AI interactions, review data protection insights, and identify potential compliance gaps.
 
-1. When you click on Review button in previous sessions it will open new Ui in other tab
+1. When you click on Review button in previous sessions it will open new UI in other tab.
 
 1. Open **Compliance Manager** in Microsoft Purview.
 
 1. Select **Overview**.
 
-1. Review the overall compliance score and assessment progress.
+   - Review the overall compliance score and assessment progress.
+
+     ![](../Sandbox-Environment-Guides/Images/CM.png)
 
 1. Navigate to **Assessments** or **Improvement actions**, if required.
 
-1. Review recommendations relevant to data protection, access control, and AI governance.
+   - Review recommendations relevant to data protection, access control, and AI governance.
 
-1. Record any applicable recommendations for follow-up.
+   - Record any applicable recommendations for follow-up.
 
-   ![](../Sandbox-Environment-Guides/Images/CM.png)
+     ![](../Ubiquitous-Innovation/Images/ui98.png) 
 
 1. Select **Data Security Investigations** from the left navigation pane.
 
-1. On the **Overview** page, locate the section **Investigate faster with a search template**.
+   - On the **Overview** page, locate the section **Investigate faster with a search template**.
 
-   ![](../Sandbox-Environment-Guides/Images/DS.png)
+     ![](../Sandbox-Environment-Guides/Images/DS.png)
 
-1. In Microsoft Purview, open **Data Loss Prevention**.
+1. In Microsoft Purview, navigate to **Solutions (1)** and select **Data Loss Prevention (2)**.
 
-1. Navigate to the analytics or recommendations section available in your tenant.
+   ![](../Ubiquitous-Innovation/Images/ui99.png) 
 
-1. Review the recommended task **Turn on analytics for risk detection and policy refinement (preview)**, if displayed.
+   - Navigate to the analytics or recommendations section available in your tenant.
+
+   - Review the recommended task **Turn on analytics for risk detection and policy refinement (preview)**, if displayed.
+
+
+     ![](../Sandbox-Environment-Guides/Images/DLP.png)   
 
 1. If authorized, follow the portal guidance to enable analytics in the lab environment.
 
 1. Review the available risk insights and recommendations for improving data protection policies.
-
-   ![](../Sandbox-Environment-Guides/Images/DLP.png)
-
 
 > Note: Enabling analytics may require administrator permissions. Do not modify production policies without approval.
 
@@ -1003,7 +1033,7 @@ Test how the AI agent handles restricted R&D information stored in SharePoint. R
 
 The **Billing** section in the Microsoft 365 admin center allows administrators to manage the organization's Microsoft products, subscriptions, licenses, and billing-related settings.
 
-1. Navigate back to Microsoft 365 admin center.
+1. Navigate back to **Microsoft 365 admin center**.
 
 1. Expand **Billing** in the left navigation pane.
 
