@@ -923,25 +923,25 @@ Review the agent's details, connected tools, security protections, permissions, 
       - `caldova_document_knowledge`
       - `fabric_data_agent`
 
-1. Verify that the listed tools are expected and appropriate for the agent's purpose.
+   - Verify that the listed tools are expected and appropriate for the agent's purpose.
 
-   ![](../Sandbox-Environment-Guides/Images/datatools.png)
+     ![](../Ubiquitous-Innovation/Images/ui94.png) 
 
 1. Select the **Activity** tab.
 
-1. Review the selected date range and the last activity date.
+   - Review the selected date range and the last activity date.
 
-1. Under **Usage**, examine the available metrics:
-   - **Active users** – number of users who interacted with the agent.
-   - **Sessions** – number of recorded agent sessions.
-   - **Exceptions** – recorded exceptions during agent activity.
-   - **Agent run-time** – recorded agent execution time.
+   - Under **Usage**, examine the available metrics:
+      - **Active users** – number of users who interacted with the agent.
+      - **Sessions** – number of recorded agent sessions.
+      - **Exceptions** – recorded exceptions during agent activity.
+      - **Agent run-time** – recorded agent execution time.
 
-1. Review the **Active users over time** chart to identify usage patterns.
+   - Review the **Active users over time** chart to identify usage patterns.
 
-1. Review the **Sessions over time** chart to compare successful sessions and exceptions.
+   - Review the **Sessions over time** chart to compare successful sessions and exceptions.
 
-   ![](../Sandbox-Environment-Guides/Images/activity.png)
+    ![](../Ubiquitous-Innovation/Images/ui95.png) 
 
 1. Scroll down to the **Active users** table to inspect total sessions and last activity dates.
 
@@ -949,29 +949,29 @@ Review the agent's details, connected tools, security protections, permissions, 
 
 1. Select the **Permissions** tab.
 
-1. Review the permissions associated with the agent.
+   - Review the permissions associated with the agent.
 
-1. Select **See in portal** to open the relevant Defender for Cloud Apps view, where available.
+   - Select **See in portal** to open the relevant Defender for Cloud Apps view, where available.
 
-1. Select **View Permissions** to inspect the associated permissions in Microsoft Entra.
+   - Select **View Permissions** to inspect the associated permissions in Microsoft Entra.
 
-   ![](../Sandbox-Environment-Guides/Images/permission.png)
+     ![](../Ubiquitous-Innovation/Images/ui96.png) 
 
 1. Select the **Security** tab.
 
-1. Under **Enabled policies and protections**, review the available Microsoft Purview protections.
+   - Under **Enabled policies and protections**, review the available Microsoft Purview protections.
 
-1. Select **View agent activity** under *Monitor agent activity* to inspect monitored interactions.
+   - Select **View agent activity** under *Monitor agent activity* to inspect monitored interactions.
 
-1. Select **View sensitive interactions** under *Protect sensitive data* to review available sensitive-data findings.
+   - Select **View sensitive interactions** under *Protect sensitive data* to review available sensitive-data findings.
 
-1. Under *Evaluate compliance gaps*, select **Review** to inspect the available AI baseline assessment and compliance findings.
+   - Under *Evaluate compliance gaps*, select **Review** to inspect the available AI baseline assessment and compliance findings.
 
-1. Review the Microsoft Entra protections displayed on the page, if available.
+   - Review the Microsoft Entra protections displayed on the page, if available.
 
-1. Document any findings and recommended actions.
+   - Document any findings and recommended actions.
 
-   ![](../Sandbox-Environment-Guides/Images/review.png)
+     ![](../Ubiquitous-Innovation/Images/ui97.png) 
 
 After completing this activity, participants should be able to:
 
@@ -987,40 +987,44 @@ After completing this activity, participants should be able to:
 
 Test how the AI agent handles restricted R&D information stored in SharePoint. Review the agent's response and use Microsoft Purview to investigate sensitive AI interactions, review data protection insights, and identify potential compliance gaps.
 
-1. When you click on Review button in previous sessions it will open new Ui in other tab
+1. When you click on Review button in previous sessions it will open new UI in other tab.
 
 1. Open **Compliance Manager** in Microsoft Purview.
 
 1. Select **Overview**.
 
-1. Review the overall compliance score and assessment progress.
+   - Review the overall compliance score and assessment progress.
+
+     ![](../Sandbox-Environment-Guides/Images/CM.png)
 
 1. Navigate to **Assessments** or **Improvement actions**, if required.
 
-1. Review recommendations relevant to data protection, access control, and AI governance.
+   - Review recommendations relevant to data protection, access control, and AI governance.
 
-1. Record any applicable recommendations for follow-up.
+   - Record any applicable recommendations for follow-up.
 
-   ![](../Sandbox-Environment-Guides/Images/CM.png)
+     ![](../Ubiquitous-Innovation/Images/ui98.png) 
 
 1. Select **Data Security Investigations** from the left navigation pane.
 
-1. On the **Overview** page, locate the section **Investigate faster with a search template**.
+   - On the **Overview** page, locate the section **Investigate faster with a search template**.
 
-   ![](../Sandbox-Environment-Guides/Images/DS.png)
+     ![](../Sandbox-Environment-Guides/Images/DS.png)
 
-1. In Microsoft Purview, open **Data Loss Prevention**.
+1. In Microsoft Purview, navigate to **Solutions (1)** and select **Data Loss Prevention (2)**.
 
-1. Navigate to the analytics or recommendations section available in your tenant.
+   ![](../Ubiquitous-Innovation/Images/ui99.png) 
 
-1. Review the recommended task **Turn on analytics for risk detection and policy refinement (preview)**, if displayed.
+   - Navigate to the analytics or recommendations section available in your tenant.
+
+   - Review the recommended task **Turn on analytics for risk detection and policy refinement (preview)**, if displayed.
+
+
+     ![](../Sandbox-Environment-Guides/Images/DLP.png)   
 
 1. If authorized, follow the portal guidance to enable analytics in the lab environment.
 
 1. Review the available risk insights and recommendations for improving data protection policies.
-
-   ![](../Sandbox-Environment-Guides/Images/DLP.png)
-
 
 > Note: Enabling analytics may require administrator permissions. Do not modify production policies without approval.
 
@@ -1029,7 +1033,7 @@ Test how the AI agent handles restricted R&D information stored in SharePoint. R
 
 The **Billing** section in the Microsoft 365 admin center allows administrators to manage the organization's Microsoft products, subscriptions, licenses, and billing-related settings.
 
-1. Navigate back to Microsoft 365 admin center.
+1. Navigate back to **Microsoft 365 admin center**.
 
 1. Expand **Billing** in the left navigation pane.
 
