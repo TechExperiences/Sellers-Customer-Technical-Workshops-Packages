@@ -1590,9 +1590,11 @@ Review the following relationships:
 - **Overall Security:** Combine identity management, least-privilege access, data governance, AI safety controls, and threat protection to help secure the Supply-Chain-BI-Agent.
 
 ---
-### Activity 4.4 – Review the Security Event
+### Activity 4.3 – Review the Security Event
 
 Review the agent's details, connected tools, security protections, permissions, and usage activity in Microsoft Agent 365. Investigate exceptions and available security findings using the linked Microsoft security portals.
+
+1. Click **All agents** and search for **supply-chain-bi-agent**. Click that agent.
 
 1. Select the **Details** tab.
 
