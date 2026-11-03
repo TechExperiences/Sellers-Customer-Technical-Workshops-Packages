@@ -133,7 +133,7 @@ resource gpt54Deployment 'Microsoft.CognitiveServices/accounts/deployments@2025-
   sku: {
     name: 'GlobalStandard'
     // Global Standard capacity uses 1K TPM units.
-    capacity: 50
+    capacity: 100
   }
   properties: {
     model: {
