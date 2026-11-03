@@ -183,6 +183,42 @@ Before connecting the enterprise knowledge source to the agent, verify that the 
 
    ![](../Ubiquitous-Innovation/Images/ui26.png)
 
+### Activity 1.4: Evaluating the Business Intelligence Agent
+
+After connecting the Fabric Data Agent, Foundry IQ knowledge base, and **Work IQ** integration, the next step is to evaluate the existing `supply-chain-Bi-agent` in Microsoft Foundry. This helps determine whether the agent can provide accurate, complete, and grounded answers to Caldova Pharma's business questions.
+
+Traditionally, evaluating an agent involves manually preparing test questions, reviewing its responses, identifying gaps, and repeating the tests after making improvements. In this activity, we will use GitHub Copilot to help define expected behavior, prepare synthetic test questions, and guide the evaluation process using the **Evaluation** tab in Microsoft Foundry.   
+
+### Steps to Create and Run an Evaluation
+
+1. Navigate to the **Evaluation (1)** tab. If prompted **Save** the Agent and then click **Create (2)**.
+
+   ![](../Ubiquitous-Innovation/Images/ui68.png)
+
+1. Select **Agent** if it is not selected **(1)** and then click **Next (2)**.
+
+   ![](../Ubiquitous-Innovation/Images/ui66.png)
+
+1. Click **Next** for all steps till Review and provide **Evaluation Name** as **UI-Evaluation (1)** and Click **Submit (2)**
+
+   ![](../Ubiquitous-Innovation/Images/ui67.png)
+
+1. Click on **Evaluations (1)** and select **Ubiquitous-Supply-Chain-BI-Agent (2)**. This may take around `10 mins` to complete. You no need to wait, You can proceed with the next Topic.
+
+   ![](../Ubiquitous-Innovation/Images/ui69.png)
+
+1. Select the Run.
+
+   ![](../Ubiquitous-Innovation/Images/ui70.png)
+
+1. Review the Metric results.
+
+   ![](../Ubiquitous-Innovation/Images/ui71.png)
+
+In this topic, we explored how agents use enterprise data and knowledge to provide context-aware insights. However, complex business processes often require multiple specialized agents to work together.
+
+In the next topic, we will explore how **Microsoft Copilot Studio** coordinates workflows, connects with **Microsoft Foundry agents**, and brings their outputs together through a **Market Launch Coordinator**.
+
 
 ## Topic 2: From One Agent to a Coordinated System 
 
