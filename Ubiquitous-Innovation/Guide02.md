@@ -936,7 +936,7 @@ Dedicated environment need to created for each user to allocate capacity usage a
 1. Provide the details to create environment.
    
    - Type: `Developer (1)`
-   - Name: **UI-<inject key="Deployment-ID" enableCopy="false"/> (2)**
+   - Name: **UI-<inject key="Deployment-ID" enableCopy="false"/>**
 
    ![](../Sandbox-Environment-Guides/Images/NewEnv-I.png) 
 
@@ -956,7 +956,7 @@ Dedicated environment need to created for each user to allocate capacity usage a
 
 1. Open **[Microsoft Copilot Studio](https://copilotstudio.microsoft.com/)**.
 
-1. Select the created environment and start the further work.
+1. Select the created environment '**UI-<inject key="Deployment-ID" enableCopy="false"/>**' and start the further work.
 
    ![](../Sandbox-Environment-Guides/Images/Env-Selection.png) 
 
