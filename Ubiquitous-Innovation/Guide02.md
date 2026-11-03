@@ -1228,7 +1228,7 @@ Dedicated environment need to created for each user to allocate capacity usage a
 
 1. Navigate back to **Market Launch Coordinator** agent in Microsoft Copilot Studio.
 
-2. Click **Preview** and copy the prompt provided below and paste it into the chat input box.
+1. Click **Preview** and copy the prompt provided below and paste it into the chat input box.
 
    ![](../Sandbox-Environment-Guides/Images/preview.png)
 
@@ -1242,6 +1242,45 @@ Dedicated environment need to created for each user to allocate capacity usage a
 1. Review the response provided by agent
 
    ![](../Sandbox-Environment-Guides/Images/agentpreview.png)
+
+### Add an optional skill
+
+1. Under Skill, select the + icon.
+
+1. Click **Create from blank**
+
+   ![](../Sandbox-Environment-Guides/Images/blankskill.png)
+
+1. Provoide below details:
+
+   - Name: `launch-impact-assessment`
+   - Description: `Assess launch-readiness changes, supplier delays, dependencies, and mitigation options.`
+   - Instructions: 
+      ```
+      - Identify the change and missing information.
+      - Retrieve and cite authorized business context.
+      - Request Foundry specialist analysis when relevant.
+      - Separate facts, reported information, inferences, and  unknowns.
+      - Return impact, mitigation options, and required review.
+      - Never approve decisions, update records, or send communications.
+      ```
+1. Click **Create**.
+
+   ![](../Sandbox-Environment-Guides/Images/createskill.png)
+
+1. Now User can see skill is added and click **Preview** to test.
+
+   ![](../Sandbox-Environment-Guides/Images/skilladded.png)
+
+1. Copy the prompt provided below and paste it into the chat input box.
+
+   ```
+   A key pharmaceutical supplier has reported a two-week delay. Assess its impact on Caldova's November launch, identify dependencies, risks, and mitigation options, and cite supporting sources.
+   ```
+
+   ![](../Sandbox-Environment-Guides/Images/skilltest.png)
+
+>**Note:** Now our agent is ready to publish and add channel to access from other tools.
 
 ---
 
