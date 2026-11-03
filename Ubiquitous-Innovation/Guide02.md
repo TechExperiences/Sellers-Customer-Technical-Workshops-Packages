@@ -922,7 +922,7 @@ This approach helps us measure the agent's response quality and validate whether
 
 1. Navigate to the **Evaluation** tab 
 
-   ![](../Sandbox-Environment-Guides/Images/evalutioncreation.png)
+   ![](../Sandbox-Environment-Guides/Images/Evaluationcreation.png)
 
 1. Click **Create**.
 
