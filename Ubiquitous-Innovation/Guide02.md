@@ -624,6 +624,8 @@ This baseline will help us evaluate how the agent improves as we add live operat
 
 1. First, user need to pull the changes made in GitHub Copilot App.
 
+1. Click **Refresh** button at bottom and Click **Ok**
+
    ![](../Ubiquitous-Innovation/Images/VSPullRepo.png)
 
 1. Copy the below prompt and paste it in chat window
@@ -831,9 +833,13 @@ This adds organizational context to the agent's existing operational and enterpr
 
 1. Click **Send** to execute above prompt.
 
-1. Verify that the ****Work IQ** SharePoint integration** is configured under the **Tools** section of the existing Foundry agent.
+1. Verify that the **Work IQ** SharePoint integration** is configured under the **Tools** section of the existing Foundry agent.
 
 1. Confirm that the SharePoint source is connected properly and the relevant business-context documents are accessible.
+
+  >**Note:** If the **SharePoint** connection has not been configured, follow these steps:
+   1.Select **Add tools** in the agent configuration
+   2.Search for and select **SharePoint**.Provide the SharePoint site URL to establish the connection.[Enterprise AI Knowledge Base – SharePoint](https://sandboxailabs1002.sharepoint.com/sites/EnterpriseAIKnowledgeBase/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents%2FAI%20Knowledge%20Base&viewid=2aae9886%2D5883%2D4e2a%2D8949%2D612beaeb50ac&newTargetListUrl=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents&viewpath=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents%2FForms%2FAllItems%2Easpx)
 
 1. Copy the following prompt and paste it into the **Agent Playground**:
 
@@ -867,6 +873,8 @@ After connecting the Fabric Data Agent, Foundry IQ knowledge base, and **Work IQ
 
 Traditionally, evaluating an agent involves manually preparing test questions, reviewing its responses, identifying gaps, and repeating the tests after making improvements. In this activity, we will use GitHub Copilot to help define expected behavior, prepare synthetic test questions, and guide the evaluation process using the **Evaluation** tab in Microsoft Foundry.
 
+
+<!--
 **What will this prompt do?**
 
 - Review the existing agent and its connected data and knowledge sources.
@@ -899,11 +907,35 @@ This approach helps us measure the agent's response quality and validate whether
 
  **Validation:**
 
+-->
+
+### Steps to Create and Run an Evaluation
+
  1. Navigate to Azure portal
 
  1. Open **Rg-Ubiquitous** Resource group and open the foundry project.
 
- 1. Click on **Evaluations** and select created evaluation runs 
+ 1. Navigate to your existing project, From the left navigation pane, select Agents.
+
+1. Open the agent you want to evaluate.
+
+1. Navigate to the **Evaluation** tab 
+
+   ![](../Sandbox-Environment-Guides/Images/evalutioncreation.png)
+
+1. Click **Create**.
+
+   ![](../Sandbox-Environment-Guides/Images/createbutton.png)
+
+1. Select **Agent** if it is not selected and then click **Next**.
+
+    ![](../Sandbox-Environment-Guides/Images/clicknext.png)
+
+1. Click **Next** for all steps till Review and provide **Evaluation Name** and Click **Submit**
+
+   ![](../Sandbox-Environment-Guides/Images/submit.png)
+
+ 1. Click on **Evaluations**. 
 
    ![](../Sandbox-Environment-Guides/Images/evalution.png)
 
@@ -964,17 +996,18 @@ Dedicated environment need to created for each user to allocate capacity usage a
 
 1. Click the drop-down arrow next to **New agent**.
 
-1. Under **Other ways to build**, select **Agent (Standard)** to create an agent with predefined rules and flows.
+1. Under the **GitHub Copilot** option, select **Agent**.
 
-   ![](../Sandbox-Environment-Guides/Images/agentstandard.png) 
+   ![](../Sandbox-Environment-Guides/Images/GHagent.png) 
 
-1. Provide **Market Launch Coordinator** for the agent.and Click **Create** to create the agent.
+1. Provide **Market Launch Coordinator** for the agent.
+
+   ![](../Sandbox-Environment-Guides/Images/saveagent.png)
 
 1. Once the agent is created, navigate to the **Instructions** tab.
 
 1. Copy the instructions provided below and paste them into the **Instructions** field.
-
-   ![](../Sandbox-Environment-Guides/Images/intro.png) 
+ 
    ```
    # Caldova Market Launch Coordinator — Agent Instructions
  
@@ -1132,9 +1165,137 @@ Dedicated environment need to created for each user to allocate capacity usage a
    - "What evidence is still missing?"
    - "Who owns the next action?"
    ```
+1. Click **Save** to save the agent.
  ---
  
-### Activity 3.2 - Detect and Structure a Launch – Readiness Change 
+### Activity 3.2 – Confirm the Copilot Studio Model and Connect the Foundry Specialist Agent
+
+**Connect a Microsoft Foundry Agent to the Market Launch Coordinator**
+1. Under Connected agents, select the + icon.
+
+   ![](../Sandbox-Environment-Guides/Images/connectedagent.png) 
+
+1. Select the dropdown next to Add and Choose Add **Foundry agent**. 
+
+   ![](../Sandbox-Environment-Guides/Images/addbutton.png)
+
+1. Under Connection, select Create new connection
+
+   ![](../Sandbox-Environment-Guides/Images/createnew.png) 
+
+1. In the Azure AI Foundry Agent Service connection window:
+
+1. Select Microsoft **Entra ID User** Login as the Authentication Type.
+
+   ![](../Sandbox-Environment-Guides/Images/foundryconnection.png) 
+
+1. To get the project endpoint, open your Microsoft Foundry project and copy the **Project endpoint** from the project overview page.
+
+   ![](../Sandbox-Environment-Guides/Images/projectendpoint.png) 
+
+1. Paste the endpoint into Copilot Studio and select **Create**.
+
+   ![](../Sandbox-Environment-Guides/Images/creation.png) 
+
+1. When prompted, select your sandbox account (ODL_User) to sign in.
+
+   ![](../Sandbox-Environment-Guides/Images/userselection.png) 
+
+1. Review the connection information or create a new connection if required. and Click **Next** to continue.
+
+   ![](../Sandbox-Environment-Guides/Images/nextbutton.png) 
+
+1. Provide the details required to connect to the existing Microsoft Foundry agent.
+
+1. Locate and select the existing **Supply-Chain-BI-Agent**.
+
+1. Configure the connection details as prompted by the interface.
+
+1. In the **Details** section, configure the following information:
+
+   - **Name:** `supply-chain-bi-agent`
+   - **Description:** `Use for Caldova manufacturing capacity, plant utilization, supplier-delay impact, and supply-chain dependencies. Do not use for general launch communications or approval decisions`
+   - **AgentId:** `supply-chain-bi-agent`
+
+1. Select Add to agent.
+
+   ![](../Sandbox-Environment-Guides/Images/agentconfig.png)
+
+1. Verify that the agent identifier references the correct Foundry agent.
+
+---
+### Activity 3.3 – Assess Launch Impact and Return a Mitigation
+
+1. Navigate back to **Market Launch Coordinator** agent in Microsoft Copilot Studio.
+
+2. Click **Preview** and copy the prompt provided below and paste it into the chat input box.
+
+   ![](../Sandbox-Environment-Guides/Images/preview.png)
+
+   ```
+   What are Caldova's main priorities for the November launch?
+   ```
+   ```
+   What is the November capacity utilization of PL01?
+   ```
+
+1. Review the response provided by agent
+
+   ![](../Sandbox-Environment-Guides/Images/agentpreview.png)
+
+---
+
+### Activity 3.4 – Shape, Publish and Run the Participant Experience 
+
+1. Navigate back to **Market Launch Coordinator** agent Under Channels, select the + icon.
+
+   ![](../Sandbox-Environment-Guides/Images/clickadd.png)
+
+1. From the available channels, select **Teams + Microsoft 365.**
+
+   ![](../Sandbox-Environment-Guides/Images/teamschannel.png)
+
+1. Select **Add channel**.
+
+   ![](../Sandbox-Environment-Guides/Images/addchannel1.png)
+
+1. Click **Save** icon to save the agent configuration and **Publish** the Agent.
+
+   ![](../Sandbox-Environment-Guides/Images/saveandpublish.png)
+
+1. Select **Publish agent** to publish the latest changes.
+
+   ![](../Sandbox-Environment-Guides/Images/publishagent.png)
+
+1. Once agent published successfully, Click **View in Teams**.
+
+   ![](../Sandbox-Environment-Guides/Images/viewinteams.png)
+
+1. When prompted to choose how to access Teams, select **Use the web app instead**.
+
+   ![](../Sandbox-Environment-Guides/Images/usewebapp.png)
+
+1. Click **Add**.
+
+   ![](../Sandbox-Environment-Guides/Images/addchannelagent.png)
+
+
+1. Microsoft Teams will open in your browser. Locate **Market Launch Coordinator** under **Chats**.
+
+   ![](../Sandbox-Environment-Guides/Images/openedinteams.png)
+
+1. Click **Market Launch Coordinator** to open the chat and verify that the agent is available.
+
+1. Copy the below prompt and paste it in chat window
+
+   ```
+   What are Caldova's main priorities for the November launch?
+   ```
+1. Review the response provided by agent
+
+   ![](../Sandbox-Environment-Guides/Images/teamsrespond.png)
+
+### Activity 3.5 - Detect and Structure a Launch – Readiness Change 
 Build a Copilot Studio workflow to automatically detect incoming market launch emails and extract key launch details. The workflow will engage the designated agent to validate and confirm the launch information, then send a confirmation email summarizing the agreed launch details to the relevant stakeholders.
 
 1. To create **Workflow**
@@ -1279,122 +1440,6 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
 >**Note:** Now, user can see the market launch details and move forward. Similarly, **Workflow** will help to create kinda decision making processes.
 
----
-### Activity 3.3 – Confirm the Copilot Studio Model and Connect the Foundry Specialist Agent
-
-**Connect a Microsoft Foundry Agent to the Market Launch Coordinator**
-1. Navigate to the existing **Market Launch Coordinator** agent and Select the **Agents** tab.
-
-   ![](../Sandbox-Environment-Guides/Images/tools.png) 
-
-1. Click **Add an agent**.
-
-   ![](../Sandbox-Environment-Guides/Images/addagent.png) 
-
-1. In the agent selection window, click the **Connect to an external agent** drop-down and Select **Microsoft Foundry**.
-
-   ![](../Sandbox-Environment-Guides/Images/foundryagent.png) 
-
-1. Under Connection, select Create new connection
-
-   ![](../Sandbox-Environment-Guides/Images/createnew.png) 
-
-1. In the Azure AI Foundry Agent Service connection window:
-
-1. Select Microsoft **Entra ID User** Login as the Authentication Type.
-
-   ![](../Sandbox-Environment-Guides/Images/foundryconnection.png) 
-
-1. To get the project endpoint, open your Microsoft Foundry project and copy the **Project endpoint** from the project overview page.
-
-   ![](../Sandbox-Environment-Guides/Images/projectendpoint.png) 
-
-1. Paste the endpoint into Copilot Studio and select **Create**.
-
-   ![](../Sandbox-Environment-Guides/Images/creation.png) 
-
-1. When prompted, select your sandbox account (ODL_User) to sign in.
-
-   ![](../Sandbox-Environment-Guides/Images/userselection.png) 
-
-1. Review the connection information or create a new connection if required. and Click **Next** to continue.
-
-   ![](../Sandbox-Environment-Guides/Images/nextbutton.png) 
-
-1. Provide the details required to connect to the existing Microsoft Foundry agent.
-
-1. Locate and select the existing **Supply-Chain-BI-Agent**.
-
-1. Configure the connection details as prompted by the interface.
-
-1. In the **Details** section, configure the following information:
-
-   - **Name:** `supply-chain-bi-agent`
-   - **Description:** `Use for Caldova manufacturing capacity, plant utilization, supplier-delay impact, and supply-chain dependencies. Do not use for general launch communications or approval decisions`
-   - **AgentId:** `supply-chain-bi-agent`
-
-1. Verify that the agent identifier references the correct Foundry agent.
-
----
-### Activity 3.4 – Assess Launch Impact and Return a Mitigation
-
-1. Navigate back to **Market Launch Coordinator** agent in Microsoft Copilot Studio.
-
-2. In the **Test your agent** panel on the right, copy the prompt provided below and paste it into the chat input box.
-
-   ![](../Sandbox-Environment-Guides/Images/testing.png)
-
-   ```
-   What are Caldova's main priorities for the November launch?
-   ```
-   ```
-   What is the November capacity utilization of PL01?
-   ```
-
-1. Review the response provided by agent
-
----
-
-### Activity 3.5 – Shape, Publish and Run the Participant Experience 
-
-1. Click on **Publish** button
-
-1. Navigate back to **Market Launch Coordinator** agent and navigate to the **Channels** tab.
-
-   ![](../Sandbox-Environment-Guides/Images/channelteam.png)
-
-1. Under **Microsoft channels**, select **Microsoft 365 and Microsoft Teams**.
-
-1. Select **Add channel** to continue.
-
-   ![](../Sandbox-Environment-Guides/Images/addchannelimage.png)
-
-1. In the agent configuration panel, click **See agent in Teams**.
-
-   ![](../Sandbox-Environment-Guides/Images/seeagents.png)
-
-1. Click **Add**.
-
-   ![](../Sandbox-Environment-Guides/Images/addchannelagent.png)
-
-1. When prompted to choose how to access Teams, select **Use the web app instead**.
-
-   ![](../Sandbox-Environment-Guides/Images/usewebapp.png)
-
-1. Microsoft Teams will open in your browser. Locate **Market Launch Coordinator** under **Chats**.
-
-   ![](../Sandbox-Environment-Guides/Images/openedinteams.png)
-
-1. Click **Market Launch Coordinator** to open the chat and verify that the agent is available.
-
-1. Copy the below prompt and paste it in chat window
-
-   ```
-   What are Caldova's main priorities for the November launch?
-   ```
-1. Review the response provided by agent
-
-   ![](../Sandbox-Environment-Guides/Images/teamsrespond.png)
 
 In this topic, we explored how **Microsoft Copilot Studio** coordinates specialized agents to support end-to-end business workflows.
 
