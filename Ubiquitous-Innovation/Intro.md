@@ -3,17 +3,17 @@
 *Build, Connect, Govern. Innovate Everywhere*
  ![](../Sandbox-Environment-Guides/Images/UI.png)
  
-## In This Workshop, you will
+## Workshop Overview
 
 Caldova has **six months to enter a new market**. Participants will experience how AI agents can help turn this business challenge into action through one connected journey:
 
-**Know the business → Decide what to do → Act across workflows → Build what’s missing → Secure & Govern at scale**
+**Know the business → Decide what to do → Act across workflows → Build what’s missing → Secure and govern at scale**
 
 ### Topic 1: Build Agents and Software at the Speed of AI
 
 **GitHub Copilot + Microsoft Foundry**
 
-Participants will see how a business requirement moves from whiteboarding to implementation. They will use Copilot to ground requirements, select the right model, extend an existing agent, review code, address security findings, and deploy the agent to Microsoft Foundry.
+Participants will see how a business requirement moves from whiteboarding to implementation. They will use Copilot to ground requirements in business context, select the right model, extend an existing agent, review code, address security findings, and deploy the agent to Microsoft Foundry.
 
 ### Topic 2: Agents That Know Your Business
 
@@ -31,7 +31,7 @@ Participants will enhance the same agent with:
 
 **Copilot Studio + Microsoft Foundry**
 
-Participants will create a **Market Launch Coordinator** and connect the existing specialist agent into an end-to-end workflow.
+Participants will create a **Market Launch Coordinator** and connect the existing specialist agent to an end-to-end workflow.
 
 The experience will:
 
@@ -59,7 +59,7 @@ Participants will explore how to manage agents at scale by reviewing:
 
 **Problem:** Critical data, knowledge, decisions, and workflows are distributed across teams and systems.
 
-**Approach:** Create a common agent foundation that enables AI agents to understand business context, coordinate decisions, take actions, and operate securely.
+**Approach:** Create a common agent foundation that enables AI agents to understand business context, coordinate decisions, take action, and operate securely.
 Are we still including "take actions" since I recall we do not have Dynamic 365 license except we've included it?
 **Goal:** **Know. Decide. Act. Get Caldova into the new market before the competition.**
 
@@ -76,13 +76,13 @@ By the end of the workshop, participants will understand how to:
 
 ## Accessing your Sandbox Environment
 
-1. Once you're ready to dive in, your Virtual machine and Guide will be right at your fingertips within your web browser.
+1. Once you're ready to dive in, your virtual machine and guide will be available in your web browser.
 
     >**Note**: If prompted, click **Accept** to proceed.
 
      ![](../Sandbox-Environment-Guides/Images/amp12.png)
 
-1. On your Virtual machine, click on the **Azure Portal** icon.
+1. In your virtual machine, click the **Azure Portal** icon.
 
    ![](../Sandbox-Environment-Guides/Images/amp13.png)
 
@@ -104,9 +104,9 @@ By the end of the workshop, participants will understand how to:
 
 ### Verify Resources in the Azure Resource Group
 
-1. From the [Azure portal](https://portal.azure.com/), search and select **Resource groups**.
+1. From the [Azure portal](https://portal.azure.com/), search for and select **Resource groups**.
 
-1. Select **rg-Ubiquitous** Resource Group.
+1. Select the **rg-Ubiquitous** resource group.
 
    ![](../Ubiquitous-Innovation/Images/u70.png)
 
@@ -118,7 +118,7 @@ By the end of the workshop, participants will understand how to:
 
       ![](../Ubiquitous-Innovation/Images/u69.png)      
 
-1. You will return to this portal in the upcoming steps. Keep the portal open and proceed with the next steps.
+1. You will return to this portal in the upcoming steps. Keep the portal open and continue to the next step.
 
 
 ### Now, click **`Next >>`** to continue with **`Envisioning Session Using Whiteboarding`**.
