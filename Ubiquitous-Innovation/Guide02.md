@@ -1447,6 +1447,7 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 1. Search **Agent (1)** and click **Agent (2)**.
 
    ![](../Sandbox-Environment-Guides/Images/Agent-Selection.png)
+   
 <!--   
 
 1. Configure **Agent**.
