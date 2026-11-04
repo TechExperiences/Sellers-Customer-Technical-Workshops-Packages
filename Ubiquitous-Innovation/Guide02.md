@@ -1208,7 +1208,7 @@ Dedicated environment need to created for each user to allocate capacity usage a
 **Connect a Microsoft Foundry Agent to the Market Launch Coordinator**
 1. Under Connected agents, select the + icon.
 
-   ![](../Sandbox-Environment-Guides/Images/connectedagent.png) 
+   ![](../Sandbox-Environment-Guides/Images/coonectedagent.png) 
 
 1. Select the dropdown next to Add and Choose Add **Foundry agent**. 
 
@@ -1279,6 +1279,8 @@ Dedicated environment need to created for each user to allocate capacity usage a
    ![](../Sandbox-Environment-Guides/Images/agentpreview.png)
 
 ### Add an optional skill
+
+1. Navigate to Build tab.
 
 1. Under Skill, select the + icon.
 
