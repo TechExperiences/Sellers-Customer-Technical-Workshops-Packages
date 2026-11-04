@@ -107,7 +107,7 @@ You will use ****GitHub Copilot**** to generate ARM or Bicep templates using the
 
 The **whiteboarding** exercise established the business requirements and the proposed ****future-state architecture**** for Caldova. In this rapid-prototyping session, we will turn that design into a working, testable solution using ****GitHub Copilot**** and the Microsoft AI platform.
 
-We will follow the solution through four connected stages:
+You will follow the solution through four connected stages:
 
 1. **Build agents and software at the speed of AI:** Translate the architecture into a reviewed implementation plan, delegate development, and validate code quality and security.
 2. **Agents That Know Your Business:** Extend the existing Supply-Chain-BI-Agent with live manufacturing data, enterprise knowledge, and organizational context, then evaluate its responses.
@@ -118,19 +118,6 @@ Each stage builds on the previous one. We begin with the architecture and implem
 
 **By the end of the session**, you will have followed Caldova's journey from a business design to an integrated agent experience, with validation checkpoints at each stage. Review generated changes and confirm consequential actions rather than treating AI-generated output as automatically correct.
 
-## Future State Architecture
-
-The **Future State Architecture** shows what we want the solution to look like. Rather than manually creating each Fabric resource and configuring every component step by step, we’ll use ******GitHub Copilot****** to help turn that architecture into a working prototype.
-
-Instead of starting with individual configuration tasks, you’ll describe what you want to build through a prompt. The prompt provides ******GitHub Copilot****** with the architecture, implementation requirements, resources to reuse, data needed for the scenario, and how the Fabric components should work together.
-
-**Caldova's future-state architecture** defines how its AI solution should work. In this topic, we will use GitHub Copilot to translate that design into a reviewed implementation plan, delegate development, and validate the resulting code and security checks.
-
-**Outcome**: Establish a reviewed and tested foundation for extending the existing Agent with new capabilities.
-
-**Caldova's future-state architecture** defines how its AI solution should work. In this topic, we will use GitHub Copilot to translate that design into a reviewed implementation plan, delegate development, and validate the resulting code and security checks.
-
-**Outcome**: Establish a reviewed and tested foundation for extending the existing Agent with new capabilities.
 
 ## **Topic 1 - Build agents and software at the speed of AI**
 Transform an existing agent design into a **production-ready, secure capability** using ****GitHub Copilot****—from whiteboard and business decisions to implementation, testing, security remediation, review, and merge. Demonstrate how **AI-assisted planning, model choice, delegated coding, governance, and security** accelerate agent development while keeping humans in control.
