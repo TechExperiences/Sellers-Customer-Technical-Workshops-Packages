@@ -1,6 +1,10 @@
 # Ubiquitous Innovation Package
 
-Now that you have deployed the generated template with GitHub Copilot, let’s explore a similar, pre-deployed solution. 
+Now that you have explored how GitHub Copilot can help build and extend an AI solution, let's take a closer look at a pre-deployed implementation of the Caldova business scenario.
+
+In this session, you will explore an existing, integrated AI solution that brings together Microsoft Fabric, Microsoft Foundry, Copilot Studio, and Microsoft 365 capabilities.
+
+>**Note:** The solution and its core resources have already been deployed and configured. Rather than building everything from scratch, you will validate the existing integrations, interact with the agents, test business scenarios, and understand how different Microsoft AI services work together to support business decision-making. 
 
 1. Navigate to the **Azure portal**. Select **Resource group**.
 
@@ -15,17 +19,19 @@ Now that you have deployed the generated template with GitHub Copilot, let’s e
    ![](../Ubiquitous-Innovation/Images/ui2.png) 
 
 
-### Let's explore how `business data, Microsoft Fabric Data Agent, Foundry IQ, and Work IQ` can provide that context.
+### Let's explore how `Business data, Microsoft Fabric Data Agent, Foundry IQ, and Work IQ` can provide the context.
 
 ## Topic 1: Agents That Know Your Business 
 
+In this topic, you will explore the pre-deployed Caldova Supply Chain Business Intelligence agent in Microsoft Foundry. You will validate its existing integrations with Microsoft Fabric Data Agent, Foundry IQ, and Work IQ to understand how these services provide manufacturing insights, operational knowledge, and business context.
+
 ### Activity 1.1: Connect Live Manufacturing Context
 
-The existing Business Intelligence agent needs access to live manufacturing data to answer questions about plant capacity, production schedules, and operational readiness. In this activity, we will connect the existing Fabric Data Agent from the `Caldova_UI` workspace to the Foundry agent using tool calling.
+In this activity, you will explore how the existing Fabric Data Agent is integrated with the Microsoft Foundry Business Intelligence agent. You will verify the deployed Data Agent, review its connection under the agent's Tools section, and test a manufacturing-related question to confirm that the agent can retrieve relevant operational data.
 
 ### Verify the Existing Fabric Data Agent
 
-Before adding the **Data Agent** to the Microsoft Foundry agent, verify that the required Data Agent is available in the provided Fabric workspace.
+Before navigating to Microsoft Foundry Agent, verify that the required Data Agent is available in the provided Fabric workspace.
 
 1. Click on the **App launcher (1)** and select **Microsoft fabric (2)** icon.
 
