@@ -82,13 +82,13 @@ Before navigating to Microsoft Foundry Agent, verify that the required Data Agen
 
 ### Activity 1.2: Ground the Agent with Enterprise Knowledge
 
-Operational data alone may not explain the procedures and constraints that influence manufacturing decisions. The agent also needs access to Caldova's manufacturing documents, including scheduling guidance and relevant procedures.
+Operational data provides valuable insights, but it does not always explain the business procedures, policies, and constraints behind manufacturing decisions.
 
-In this activity, we will create a Foundry IQ knowledge base from the existing documents stored in Azure Blob Storage and connect it to the Knowledge section of the existing Foundry agent.
+In this activity, you will explore how the existing Foundry IQ knowledge base provides the Business Intelligence agent with access to Caldova's manufacturing documents stored in Azure Blob Storage. You will verify the availability of the source documents, review the existing knowledge integration, and test the agent with a question based on manufacturing scheduling guidance.
 
 ### Verify the SharePoint Source Documents in Azure Blob Storage
 
-Before connecting the enterprise knowledge source, verify that the required documents are available in the provided **Azure Storage account**.
+Before verfying the enterprise knowledge source, verify that the required documents are available in the provided **Azure Storage account**.
 
 1. Navigate to the Azure portal and open **rg-Ubiquitous-Innovation** resource group.
 
@@ -126,7 +126,7 @@ Confirm that all five documents are present before proceeding with the knowledge
 
 To make better launch decisions, the Business Intelligence agent must understand not only manufacturing operations and procedures, but also Caldova's business priorities, commitments, and team responsibilities.
 
-In this activity, we will connect the existing SharePoint source through ****Work IQ**** as a tool for the existing Microsoft Foundry agent.
+In this activity, you will explore how the existing Work IQ SharePoint integration provides the Business Intelligence agent with access to Caldova's organizational and business-context documents. You will verify the source documents, review the configured SharePoint integration, and test the agent using questions about Caldova's November launch priorities.
 
 ### Verify the SharePoint Knowledge Base Documents
 
@@ -191,9 +191,9 @@ Before connecting the enterprise knowledge source to the agent, verify that the 
 
 ### Activity 1.4: Evaluating the Business Intelligence Agent
 
-After connecting the Fabric Data Agent, Foundry IQ knowledge base, and **Work IQ** integration, the next step is to evaluate the existing `supply-chain-Bi-agent` in Microsoft Foundry. This helps determine whether the agent can provide accurate, complete, and grounded answers to Caldova Pharma's business questions.
+After validating the agent's connections to Fabric Data Agent, Foundry IQ, and Work IQ, the next step is to understand how effectively it uses these sources to answer business questions.
 
-Traditionally, evaluating an agent involves manually preparing test questions, reviewing its responses, identifying gaps, and repeating the tests after making improvements. In this activity, we will use GitHub Copilot to help define expected behavior, prepare synthetic test questions, and guide the evaluation process using the **Evaluation** tab in Microsoft Foundry.   
+In this activity, you will explore the Evaluation capabilities in Microsoft Foundry and run an evaluation of the existing Business Intelligence agent. You will review the evaluation results and available performance metrics to understand how agent responses can be assessed for accuracy, relevance, completeness, and groundedness.  
 
 ### Steps to Create and Run an Evaluation
 
