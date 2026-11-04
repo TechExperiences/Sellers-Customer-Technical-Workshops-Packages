@@ -992,7 +992,7 @@ The coordinator identifies conflicting information, missing evidence, and decisi
 ### Connect PowerPlatform to create environment
 Dedicated environment need to created for each user to allocate capacity usage and isolate the work.
 
-1. Browse [link](https://admin.powerplatform.microsoft.com/) in your VM to access admin portal.
+1. Browse [Power Platform Admin Center](https://admin.powerplatform.microsoft.com/) in your VM to access admin portal.
 
    ![](../Sandbox-Environment-Guides/Images/PowerPlatform.png) 
 
