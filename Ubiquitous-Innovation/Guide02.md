@@ -1561,10 +1561,15 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
    ![](../Sandbox-Environment-Guides/Images/Agent-Email-Response.png)  
 
 >**Note:** Now, user can see the market launch details and move forward. Similarly, **Workflow** will help to create kinda decision making processes.
-
 -->
 
+In this topic, we explored how **Microsoft Copilot Studio** coordinates specialized agents to support end-to-end business workflows.
 
+However, enterprise AI also requires strong security, governance, and cost management. In this final topic, we will explore how **Agent 365** and **Microsoft Purview** help manage agent identity, protect sensitive data, monitor activities, and understand costs.
+
+**Think about this:** How can we ensure agents operate securely, responsibly, and cost-effectively?
+
+Let's explore the key governance and security considerations for enterprise AI.
 
 ---
 # Topic 4: Trust and Cost Are the Same Conversation
