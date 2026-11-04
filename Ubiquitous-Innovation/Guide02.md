@@ -511,7 +511,7 @@ Do not merge solely because the coding agent reports completion. Human review, r
    1.	Run /delegate and accept the checkpoint to delegate the implementation.
    2.	Update Design-Review.md with the final agent instructions, tool-handler requirements, constraints, and test approach.
    3.	Monitor the coding-agent execution and
-   4.	Create a Draft Pull Request when complete.
+   4.	Create a Draft Pull Request when complete and enable view PR
    ```
 1. Click **Send**.
    ![](../Sandbox-Environment-Guides/Images/Delegate.png)
