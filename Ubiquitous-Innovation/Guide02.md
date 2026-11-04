@@ -213,20 +213,18 @@ Treat the document as a draft for review, not as an approved implementation plan
    
    **Prompt**
    ```
-   For my first activity, I have attached a whiteboard-generated **future-state architecture** design. Please review the architecture thoroughly and create a document based on your analysis. Follow the instructions below for this activity:
-
-   Attached to future state architecture: Future-State-Architecture.png
-
-   Instructions:
-   •	Read the attached design and list down all the sections starting  form left to right and explain in detail.  Also generate one tabular format to understand each section and component wise activity.
-   •	We have an existing agent deployed in Resource Group(rg-ubiquitous) and also code is available in attached project in the explorer  (UI).
-   •	Review the Implementation: Evaluate the proposed tool handler, its design, and integration with the agent.
-   •	Assess Changes and Testing: Review agent instruction changes, test  strategy, risks, dependencies, and new issues.
-   •	Identify Overlaps: Compare proposed issues with the existing to   Identify duplicates, gaps, and new requirements, and recommend   consolidation.
-   •	Once all the above steps are completed, generate one Design-Review.md file with proper design for business team to review
-
-   Note: Please don’t create any other document or code at this moment  apart from Design-Review.md.
-
+         I am building a multi-agent system for Caldova Pharmaceutical. The attached architecture diagram comes from the technical envisioning session. Read it from left to right and review the agent deployed in Azure          resource group `rg-ubiquitous`.
+         Use the current UPN <inject key="AzureAdUserEmail"></inject> to access Azure.
+         Before any deployment, create only `Design-Review.md` for business review, and change nothing else.
+         
+         Use this file as the pre-deployment plan. 
+         
+         Include:
+         1. Executive summary
+         2. Each diagram section explained left to right, plus a component activity table
+         3. Instruction changes, test strategy, risks and dependencies
+         4. Model recommendation, approved scope and blocked items
+         5. Business justification with Mermaid flow diagrams
    ```
 
    - Then click **Send** button.
