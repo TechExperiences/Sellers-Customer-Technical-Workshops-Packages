@@ -758,12 +758,24 @@ This allows the agent to combine operational data with documented manufacturing 
 1. Copy the below prompt and paste it in chat window
 
    ```
-   Follow the instructions below to create a Foundry IQ knowledge base from the  existing Caldova manufacturing documents in Azure Blob Storage and connect it under the Knowledge section of the existing Microsoft Foundry agent (supply-chain-Bi-agent)
-   •  Create a Foundry IQ knowledge base using documents stored in  Azure Blob Storage under the rg-ubiquituos resource group.
-   •  Access the container in the storage account that starts with adlsubiquitous and its data folder.
-   •  Configure the knowledge base to index and retrieve the available documents in above folder.
-   •  Add the knowledge base under the Knowledge section of the    existing Caldova Business Intelligence Agent in Microsoft Foundry,  not under Tools.
-   •  Configure the agent to use this knowledge source when answering questions about the documents
+      Follow these instructions to create a Foundry IQ knowledge base from the existing Caldova manufacturing documents stored in Azure Blob Storage and integrate it with the existing Microsoft Foundry agent.
+       
+      Use existing resources: Locate the resource group rg-ubiquituos, the storage account whose name starts with adlsubiquitous, and its container containing the data folder.
+      Do not create or replace existing Azure  resources.
+      Create the knowledge base: Configure a new Foundry IQ knowledge base using the documents available in the identified Blob Storage data folder.
+      Configure indexing and retrieval: Use the existing or appropriate Azure AI Search service to index the documents and enable knowledge retrieval.
+      Configure models: Use GPT-5.4 as the model where supported and not already configured. Use text-embedding-3-small for embeddings.
+      Connect the knowledge base: Add the newly created knowledge base under the Knowledge section of the existing Microsoft Foundry agent supply-chain-Bi-agent (Caldova Business Intelligence Agent).
+      Update agent instructions: Ensure the agent uses this knowledge source when answering document-related questions, retrieves relevant content, and provides supporting source references.
+      Validate retrieval: Test representative questions against the indexed Caldova documents and verify that responses are accurate, grounded, and supported by retrieved sources.
+      Important constraints:
+      Preserve the existing supply-chain-Bi-agent, its instructions, model configuration, and existing integrations.
+      Do not recreate the agent or overwrite existing resources.
+      Verify model and embedding compatibility before configuration.
+      Review proposed changes before applying them.
+      Do not fabricate resource names, document contents, retrieval results, or successful configuration status.
+      Report the knowledge base configuration, connected resources, test results, and any outstanding issues.
+   
 
    ```
 
