@@ -5,7 +5,7 @@
  
 ## Workshop Overview
 
-Caldova has **six months to enter a new market**. Participants will experience how AI agents can help turn this business challenge into action through one connected journey:
+Caldova has **six months to enter a new market**. You will experience how AI agents can help turn this business challenge into action through one connected journey:
 
 **Know the business → Decide what to do → Act across workflows → Build what’s missing → Secure and govern at scale**
 
@@ -13,13 +13,13 @@ Caldova has **six months to enter a new market**. Participants will experience h
 
 **GitHub Copilot + Microsoft Foundry**
 
-Participants will see how a business requirement moves from whiteboarding to implementation. They will use Copilot to ground requirements in business context, select the right model, extend an existing agent, review code, address security findings, and deploy the agent to Microsoft Foundry.
+You will see how a business requirement moves from whiteboarding to implementation. They will use Copilot to ground requirements in business context, select the right model, extend an existing agent, review code, address security findings, and deploy the agent to Microsoft Foundry.
 
 ### Topic 2: Agents That Know Your Business
 
 **Microsoft Foundry + Microsoft IQ**
 
-Participants will enhance the same agent with:
+You will enhance the same agent with:
 
 - Live manufacturing data through **Fabric IQ**
 - Enterprise knowledge through **Foundry IQ**
@@ -31,7 +31,7 @@ Participants will enhance the same agent with:
 
 **Copilot Studio + Microsoft Foundry**
 
-Participants will create a **Market Launch Coordinator** and connect the existing specialist agent to an end-to-end workflow.
+You will create a **Market Launch Coordinator** and connect the existing specialist agent to an end-to-end workflow.
 
 The experience will:
 
@@ -43,7 +43,7 @@ This demonstrates how multiple agents and workflows can work together while keep
 
 **Agent 365**
 
-Participants will explore how to manage agents at scale by reviewing:
+You will explore how to manage agents at scale by reviewing:
 
 - Agent identity and ownership
 - Security and governance controls
@@ -65,7 +65,7 @@ Participants will explore how to manage agents at scale by reviewing:
 
 ## Workshop Outcomes
 
-By the end of the workshop, participants will understand how to:
+By the end of the workshop, You will understand how to:
 
 1. **Build** agent capabilities using pro-code and low-code experiences.
 2. **Ground** agents in operational data, enterprise knowledge, and organizational context.
