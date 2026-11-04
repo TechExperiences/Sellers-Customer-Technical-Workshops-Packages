@@ -1825,6 +1825,8 @@ The **Billing** section in the Microsoft 365 admin center allows administrators 
 
 1. Use **Export to CSV** to export the displayed product information for reporting or further analysis.
 
+   ![Export to CSV in the Microsoft 365 admin center](Images/export-to-csv.png)
+
 1. Select a product to review its available management and billing settings.
 
 > **Note:** Available options depend on the organization's subscriptions, billing arrangement, administrator permissions, and Microsoft 365 configuration.
