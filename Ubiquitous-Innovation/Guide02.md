@@ -849,6 +849,8 @@ This adds organizational context to the agent's existing operational and enterpr
 1. Click **Send** to execute above prompt.
 
 -->
+**Steps to add Sharepoint**
+
 1. Navigate back to **Agent**
 
 1. Scroll down to the **Tools** section and Locate the **Add** button.
