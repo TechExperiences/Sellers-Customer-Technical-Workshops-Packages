@@ -1426,6 +1426,8 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
    ![](../Sandbox-Environment-Guides/Images/Agent-Selection.png)
 
+<!--   
+
 1. Configure **Agent**.
 
    ![](../Sandbox-Environment-Guides/Images/Agent-Config.png)
@@ -1538,6 +1540,7 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
 >**Note:** Now, user can see the market launch details and move forward. Similarly, **Workflow** will help to create kinda decision making processes.
 
+-->
 
 In this topic, we explored how **Microsoft Copilot Studio** coordinates specialized agents to support end-to-end business workflows.
 
