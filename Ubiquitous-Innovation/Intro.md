@@ -1,4 +1,4 @@
-# Ubiquitous Innovation CAIP Customer Workshops
+# Microsoft Technical Workshop: Build Agents and Software Faster with AI That Knows Your Business
 
 *Build, Connect, Govern. Innovate Everywhere*
  ![](../Sandbox-Environment-Guides/Images/UI.png)
