@@ -1039,7 +1039,7 @@ Test how the AI agent handles restricted R&D information stored in SharePoint. R
    - Review the recommended task **Turn on analytics for risk detection and policy refinement (preview)**, if displayed.
 
 
-     ![](../Sandbox-Environment-Guides/Images/DLP.png)   
+   ![](../Sandbox-Environment-Guides/Images/DLP.png)   
 
 1. If authorized, follow the portal guidance to enable analytics in the lab environment.
 
