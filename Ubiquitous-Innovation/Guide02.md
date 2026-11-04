@@ -1027,6 +1027,11 @@ Dedicated environment need to created for each user to allocate capacity usage a
 
    ![](../Sandbox-Environment-Guides/Images/Env-Selection.png) 
 
+### GitHub Copilot Harness Agent:
+
+**GitHub Copilot harness** from the start of this activity. Instead of scripting every possible conversation, we give the coordinator a clear role, the business context it needs, and boundaries for its decisions and actions. Later, we will optionally add a reusable **skill** that guides it through the launch-assessment procedure.
+ 
+
 1. Navigate to the **Agents** section.
 
 1. Click the drop-down arrow next to **New agent**.
@@ -1316,6 +1321,12 @@ Dedicated environment need to created for each user to allocate capacity usage a
    ```
 
    ![](../Sandbox-Environment-Guides/Images/skilltest.png)
+
+**Please observe the benefit of GitHub copilot harness**
+
+Above prompt is **agumenting** into proper questionaries(Business context) and passing to the agent as input to get response.
+
+   ![](../Sandbox-Environment-Guides/Images/skillinput.png)
 
 >**Note:** Now our agent is ready to publish and add channel to access from other tools.
 
