@@ -821,6 +821,8 @@ Before connecting the enterprise knowledge source to the agent, verify that the 
 
 1. Proceed to configure the SharePoint knowledge source for the agent.
 
+<!--
+
 **What will this prompt do?**
 
 - Connect the specified SharePoint source through ****Work IQ****.
@@ -846,13 +848,31 @@ This adds organizational context to the agent's existing operational and enterpr
 
 1. Click **Send** to execute above prompt.
 
+-->
+1. Navigate back to **Agent**
+
+1. Scroll down to the **Tools** section and Locate the **Add** button.
+
+   ![](../Sandbox-Environment-Guides/Images/addtools.png)
+
+1. Select the **dropdown** arrow next to **Add** and Select **Add tools** in the agent configuration.
+
+1. In the Select a tool window, navigate to the **Catalog** tab and in the search box, enter **SharePoint** and select **SharePoint** then click **create** to add the SharePoint tool to the agent.
+
+   ![](../Sandbox-Environment-Guides/Images/sharepointsearch.png)
+
+1. Click **Connect**
+
+   ![](../Sandbox-Environment-Guides/Images/connect.png)
+
 1. Verify that the **Work IQ** SharePoint integration** is configured under the **Tools** section of the existing Foundry agent.
 
 1. Confirm that the SharePoint source is connected properly and the relevant business-context documents are accessible.
 
-  >**Note:** If the **SharePoint** connection has not been configured, follow these steps:
-   1.Select **Add tools** in the agent configuration
-   2.Search for and select **SharePoint**.Provide the SharePoint site URL to establish the connection.[Enterprise AI Knowledge Base – SharePoint](https://sandboxailabs1002.sharepoint.com/sites/EnterpriseAIKnowledgeBase/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents%2FAI%20Knowledge%20Base&viewid=2aae9886%2D5883%2D4e2a%2D8949%2D612beaeb50ac&newTargetListUrl=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents&viewpath=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents%2FForms%2FAllItems%2Easpx)
+1. Then click **Save** to save the agent
+
+   ![](../Sandbox-Environment-Guides/Images/savefoundry.png)
+   
 
 1. Copy the following prompt and paste it into the **Agent Playground**:
 
