@@ -214,11 +214,7 @@ Treat the document as a draft for review, not as an approved implementation plan
    **Prompt**
    ```
          I am building a multi-agent system for Caldova Pharmaceutical. The attached architecture diagram comes from the technical envisioning session. Read it from left to right and review the agent deployed in Azure          resource group `rg-ubiquitous`.
-         Use the current UPN <inject key="AzureAdUserEmail"></inject> to access Azure.
-         Before any deployment, create only `Design-Review.md` for business review, and change nothing else.
-         
-         Use this file as the pre-deployment plan. 
-         
+         Before any deployment, create only `Design-Review.md` for business review, and change nothing else. Use this file as the pre-deployment plan. 
          Include:
          1. Executive summary
          2. Each diagram section explained left to right, plus a component activity table
