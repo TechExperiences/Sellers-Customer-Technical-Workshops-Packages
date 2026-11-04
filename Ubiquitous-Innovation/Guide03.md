@@ -1,6 +1,10 @@
 # Ubiquitous Innovation Package
 
-Now that you have deployed the generated template with GitHub Copilot, let’s explore a similar, pre-deployed solution. 
+Now that you have explored how GitHub Copilot can help build and extend an AI solution, let's take a closer look at a pre-deployed implementation of the Caldova business scenario.
+
+In this session, you will explore an existing, integrated AI solution that brings together Microsoft Fabric, Microsoft Foundry, Copilot Studio, and Microsoft 365 capabilities.
+
+>**Note:** The solution and its core resources have already been deployed and configured. Rather than building everything from scratch, you will validate the existing integrations, interact with the agents, test business scenarios, and understand how different Microsoft AI services work together to support business decision-making. 
 
 1. Navigate to the **Azure portal**. Select **Resource group**.
 
@@ -15,17 +19,19 @@ Now that you have deployed the generated template with GitHub Copilot, let’s e
    ![](../Ubiquitous-Innovation/Images/ui2.png) 
 
 
-### Let's explore how `business data, Microsoft Fabric Data Agent, Foundry IQ, and Work IQ` can provide that context.
+### Let's explore how `Business data, Microsoft Fabric Data Agent, Foundry IQ, and Work IQ` can provide the context.
 
 ## Topic 1: Agents That Know Your Business 
 
+In this topic, you will explore the pre-deployed Caldova Supply Chain Business Intelligence agent in Microsoft Foundry. You will validate its existing integrations with Microsoft Fabric Data Agent, Foundry IQ, and Work IQ to understand how these services provide manufacturing insights, operational knowledge, and business context.
+
 ### Activity 1.1: Connect Live Manufacturing Context
 
-The existing Business Intelligence agent needs access to live manufacturing data to answer questions about plant capacity, production schedules, and operational readiness. In this activity, we will connect the existing Fabric Data Agent from the `Caldova_UI` workspace to the Foundry agent using tool calling.
+In this activity, you will explore how the existing Fabric Data Agent is integrated with the Microsoft Foundry Business Intelligence agent. You will verify the deployed Data Agent, review its connection under the agent's Tools section, and test a manufacturing-related question to confirm that the agent can retrieve relevant operational data.
 
 ### Verify the Existing Fabric Data Agent
 
-Before adding the **Data Agent** to the Microsoft Foundry agent, verify that the required Data Agent is available in the provided Fabric workspace.
+Before navigating to Microsoft Foundry Agent, verify that the required Data Agent is available in the provided Fabric workspace.
 
 1. Click on the **App launcher (1)** and select **Microsoft fabric (2)** icon.
 
@@ -76,13 +82,13 @@ Before adding the **Data Agent** to the Microsoft Foundry agent, verify that the
 
 ### Activity 1.2: Ground the Agent with Enterprise Knowledge
 
-Operational data alone may not explain the procedures and constraints that influence manufacturing decisions. The agent also needs access to Caldova's manufacturing documents, including scheduling guidance and relevant procedures.
+Operational data provides valuable insights, but it does not always explain the business procedures, policies, and constraints behind manufacturing decisions.
 
-In this activity, we will create a Foundry IQ knowledge base from the existing documents stored in Azure Blob Storage and connect it to the Knowledge section of the existing Foundry agent.
+In this activity, you will explore how the existing Foundry IQ knowledge base provides the Business Intelligence agent with access to Caldova's manufacturing documents stored in Azure Blob Storage. You will verify the availability of the source documents, review the existing knowledge integration, and test the agent with a question based on manufacturing scheduling guidance.
 
 ### Verify the SharePoint Source Documents in Azure Blob Storage
 
-Before connecting the enterprise knowledge source, verify that the required documents are available in the provided **Azure Storage account**.
+Before verfying the enterprise knowledge source, verify that the required documents are available in the provided **Azure Storage account**.
 
 1. Navigate to the Azure portal and open **rg-Ubiquitous-Innovation** resource group.
 
@@ -120,7 +126,7 @@ Confirm that all five documents are present before proceeding with the knowledge
 
 To make better launch decisions, the Business Intelligence agent must understand not only manufacturing operations and procedures, but also Caldova's business priorities, commitments, and team responsibilities.
 
-In this activity, we will connect the existing SharePoint source through ****Work IQ**** as a tool for the existing Microsoft Foundry agent.
+In this activity, you will explore how the existing Work IQ SharePoint integration provides the Business Intelligence agent with access to Caldova's organizational and business-context documents. You will verify the source documents, review the configured SharePoint integration, and test the agent using questions about Caldova's November launch priorities.
 
 ### Verify the SharePoint Knowledge Base Documents
 
@@ -185,9 +191,9 @@ Before connecting the enterprise knowledge source to the agent, verify that the 
 
 ### Activity 1.4: Evaluating the Business Intelligence Agent
 
-After connecting the Fabric Data Agent, Foundry IQ knowledge base, and **Work IQ** integration, the next step is to evaluate the existing `supply-chain-Bi-agent` in Microsoft Foundry. This helps determine whether the agent can provide accurate, complete, and grounded answers to Caldova Pharma's business questions.
+After validating the agent's connections to Fabric Data Agent, Foundry IQ, and Work IQ, the next step is to understand how effectively it uses these sources to answer business questions.
 
-Traditionally, evaluating an agent involves manually preparing test questions, reviewing its responses, identifying gaps, and repeating the tests after making improvements. In this activity, we will use GitHub Copilot to help define expected behavior, prepare synthetic test questions, and guide the evaluation process using the **Evaluation** tab in Microsoft Foundry.   
+In this activity, you will explore the Evaluation capabilities in Microsoft Foundry and run an evaluation of the existing Business Intelligence agent. You will review the evaluation results and available performance metrics to understand how agent responses can be assessed for accuracy, relevance, completeness, and groundedness.  
 
 ### Steps to Create and Run an Evaluation
 
@@ -638,6 +644,7 @@ Connect a **Microsoft Foundry Agent** to the **Market Launch Coordinator<inject 
 
 
 ## Activity 3.2 - Detect and Structure a Launch – Readiness Change 
+
 Build a Copilot Studio workflow to automatically detect incoming market launch emails and extract key launch details. The workflow will engage the designated agent to validate and confirm the launch information, then send a confirmation email summarizing the agreed launch details to the relevant stakeholders.
 
 1. To create **Workflow**
@@ -680,6 +687,8 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 1. Search **Agent (1)** and click **Agent (2)**.
 
    ![](../Sandbox-Environment-Guides/Images/Agent-Selection.png)
+
+<!--    
 
 1. Configure **Agent**.
 
@@ -811,6 +820,16 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
    ![](../Sandbox-Environment-Guides/Images/Agent-Email-Response.png)  
 
 >**Note:** Now, user can see the market launch details and move forward. Similarly, **Workflow** will help to create kinda decision making processes.
+
+-->
+
+In this topic, we explored how **Microsoft Copilot Studio** coordinates specialized agents to support end-to-end business workflows.
+
+However, enterprise AI also requires strong security, governance, and cost management. In this final topic, we will explore how **Agent 365** and **Microsoft Purview** help manage agent identity, protect sensitive data, monitor activities, and understand costs.
+
+**Think about this:** How can we ensure agents operate securely, responsibly, and cost-effectively?
+
+Let's explore the key governance and security considerations for enterprise AI.
 
 ---
 # Topic 4: Trust and Cost Are the Same Conversation
