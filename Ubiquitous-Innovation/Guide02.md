@@ -639,7 +639,9 @@ Confirm that the Data Agent is available before proceeding to the next activity.
 
 **Add a Fabric Data Agent as a Tool in Microsoft Foundry**
 
-1. In your **Foundry Agent**, click **Add** and select **Add tools**.
+1. In your **Foundry Agent**,Change model to **GPT-5.4**
+
+1. Click **Add** and select **Add tools**.
 
    ![](../Ubiquitous-Innovation/Images/DG1.png)
 
