@@ -306,7 +306,11 @@ Review the updated document and confirm that it accurately represents the intend
 1. Click the **committed repository link** above to review the pushed changes.
    ![](../Ubiquitous-Innovation/Images/OpenGithub.png)
 
-1. If you are unable to see the option above, please follow this step Login to **https://github.com/CL-Labs-04/UI-<inject key="Deployment-ID" enableCopy="false"/>** and validate.
+1. If you are unable to see the option above, please follow this step Login to the below GitHub repository.
+
+   ```
+   https://github.com/CL-Labs-04/UI-<inject key="Deployment-ID" enableCopy="false"/>
+   ```
 
    ![](../Ubiquitous-Innovation/Images/GitPush.png)
 
