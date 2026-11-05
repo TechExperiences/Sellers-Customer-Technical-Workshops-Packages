@@ -1375,6 +1375,8 @@ Above prompt is **agumenting** into proper questionaries(Business context) and p
 ### Activity 3.5 - Detect and Structure a Launch – Readiness Change 
 Build a Copilot Studio workflow to automatically detect incoming market launch emails and extract key launch details. The workflow will engage the designated agent to validate and confirm the launch information, then send a confirmation email summarizing the agreed launch details to the relevant stakeholders.
 
+In this topic, we explore how **Microsoft Copilot Studio** coordinates specialized agents to support end-to-end business workflows.
+
 1. To create **Workflow**
 
    - Click **Workflow (1)** icon
@@ -1528,7 +1530,7 @@ Build a Copilot Studio workflow to automatically detect incoming market launch e
 
 -->
 
-In this topic, we explored how **Microsoft Copilot Studio** coordinates specialized agents to support end-to-end business workflows.
+**Note:** The following exercise is a proof of concept intended to demonstrate the art of the possible and illustrate how this approach can be implemented.
 
 However, enterprise AI also requires strong security, governance, and cost management. In this final topic, we will explore how **Agent 365** and **Microsoft Purview** help manage agent identity, protect sensitive data, monitor activities, and understand costs.
 
