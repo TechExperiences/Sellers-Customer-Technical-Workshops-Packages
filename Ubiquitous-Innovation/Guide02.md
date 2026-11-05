@@ -632,40 +632,21 @@ Before adding the **Data Agent** to the Microsoft Foundry agent, verify that the
 
 Confirm that the Data Agent is available before proceeding to the next activity.
 
-**What will this prompt do?**
 
-- Locate the existing Fabric Data Agent in the `Caldova_UI` workspace.
-- Configure the Data Agent as a tool for the existing `supply-chain-Bi-agent`.
-- Validate that the Foundry agent can retrieve operational data by asking a question about November capacity utilization.
+**Add a Fabric Data Agent as a Tool in Microsoft Foundry**
 
-This enables the Business Intelligence agent to use live manufacturing context when answering relevant Supply Chain questions, without recreating the existing agents.
+1. In your **Foundry Agent**, click **Add** and select **Add tools**.
 
-1. Navigate back to **vs code**
+   ![](../Ubiquitous-Innovation/Images/DG1.png)
 
-1. Copy the below prompt and paste it in chat window
+1. Select **Fabric IQ (OneLake Catalog)** and click **Add tool**.
+   ![](../Ubiquitous-Innovation/Images/DG2.png)
 
-   ```
-   Follow the instructions below to integrate the existing Microsoft Fabric Data Agent into the existing Microsoft Foundry agent (supply-chain-Bi-agent) as a tool, following the approach used in the ubiquitous-innovation workspace.
-   •	Read Design-Review.md and update the existing Foundry agent    accordingly, including selecting a compatible model that supports the Fabric Data Agent tool and updating the agent instructions.
-   •	Identify the existing Fabric Data Agent   (Ubiquitous-Innovation-dataagent) and Connect through the Tools section using the Fabric IQ OneLake Catalog integration.
-   •	Ensure the Foundry agent can invoke the Fabric Data Agent to   retrieve operational data and provide accurate, context-aware responses to relevant business questions.
-   Note: Reuse existing workspaces, agents, and resources.
+1. From the **OneLake Catalog**, select the required **Fabric Data Agent**.
 
-   ```
+1. Click **Add**.
+   ![](../Ubiquitous-Innovation/Images/DG3.png)
 
-1. Click **Send** to execute the above prompt
- 
-1. To verify that the **Fabric Data Agent** is attached under the **Tools** section of the existing Foundry agent. Navigate to **Azure portal**.
-
-1. Navigate to **rg-Ubiquitous** and select the **Ubiquitous-innoation-project (2)**.
-
-   ![](../Ubiquitous-Innovation/Images/u96.png)
-
-1. Click **Go to Foundry**.
-
-1. Navigate to **Agents (1)** and then select **supply-chain-bi-agent (2)**.
-
-   ![](../Ubiquitous-Innovation/Images/u97.png)
 
 1. Verify that the **Fabric Data Agent** is attached under the **Tools** section.
 
