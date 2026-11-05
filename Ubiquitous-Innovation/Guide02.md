@@ -1530,7 +1530,7 @@ In this topic, we explore how **Microsoft Copilot Studio** coordinates specializ
 
 -->
 
-**Note:** The following exercise is a proof of concept intended to demonstrate the art of the possible and illustrate how this approach can be implemented.
+>**Note:** The following exercise is a proof of concept intended to demonstrate the art of the possible and illustrate how this approach can be implemented.
 
 However, enterprise AI also requires strong security, governance, and cost management. In this final topic, we will explore how **Agent 365** and **Microsoft Purview** help manage agent identity, protect sensitive data, monitor activities, and understand costs.
 
