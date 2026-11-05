@@ -329,7 +329,6 @@ In this activity, **GitHub Copilot** analyzes Caldova's architecture and produce
 GitHub Copilot uses the architecture and the business requirements to:
 
 - Explain what each component does
-- Show where the tool handler fits
 - Define the handler's interface, permissions, approval and execution rules
 - Identify changes to agent instructions and the test scenarios needed
 - List follow-up engineering tasks
@@ -342,11 +341,10 @@ The output is a **starting point** for review, not a final answer.
 
 1. **Architecture Walkthrough:** Are all four areas and their components shown correctly?
 2. **Component Activity Table:** Are each component's responsibilities and dependencies clear?
-3. **Tool Handler Design:** Are permissions, approvals, execution and auditing covered?
-4. **Testing Strategy:** Do the tests cover a successful run, unauthorized requests, duplicate requests, invalid inputs and rejected approvals?
-5. **Follow-Up Issues:** Which items are required for the pilot and which are future enhancements?
-6. **Gap Analysis:** Which requirements are missing or only partly covered?
-7. **Final Plan:** Are the scope, changes, owners and open decisions agreed?
+3. **Testing Strategy:** Do the tests cover a successful run, unauthorized requests, duplicate requests, invalid inputs and rejected approvals?
+4. **Follow-Up Issues:** Which items are required for the pilot and which are future enhancements?
+5. **Gap Analysis:** Which requirements are missing or only partly covered?
+6. **Final Plan:** Are the scope, changes, owners and open decisions agreed?
 
 **Key takeaway:** GitHub Copilot speeds up analysis and planning, but technical and business stakeholders must validate the design before development begins.
 
