@@ -324,21 +324,6 @@ In this activity, **GitHub Copilot** analyzes Caldova's architecture and produce
 3. **Orchestration and Workflow:** Copilot Studio, the Agent Fleet and Workflow Orchestration coordinate agents, connect to enterprise systems and escalate to people for approval when needed.
 4. **Governance, Security and Cost:** Agent 365, Entra ID, Azure Monitor and cost-management tools handle agent discovery, access control, monitoring, auditing and spending oversight.
 
-### Why a New Tool Handler?
-
-Today, agents can **recommend** actions but can't **perform** them. For example, a procurement agent can spot a part shortage, but it can't create the purchase requisition in SAP.
-The proposed **Enterprise Action Tool Handler**, in the workflow-orchestration layer, closes this gap:
-
-- Validates the action and its inputs
-- Checks the caller's identity and permissions
-- Validates the business data
-- Gets human approval when required
-- Runs the action through the right workflow or connector
-- Logs the result for auditing
-- Returns the actual outcome to the agent
-
-**Result:** Agents move from *recommending* to *acting*, under proper governance.
-
 ### How Does GitHub Copilot Help?
 
 GitHub Copilot uses the architecture and the business requirements to:
