@@ -646,11 +646,13 @@ Confirm that the Data Agent is available before proceeding to the next activity.
    ![](../Ubiquitous-Innovation/Images/DG1.png)
 
 1. Select **Fabric IQ (OneLake Catalog)** and click **Add tool**.
+
    ![](../Ubiquitous-Innovation/Images/DG2.png)
 
 1. From the **OneLake Catalog**, select the required **Fabric Data Agent**.
 
 1. Click **Add**.
+
    ![](../Ubiquitous-Innovation/Images/DG3.png)
 
 
