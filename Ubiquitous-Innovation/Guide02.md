@@ -1514,10 +1514,13 @@ In this topic, we explore how **Microsoft Copilot Studio** coordinates specializ
    ![](../Sandbox-Environment-Guides/Images/Agent-Email-Response.png)  
 
 >**Note:** Now, user can see the market launch details and move forward. Similarly, **Workflow** will help to create kinda decision making processes.
-
 -->
 
 >**Note:** The following exercise is a proof of concept intended to demonstrate the art of the possible and illustrate how this approach can be implemented.
+
+You can further extend the capabilities of the created agent by invoking it from automated workflows. These workflows can call the agent to retrieve information, analyze data, generate insights, and perform specific tasks based on business requirements.
+
+By integrating the agent into workflows, you can automate repetitive activities, trigger agent-driven actions, and streamline business processes with minimal manual intervention.
 
 However, enterprise AI also requires strong security, governance, and cost management. In this final topic, we will explore how **Agent 365** and **Microsoft Purview** help manage agent identity, protect sensitive data, monitor activities, and understand costs.
 
