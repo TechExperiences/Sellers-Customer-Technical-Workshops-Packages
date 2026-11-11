@@ -53,17 +53,15 @@ Use the **exact names** below or update the prompts to match. `<ID>` = your suff
 | **Fabric capacity** (Azure resource `Microsoft.Fabric/capacities`) | `fabriccapacity<ID>` | **F2 or higher, Running (not paused)**. Your UPN is listed as a **Capacity administrator**. |
 
 
-### Data / project files (local folder, e.g. `C:\unifydata`)
+### Data 
 
-| File | Used in |
-|------|---------|
-| `Future-State-Architecture.png` | Step 1, attached to Copilot Chat as architecture context |
-| Analytical CSV files → uploaded to `data/Analytical/` | Step 2 |
-| `OperationalData` database scripts/data → loaded into Azure SQL | Step 2 |
-| Business application files → uploaded to `data/BusinessApplication/` | Step 3 |
+Before starting prototyping, you should have source data in our blob storage account which is created above to process.
 
-> Get the data files and scripts from the lab package or the content owner. The guide expects them to already be in place.
-
+Below are the different types of source data
+ - Business Appplication Data:
+    - *storage account :`storage<ID>`-> container :`data`-> folder: `Business Application`*-> Upload Documents
+ - Analytical Data
+    - *storage account :`storage<ID>`-> container :`data`-> folder: `Analytical`*-> Upload Documents
 ---
 
 ## 4. Roles / Permissions / API Permissions
@@ -103,17 +101,7 @@ A **Fabric Administrator** must turn these on once, for the whole organization o
 
 -  Azure **subscription ID** and **tenant ID**
 -  Your **UPN** (workspace admin, SQL connection)
-- **SQL admin password** for `sql-operational-<ID>`. Copilot asks for it in Steps 1–3.
+- **SQL admin password** for `sql-operational-<ID>`.
 - Names: `rg-Unified`, `storage<ID>`, container `data`, `fabriccapacity<ID>`, `sql-operational-<ID>`, `OperationalData`
 - **GitHub username** with an active Copilot license, signed in to VS Code
 ---
-
-## Source Data folder Structure
-
-Before starting prototyping, you should have source data in our blob storage account which is created above to process.
-
-Below are the different types of source data
- - Business Appplication Data:
-    - *storage account :`storage<ID>`-> container :`data`-> folder: `Business Application`*-> Upload Documents
- - Analytical Data
-    - *storage account :`storage<ID>`-> container :`data`-> folder: `Analytical`*-> Upload Documents
