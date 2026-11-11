@@ -4,20 +4,16 @@
     "Language": "English",
     "Files": [
       {
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/TechExperiences/Customer-Technical-Workshops/refs/heads/main/Ubiquitous-Innovation/Intro.md",
+        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/TechExperiences/Sellers-Customer-Technical-Workshops/refs/heads/main/Ubiquitous-Innovation/Intro.md",
         "Order": 1
       },
       {
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/TechExperiences/Customer-Technical-Workshops/refs/heads/main/Ubiquitous-Innovation/Guide01.md",
+        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/TechExperiences/Sellers-Customer-Technical-Workshops/refs/heads/main/Ubiquitous-Innovation/Guide01.md",
         "Order": 2
       },
       {
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/TechExperiences/Customer-Technical-Workshops/refs/heads/main/Ubiquitous-Innovation/Guide02.md",
+        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/TechExperiences/Sellers-Customer-Technical-Workshops/refs/heads/main/Ubiquitous-Innovation/Guide02.md",
         "Order": 3
-      },
-      {
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/TechExperiences/Customer-Technical-Workshops/refs/heads/main/Ubiquitous-Innovation/Guide03.md",
-        "Order": 4
       }      
     ]  
   }
