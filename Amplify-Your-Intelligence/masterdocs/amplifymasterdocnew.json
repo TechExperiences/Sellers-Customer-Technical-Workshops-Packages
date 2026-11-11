@@ -14,15 +14,7 @@
       {
         "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/TechExperiences/Sellers-Customer-Technical-Workshops/refs/heads/dev/Amplify-Your-Intelligence/AYI02.md",
         "Order": 3
-      },
-      {
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/TechExperiences/Sellers-Customer-Technical-Workshops/refs/heads/dev/Amplify-Your-Intelligence/AYI03.md",
-        "Order": 4
-      },
-      {
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/TechExperiences/Sellers-Customer-Technical-Workshops/refs/heads/dev/Amplify-Your-Intelligence/AYI04.md",
-        "Order": 5
-      }       
+      }      
     ]  
   }
 ]
