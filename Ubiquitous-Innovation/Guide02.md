@@ -9,6 +9,12 @@ You will use ****GitHub Copilot**** to generate ARM or Bicep templates using the
 - **ARM templates:** JSON-based Infrastructure-as-Code files used to define and deploy Azure resources.
 - **Bicep templates:** Simplified, declarative Infrastructure-as-Code files used to define and deploy Azure resources with cleaner syntax.
 
+**Verify Existing Foundry Agent**
+
+1. Navigate to **Azure portal** and Open the **resource group** and check whether one Foundry agent is available or not
+
+2. If Foundry Agent is not available, you can use the provided prebuilt source code([TBD Link](https://hithub.com)) to deploy the agent and proceed with the subsequent steps.
+
 
 ## Sign in to ****GitHub Copilot**** Chat
 
@@ -677,11 +683,11 @@ Confirm that the Data Agent is available before proceeding to the next activity.
 
 Operational data alone may not explain the procedures and constraints that influence manufacturing decisions. The agent also needs access to Caldova's manufacturing documents, including scheduling guidance and relevant procedures.
 
+>**NOTE:** If you do not already have the required documents, upload the relevant documents to **Blob Storage** before proceeding with below.
+
 In this activity, we will create a Foundry IQ knowledge base from the existing documents stored in Azure Blob Storage and connect it to the Knowledge section of the existing Foundry agent.
 
-**Verify the SharePoint Source Documents in Azure Blob Storage**
-
-Before connecting the enterprise knowledge source, verify that the required documents are available in the provided **Azure Storage account**.
+**Verify the Source Documents in Azure Blob Storage**
 
 1. Navigate to the Azure portal and open **rg-Ubiquitous** resource group.
 
@@ -755,11 +761,11 @@ This allows the agent to combine operational data with documented manufacturing 
 
 To make better launch decisions, the Business Intelligence agent must understand not only manufacturing operations and procedures, but also Caldova's business priorities, commitments, and team responsibilities.
 
+>**NOTE:** If you do not already have the required documents, upload the relevant documents to **SharePoint** before proceeding with below.
+
 In this activity, we will connect the existing SharePoint source through ****Work IQ**** as a tool for the existing Microsoft Foundry agent.
 
 **Verify the SharePoint Knowledge Base Documents**
-
-Before connecting the enterprise knowledge source to the agent, verify that the required documents are available in SharePoint.
 
 1. Open the [Enterprise AI Knowledge Base – SharePoint](https://sandboxailabs1002.sharepoint.com/sites/EnterpriseAIKnowledgeBase/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents%2FAI%20Knowledge%20Base&viewid=2aae9886%2D5883%2D4e2a%2D8949%2D612beaeb50ac&newTargetListUrl=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents&viewpath=%2Fsites%2FEnterpriseAIKnowledgeBase%2FShared%20Documents%2FForms%2FAllItems%2Easpx) link.
 
