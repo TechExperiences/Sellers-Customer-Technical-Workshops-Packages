@@ -1,13 +1,13 @@
 # Prerequisites
 
-This document lists everything needed to run the **Microsoft IQ** exercises on your **own local machine and tenant.**
+This document lists everything needed to run the **Microsoft IQ** exercises on your **own local/VM machine and Azure tenant.**
 
 ## What the exercises build
 
 | Part | Built with | What gets created / used |
 |------|-----------|--------------------------|
 | **Fabric IQ** | GitHub Copilot → Fabric REST APIs (Python scripts) | Workspace `Caldova-Pharma-IQ<ID>` on the existing Fabric capacity; **Lakehouse** with 9 sample tables; **Ontology** (entities + relationships); **Fabric Data Agent** (tested and published) |
-| **Foundry IQ & Web IQ** | GitHub Copilot → Bicep/ARM in **Sweden Central** | **Microsoft Foundry** resource + project; **gpt-5-mini** and **text-embedding-3-small** deployments; Storage container `caldova-documents` with 4 generated PDFs; **Azure AI Search** knowledge base `caldova-launch-kb`; **Web Search** tool limited to FDA/EMA URLs; **4 Foundry agents**; Fabric Data Agent attached through **Tools → Fabric IQ (OneLake Catalog)** |
+| **Foundry IQ & Web IQ** | GitHub Copilot → Bicep/ARM in **Sweden Central** | **Microsoft Foundry** resource + project; **gpt-5.4** and **text-embedding-3-small** deployments; Storage container `caldova-documents` with 4 generated PDFs; **Azure AI Search** knowledge base `caldova-launch-kb`; **Web Search** tool limited to FDA/EMA URLs; **4 Foundry agents**; Fabric Data Agent attached through **Tools → Fabric IQ (OneLake Catalog)** |
 | **Work IQ** | **Copilot Studio** (portal) | Main orchestrator agent in the **Default environment**; 4 Foundry agents connected as external agents; Fabric Data Agent connected; published to **Microsoft 365 and Microsoft Teams** |
 ---
 
