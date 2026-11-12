@@ -63,6 +63,15 @@ This document lists everything needed to run the **Microsoft IQ** exercises on y
 | **Workspace Admin** on `Caldova-Pharma-IQ<ID>` | User UPN | Requested in the prompt. Needed to create every item and to publish the Data Agent. |
 | **User.Read.All** | Application | Service Principal | Turn the UPN into an object ID so it can be granted Fabric workspace Admin |
 
+---
+
+### Microsoft Graph API Permissions
+
+| **Permission** | **Type** | **Grant To** | **Why** |
+| -------------- | -------- | ------------ | ------- |
+| **User.Read.All** | Application | Service Principal | Resolves the user's UPN to their Microsoft Entra ID object ID so that the user can be granted Fabric workspace Admin access. |
+---
+
 ### Fabric tenant settings (Fabric Admin portal → Tenant settings)
 
 A Fabric Administrator must turn these on once, for the whole organization or a security group that includes the user. Setting names may vary slightly as Fabric changes.
