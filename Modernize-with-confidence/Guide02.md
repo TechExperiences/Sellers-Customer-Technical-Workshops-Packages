@@ -144,7 +144,14 @@ In this step, the prompt acts as the implementation plan that connects the exist
 
 1. Along with the attached **Solution Architecture**, please paste the below prompt in the Chat.
 
-   <!--   
+#### **Option 1:** This option is for connecting to pre-exising On-Prem SQL server.
+
+The following prompt is an example for connecting to a virtual machine. Modify the prompt with your environment-specific details before using it.
+
+- Copy the prompt provided below.
+- Update the **placeholder values with your own details.**
+- Copy the modified prompt and execute it.
+
    ```
    You are my smart agent to understand below are the problem statement and planned solution architecture design which will help Caldova to overcome from their problems. After that, please prepare bicep/ARM template and deploy the resources in the respective environment.
 
@@ -158,7 +165,7 @@ In this step, the prompt acts as the implementation plan that connects the exist
    1.Use existing Resource-Group (rg-caldova-modernize) in Azure and proceed further
    2.Use Existing Azure SQL Server and one Azure SQL Hyperscale Database (CaldovaOrderManagement) which is available in same Resource Group
    3.Make UPN - set as admin to the azure sql server and hyperscale database
-   4.Connect VM: vm-onprem-sql (Public IP: 20.69.251.88) using credentials (User name: azureuser, passwrod: Password@123)
+   4.Connect Source: vm-onprem-sql (Public IP: 20.69.251.88) using credentials (User name: azureuser, passwrod: Password@123)
    5.Connect and Access the OnPrem SQL Server using credentials
       - User Name: caldova-admin
       - Password: B!Admin@123
@@ -166,7 +173,13 @@ In this step, the prompt acts as the implementation plan that connects the exist
    7.Migrate Tables and data into the created Azure SQL Hyperscale Database
    8.Maintain a similar relationship among all tables.
    ```
-   -->
+#### **Option 2:** For Environments Without an Existing On-Premises SQL Server
+
+This option is intended for users who do not have an existing on-premises SQL Server environment.
+
+Use the provided **DB_scripts** folder, which contains the SQL database scripts, table schemas, sample data, and table relationships. Execute these scripts to build target environment.
+
+1. Copy the below prompt and excute it.
 
    ```
    You are my smart agent to understand below are the problem statement and planned solution architecture design which will help Caldova to overcome from their problems. After that, please prepare bicep/ARM template and deploy the resources in the respective environment.

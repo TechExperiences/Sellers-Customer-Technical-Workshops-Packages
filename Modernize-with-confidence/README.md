@@ -11,6 +11,13 @@ The exercises cover three scenarios:
 | 3 | **Vector / semantic search** | Runs `Embedding_Script.sql`, generates Azure OpenAI embeddings into a `VECTOR` column (`dbo.ProductDescriptionEmbeddings`) and adds a *Semantic Vector Search* page with charts | 15–30 min |
 
 ---
+**Source Environment**
+- **Option 1:** If you already have an **on-premises SQL** Server and **web application**, you can directly proceed to the Prototype section and follow the instructions provided there.
+- **Option 2:** If you do not have above, you can use the provided **source Artifacts** to create and configure them manually before proceeding with the Prototype instructions
+
+
+
+---
 
 ## 1. Licenses & Subscriptions
 
