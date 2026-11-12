@@ -189,6 +189,8 @@ This allows us to establish the foundation for the unified data solution through
 
 #### Bringing Analytical and Operational Data into OneLake
 
+>Note: As specified in the **prerequisites**, upload the relevant documents to the **Analytical** and **BusinessApplication** folders in your **Azure Blob Storage container.**
+
 With the Fabric workspace created, the next step is to bring together Caldova's analytical and operational data so that it can be used for reporting, analysis, and AI-driven insights.
 
 Traditionally, this would require manually creating a Lakehouse, configuring connections to the relevant data sources, setting up shortcuts or mirroring, and validating that the data is accessible. We will instead use ****GitHub Copilot**** to help configure these components based on the required data sources and ingestion approach.
