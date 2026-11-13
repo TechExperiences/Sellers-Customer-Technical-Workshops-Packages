@@ -114,6 +114,9 @@ A **Fabric Administrator** must turn these on once, for the whole organization o
 
 ---
 
+>**Note:** If you already have data in your Microsoft Fabric workspace, you can modify the prompt provided in the Prototype section to align with your existing data and requirements. 
+If you do not have any existing data, follow the instructions below to create and configure the required data before proceeding with the prototype.
+
 ## 7. Deploy Fabric Automation locally
 
 The `FabricAutomation` folder provisions the Ubiquitous Innovation Fabric, Azure data, and Foundry foundation in one creation-only pipeline. It signs in to Azure with the service-principal values stored in `.env`.
