@@ -105,3 +105,100 @@ A **Fabric Administrator** must turn these on once, for the whole organization o
 - Names: `rg-Unified`, `storage<ID>`, container `data`, `fabriccapacity<ID>`, `sql-operational-<ID>`, `OperationalData`
 - **GitHub username** with an active Copilot license, signed in to VS Code
 ---
+
+## 6. Deploy `Unify-Package` locally
+
+`Unify-Package` is the automated implementation of this scenario. It validates the bundled source files, provisions the required Azure and Fabric foundation, loads the three source domains, and creates the governed Fabric analytics artifacts. It does **not** require the manually pre-provisioned resources described in the earlier exercise sections.
+
+> The package intentionally creates a new Azure SQL logical server on every run. The resource group, Storage account, and Fabric capacity use deterministic names for the subscription and resource group; do not run this in a subscription where creating an F16 capacity is not approved.
+
+### Local prerequisites
+
+- Windows PowerShell 7 or newer.
+- [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli-windows) (`az`) and [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) (`azd`).
+- Python 3.10 or newer available on `PATH`. The package installs its required Python libraries during deployment.
+- `winget`, if Microsoft ODBC Driver 18 for SQL Server is not already installed. The script checks for it and installs it automatically when required.
+- An Entra work account in the target Azure and Fabric tenant. The standard local workflow uses that account with `az login` and `azd auth login` when no existing sessions are available.
+- The source folders retained in the package:
+  - `Analytical/` — 13 CSV files.
+  - `Operational/` — 8 CSV files.
+  - `BusinessApplication/` — `CustomerDetails.json` and `CustomerAddress.json`.
+
+### Configure `.env`
+
+From the package directory, copy the example and replace every placeholder. Do not commit the populated file.
+
+```powershell
+cd ".\Build-a-unified-governed-data-and AI-estate\Unify-Package"
+Copy-Item .env.example .env
+```
+
+Set these values in `.env`:
+
+```dotenv
+AZURE_ENV_NAME=unify-local
+AZURE_SUBSCRIPTION_ID=<YOUR_SUBSCRIPTION_ID>
+AZURE_TENANT_ID=<YOUR_TENANT_ID>
+AZURE_LOCATION=westus2
+AZURE_RESOURCE_GROUP=rg-Build-Unify
+FABRIC_CAPACITY_ADMIN_UPN=<YOUR_USER_PRINCIPAL_NAME>
+SQL_ADMINISTRATOR_LOGIN=squnify
+SQL_ADMINISTRATOR_PASSWORD=<STRONG_SQL_PASSWORD>
+```
+
+`AZURE_RESOURCE_GROUP`, the capacity location, and the Storage location should be left as supplied unless the infrastructure templates are deliberately changed: the package deploys the resource group, SQL, and F16 Fabric capacity in **West US 2**, and Storage in **West US 3**. The script persists these values to the selected `azd` environment; it does not commit the values to source control.
+
+### Required access and tenant configuration
+
+The identity running the command needs the following access before deployment starts:
+
+| Requirement | Scope | Why it is needed |
+|---|---|---|
+| **Owner**, or **Contributor** plus **User Access Administrator** | Subscription or `rg-Build-Unify` | Creates the resource group, Storage, SQL, Fabric capacity, Logic App, API connection, and assigns/accesses managed identities. |
+| **Storage Blob Data Contributor** | Subscription, resource group, or created Storage account | Uploads the local source folders to the private `data` container through Entra authentication. Management-plane Contributor alone is not sufficient for blob data upload. |
+| Azure SQL Server administrator write permission and Microsoft Entra directory read access | Subscription/resource group and tenant | Sets the SQL Entra administrator, resolves the configured UPN, and loads the operational data. |
+| **Fabric capacity administrator** | New Fabric capacity | The `FABRIC_CAPACITY_ADMIN_UPN` is added as capacity administrator and is the workspace administrator/creator. |
+| Fabric workspace creation and item creation access | Fabric tenant and new capacity | Creates the workspace, Lakehouse, Fabric SQL Database, notebook, semantic model, report, and Data Agent. If a service principal is used, tenant settings must allow that service principal or its security group to use Fabric APIs. |
+| **Data agent item types (preview)** tenant setting enabled | Fabric Admin portal | Allows the package to create and publish the Fabric Data Agent. |
+| Existing Fabric or Power BI entitlement for the capacity admin | User | Required to use Fabric. The package checks for an existing Fabric/Power BI license first and only assigns an already tenant-exposed free or trial SKU; it never creates a new trial or assigns a paid SKU. |
+
+If the automatic license step may assign a free/trial SKU, the caller must also have Microsoft Graph permissions sufficient to read the target user's licenses and tenant SKUs and to assign a license (for example, delegated/admin-consented `User.Read.All`, `Organization.Read.All`, and `LicenseAssignment.ReadWrite.All`, or equivalent administrative access). A Fabric or Microsoft 365 administrator must first make any trial/free SKU available in the tenant.
+
+### Deploy everything with one command
+
+Run the following from `Unify-Package` after saving `.env`:
+
+```powershell
+.\up.ps1
+```
+
+The command checks Azure CLI authentication, installs ODBC Driver 18 if necessary, imports `.env` into the selected Azure Developer CLI environment, validates the analytical, operational, and business-application source data, then runs `azd up --no-prompt`.
+
+### What the pipeline creates
+
+| Area | Created artifacts |
+|---|---|
+| Azure foundation | `rg-Build-Unify`; a Standard LRS Storage account in West US 3 with private `data` container; a timestamp-and-suffix Azure SQL Server and `OperationalData` database in West US 2; F16 Fabric capacity in West US 2. |
+| Integration | `caldova-integration-account`, `caldova-businessapp-ingest` Logic App with system-assigned managed identity, and a managed-identity SQL API connection. The Logic App is granted Contributor access in the created Fabric workspace. |
+| Source ingestion | Copies the 13 analytical CSVs, 8 operational CSVs, and 2 business-application JSON files to Blob Storage; loads operational data to Azure SQL; loads the customer JSON into the Fabric SQL Database; then copies the three domains into OneLake. Operational source blobs are removed after their Lakehouse copy. |
+| Fabric workspace | `Caldova-Build-Unify-<stable-suffix>` on the newly created capacity, `Caldova_Lakehouse`, `Caldova_SQLDatabase`, and the Lakehouse ingestion notebook. |
+| Governed analytics | Direct Lake semantic model `Caldova_Unified_SemanticModel`, report `Caldova_Unified_Report`, and published Data Agent `Caldova_Unified_DataAgent`. |
+
+The Azure SQL server suffix changes on every run to avoid reusing a previous operational database. The Storage account, Fabric capacity, and workspace suffix are derived from the subscription and resource-group combination; they are stable for the same deployment target.
+
+### Expected result
+
+Successful output proceeds through validation, Azure provisioning, source upload, operational SQL load, Fabric workspace/Lakehouse setup, business-application ingestion, OneLake copy, semantic-model/report publication, and Data Agent publication. The final terminal output from `azd up` confirms that provisioning and post-provisioning completed.
+
+### Verify after deployment
+
+| Where | What to verify |
+|---|---|
+| Azure portal → Resource groups → `rg-Build-Unify` | Storage account, generated SQL Server, `OperationalData`, F16 Fabric capacity, Logic App, Integration Account, and SQL API connection. |
+| Azure portal → Storage account → Containers → `data` | `Analytical/` and `BusinessApplication/` source folders. The `Operational/` folder is cleaned up after its content is copied to the Lakehouse. |
+| Azure portal → SQL databases | `OperationalData` with the operational tables loaded. |
+| [Microsoft Fabric](https://app.fabric.microsoft.com/) → Workspaces | `Caldova-Build-Unify-<stable-suffix>` with the Lakehouse, Fabric SQL Database, ingestion notebook, semantic model, report, and Data Agent. |
+| Fabric Lakehouse | Delta tables in the **Tables** area for the unified data domains. |
+| Fabric Data Agent | `Caldova_Unified_DataAgent` is published and uses `Caldova_Unified_SemanticModel` as its governed analytics source. |
+
+---
