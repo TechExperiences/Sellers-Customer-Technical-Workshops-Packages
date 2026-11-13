@@ -1,6 +1,6 @@
 # Prerequisites
 
-This document lists everything needed to run the **Ubiquitous Innovation – Rapid Prototyping** exercises on your **own local machine and tenant.**
+This document lists everything needed to run the **Ubiquitous Innovation – Rapid Prototyping** exercises on your **own local/vm machine and Azure tenant.**
 
 ## What the exercises cover
 
