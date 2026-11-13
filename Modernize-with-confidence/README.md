@@ -1,6 +1,6 @@
 # Prerequisites
 
-This document lists everything needed to run the **Rapid Prototyping using GitHub Copilot** exercises on your **own local machine and Azure tenant**
+This document lists everything needed to run the **Rapid Prototyping using GitHub Copilot** exercises on your **own local/VM machine and Azure tenant**
 
 The exercises cover three scenarios:
 
