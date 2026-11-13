@@ -91,3 +91,123 @@ The prompts tell Copilot to **reuse existing resources**, so create these **befo
 - **Azure OpenAI endpoint**, **API key** and **embedding deployment name**
 - **GitHub username** signed in to VS Code with an active Copilot license
 ---
+
+## 7. Deploy `Miq-project-package` locally
+
+`Miq-project-package` is the automated Azure deployment path for the Caldova modernization demo. It treats the local CSV files in its `data` folder as a **simulated on-premises export**; it does not connect to an on-premises server or require source-system credentials.
+
+The pipeline provisions Azure infrastructure, imports the supplied relational data, generates vector embeddings, configures managed-identity access, deploys the ASP.NET Core web application, and validates the live semantic-search route.
+
+> **Important:** This package is separate from the earlier manual prototype instructions. Its automated deployment uses `rg-MWC`, not `rg-caldova-modernize`.
+
+### Before you run it
+
+1. Install **PowerShell 7**, **Azure CLI**, **Azure Developer CLI (`azd`)**, **.NET 10 SDK**, and **Git** on the local machine or VM.
+2. Ensure the subscription can create Azure SQL Hyperscale, App Service Basic B1, and Azure OpenAI resources. The resource providers `Microsoft.Sql`, `Microsoft.Web`, and `Microsoft.CognitiveServices` must be registered.
+3. Confirm Azure OpenAI quota and model availability in **West US** for:
+   - `gpt-5-mini`, version `2025-08-07`, Global Standard: 1K TPM.
+   - `text-embedding-ada-002`, version `2`, Standard: 10K TPM.
+4. Keep all supplied files in `Miq-project-package/data`. The pipeline imports 11 source CSV files and deliberately excludes `ProductDescriptionEmbeddings.csv`; it generates that 12th table during embedding creation.
+5. Create a local `.env` file from the supplied template. Keep it private and never commit it.
+
+```powershell
+cd "<repo-root>\Modernize-with-confidence\Miq-project-package"
+Copy-Item .env.example .env
+notepad .env
+```
+
+The following `.env` values are required:
+
+```dotenv
+AZURE_SUBSCRIPTION_ID=<SUBSCRIPTION_GUID>
+SQL_ADMINISTRATOR_PASSWORD=<STRONG_SQL_ADMIN_PASSWORD>
+SQL_ENTRA_ADMIN_LOGIN=<MICROSOFT_ENTRA_ADMIN_UPN>
+SQL_ENTRA_ADMIN_OBJECT_ID=<MICROSOFT_ENTRA_ADMIN_OBJECT_ID>
+```
+
+Optional values:
+
+```dotenv
+AZURE_ENV_NAME=Miq-project-package
+SQL_ADMINISTRATOR_LOGIN=sqladmincaldova
+SQL_MIGRATION_CLIENT_IP=<OPTIONAL_PUBLIC_IP>
+
+# Set all three only when non-interactive service-principal sign-in is required.
+AZURE_CLIENT_ID=<SERVICE_PRINCIPAL_CLIENT_ID>
+AZURE_TENANT_ID=<TENANT_ID>
+AZURE_CLIENT_SECRET=<SERVICE_PRINCIPAL_CLIENT_SECRET>
+```
+
+If `SQL_MIGRATION_CLIENT_IP` is omitted, the pipeline discovers the current public IP address and creates a temporary SQL firewall rule for the migration. The SQL administrator password must have at least eight characters, use at least three character categories, and must not contain the administrator login name.
+
+### Required access and permissions
+
+| Area | Requirement | Why |
+|------|-------------|-----|
+| Azure RBAC | **Owner** at subscription scope is the simplest setup. A least-privilege alternative is **Contributor** plus **User Access Administrator** at subscription or `rg-MWC` scope. | Creates resource groups, Azure SQL, App Service, Azure OpenAI, firewall rules, and the role assignment for the web app managed identity. |
+| Azure SQL | The deployment identity must be the configured SQL Microsoft Entra administrator, or otherwise already be authorized to connect and create database users. | Imports CSV data, creates the schema/vector table, and grants database access to the web app managed identity. |
+| Microsoft Graph | For unattended service-principal deployments, grant **Application.Read.All** application permission with tenant-admin consent, or grant equivalent directory-read access. | Resolves the generated web app managed identity application ID before creating its Azure SQL user. |
+| Azure OpenAI | Permission to deploy models and list account keys; **Cognitive Services Contributor** or broader Azure RBAC covers this. | Creates/checks deployments and temporarily retrieves an OpenAI key to generate the initial SQL embeddings. |
+| App identity | The pipeline assigns **Cognitive Services OpenAI User** to the generated App Service managed identity. | Lets the live web app call the embedding and chat deployments without storing an OpenAI secret. |
+| Local network | Outbound HTTPS access to Azure, Azure OpenAI, NuGet, and `api.ipify.org`; a public client IP that can be allowed through Azure SQL firewall rules. | Required for provisioning, package restore, data migration, and temporary database access. |
+
+With an interactive user, the first run may open Azure CLI / azd sign-in prompts. With all three `AZURE_CLIENT_*` variables present, `up.ps1` signs in to both Azure CLI and Azure Developer CLI non-interactively.
+
+### Single deployment command
+
+After completing the preparation above, run this one command from `Miq-project-package`:
+
+```powershell
+.\up.ps1
+```
+
+The command creates or selects the local azd environment, stores the subscription context, then runs `azd up --no-prompt`. Its hooks run the full six-stage migration and application deployment.
+
+### What the pipeline creates
+
+| Resource / result | Name or configuration |
+|-------------------|-----------------------|
+| Resource group | `rg-MWC`; reused if it already exists |
+| App Service plan | `plan-caldova-ordermgmt`, Basic B1 by default |
+| ASP.NET Core web app | `app-caldova-ordermgmt-<8-character-suffix>` |
+| Azure SQL logical server | `sql-caldova-<8-character-suffix>` |
+| Azure SQL Hyperscale database | `CaldovaOrderManagement`, `HS_Gen5_2` by default |
+| Azure OpenAI account | `openai-caldova-<8-character-suffix>` in West US |
+| Azure OpenAI deployments | `gpt-5-mini` and `text-embedding-ada-002` |
+| Relational migration | Eleven source CSV tables imported into `dbo` |
+| AI modernization result | `dbo.ProductDescriptionEmbeddings` with native `VECTOR(1536)` embeddings |
+| App security | System-assigned managed identity, database `db_datareader` / `db_datawriter` membership, Cognitive Services OpenAI User role, and SQL firewall rules for App Service outbound IPs |
+
+Location behavior is intentional:
+
+- The resource group starts in West US 2 when possible.
+- App Service and SQL independently fall back across supported US regions if needed.
+- Azure OpenAI and both model deployments are fixed to **West US**; the deployment stops rather than placing models in a different region.
+
+Each run generates a new suffix for the web app, SQL server, and Azure OpenAI account. Earlier failed resources are not reused or automatically deleted; remove them manually when no longer needed to avoid charges.
+
+### Expected completion output
+
+A successful run includes output similar to the following:
+
+```text
+[MIQ 1/6] Provisioning resource group, App Service, Azure SQL, and Azure OpenAI...
+[MIQ 3/6] Creating schema and importing the 11 simulated on-prem CSV exports...
+Pipeline verification succeeded: 11 source tables imported and <n> generated embeddings stored in dbo.ProductDescriptionEmbeddings.
+[MIQ 5/6] Configuring App Service identity, SQL access, OpenAI access, and network rules...
+[MIQ 6/6] Building and deploying the Caldova web UI...
+Semantic-search validation passed: Azure OpenAI embedding, Azure SQL vector ranking, and dashboard logging are working.
+Web UI deployed: https://app-caldova-ordermgmt-<suffix>.azurewebsites.net
+```
+
+The pipeline removes the temporary migration-client SQL firewall rule when it finishes. It keeps the App Service outbound-IP firewall rules because the live web app uses Azure SQL over public endpoints; there is no VNet in this demo configuration.
+
+### Where to verify the deployment
+
+- **Azure portal**: Open **Resource groups** → `rg-MWC`. The group contains the App Service plan/web app, SQL server/database, and Azure OpenAI account.
+- **Web application**: Open the generated `https://app-caldova-ordermgmt-<suffix>.azurewebsites.net` URL shown in the terminal. Use the **Semantic Search** page to verify Azure OpenAI embeddings and Azure SQL vector ranking.
+- **Azure SQL Database**: Open `CaldovaOrderManagement` under the generated `sql-caldova-<suffix>` server. In Query Editor or another Entra-authenticated SQL client, verify the imported tables and `dbo.ProductDescriptionEmbeddings`.
+- **Azure OpenAI / Foundry**: Open the generated `openai-caldova-<suffix>` resource in Azure portal or Microsoft Foundry. **Model deployments** shows `gpt-5-mini` and `text-embedding-ada-002`.
+- **App Service**: Open the generated web app → **Identity** to verify its system-assigned identity, and **Configuration** to review the generated application settings.
+
+---
