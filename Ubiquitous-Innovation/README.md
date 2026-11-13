@@ -113,3 +113,105 @@ A **Fabric Administrator** must turn these on once, for the whole organization o
 - **SharePoint site URL** of your `EnterpriseAIKnowledgeBase` library
 
 ---
+
+## 7. Deploy Fabric Automation locally
+
+The `FabricAutomation` folder provisions the Ubiquitous Innovation Fabric, Azure data, and Foundry foundation in one creation-only pipeline. It signs in to Azure non-interactively with the service principal in `.env`; it does not require an interactive `az login`.
+
+### Before you run it
+
+1. Install **Azure CLI** and **Python 3** on the local machine or VM. The script installs the Python packages listed in `FabricAutomation/requirements.txt` automatically.
+2. Confirm that the subscription has the Azure resource providers needed by the deployment: `Microsoft.Fabric`, `Microsoft.Storage`, and `Microsoft.CognitiveServices`.
+3. Confirm that the subscription can create an **F16 Fabric capacity** in West US 2. This is a paid Fabric capacity and incurs Azure charges while it is running.
+4. Confirm Foundry quota in **West US** for all three Global Standard deployments:
+   - `gpt-5-mini` (`2025-08-07`): 1K TPM
+   - `gpt-5.4` (`2026-03-05`): 100K TPM
+   - `text-embedding-3-small` (`1`): 50K TPM
+5. Keep the supplied CSV files in `FabricAutomation/Fabric Data`. The semantic model requires these six CSVs: `EquipmentQualification.csv`, `Inventory.csv`, `Plant.csv`, `PlantCapacity.csv`, `Product.csv`, and `ProductionPlan.csv`. The folder must contain CSV files only.
+6. Keep at least one file in `FabricAutomation/BlobData`. Every file in that folder is uploaded to the new ADLS Gen2 `data` container.
+7. From the `FabricAutomation` folder, create a local `.env` file from the template and fill in real values. Do not commit `.env` or the client secret.
+
+```powershell
+cd "<repo-root>\Ubiquitous-Innovation\FabricAutomation"
+Copy-Item .env.example .env
+notepad .env
+```
+
+Use these values in `.env`:
+
+```dotenv
+AZURE_SUBSCRIPTION_ID=<SUBSCRIPTION_GUID>
+AZURE_TENANT_ID=<TENANT_GUID>
+AZURE_CLIENT_ID=<SERVICE_PRINCIPAL_APPLICATION_CLIENT_ID>
+AZURE_CLIENT_SECRET=<SERVICE_PRINCIPAL_CLIENT_SECRET>
+AZURE_LOCATION=westus2
+AZURE_RESOURCE_GROUP=rg-Ubiquitous
+FABRIC_CAPACITY_ADMIN_UPN=<USER_UPN_TO_ADMINISTER_THE_CAPACITY_AND_WORKSPACE>
+```
+
+`AZURE_LOCATION` applies to the resource group, Fabric capacity, and storage account. Azure AI Foundry and all three model deployments are intentionally fixed to **West US**, regardless of this value. `AZURE_RESOURCE_GROUP` must remain exactly `rg-Ubiquitous`.
+
+### Required access and permissions
+
+The service principal identified by `AZURE_CLIENT_ID` needs the following before deployment:
+
+| Area | Requirement | Why |
+|------|-------------|-----|
+| Azure RBAC | **Owner** at subscription scope is the simplest supported setup. A least-privilege alternative is **Contributor** plus **User Access Administrator** at subscription scope. | The pipeline creates a new resource group, Fabric capacity, storage account, Foundry account/project/model deployments, and Azure role assignments. |
+| Microsoft Graph | **User.Read.All** application permission with tenant-admin consent | Resolves `FABRIC_CAPACITY_ADMIN_UPN` to its Entra object ID before assigning that user as workspace Admin. |
+| Power BI Service | **Dataset.ReadWrite.All** application permission with tenant-admin consent | Runs the enhanced API refresh for the Direct Lake semantic model. |
+| Fabric tenant settings | Enable **Service principals can use Fabric APIs** for the service principal or a security group containing it. Enable **Data agent item types (preview)**. If shown in the tenant, also allow service principals to create workspaces. | Lets the pipeline create and manage the Fabric workspace, Lakehouse, semantic model, and Data Agent. |
+| Foundry quota | Sufficient West US Global Standard quota for the three models listed above | Model deployment validation fails if the quota is fully allocated. |
+
+`FABRIC_CAPACITY_ADMIN_UPN` must be a valid Entra member user who can use Fabric in the tenant and has an appropriate Fabric/Power BI license. The script does **not** assign any user license. During deployment, that user is added as a capacity administrator, workspace Admin, and Foundry User on the new project.
+
+### Single deployment command
+
+After completing the preparation above, run this one command from `FabricAutomation`:
+
+```powershell
+.\up.ps1
+```
+
+The script automatically signs in to Azure CLI as the configured service principal if the current CLI session is not already that same application and tenant. It then creates all resources, ingests the local data, and publishes the Fabric Data Agent.
+
+This is deliberately **creation-only**. It stops before provisioning if `rg-Ubiquitous` already exists; it does not reuse, reassign, or overwrite an earlier deployment.
+
+### What is created
+
+| Location | Resource | Name / result |
+|----------|----------|---------------|
+| Azure, West US 2 | Resource group | `rg-Ubiquitous` |
+| Azure, West US 2 | Fabric capacity | `fabricubiquitous<suffix>`; F16 SKU |
+| Fabric | Workspace | `Ubiquitous-Innovation-<suffix>`, assigned only to the new capacity |
+| Fabric | Lakehouse | `Ubiquitous_Lakehouse` by default; schema-enabled |
+| Fabric | Lakehouse tables | Six CSV-backed tables plus `dbo.DimPlant` derived from the latest `Plant` observation |
+| Fabric | Direct Lake semantic model | `Ubiquitous_Innovation_SemanticModel`; no report is created |
+| Fabric | Published Data Agent | `Ubiquitous_Innovation_DataAgent` |
+| Azure, West US 2 | ADLS Gen2 account | `adlsubiquitous<suffix>` with private `data` container populated from `BlobData` |
+| Azure AI Foundry, West US | Foundry resource and project | `foundryubiquitous<suffix>` and `ubiquitous-innovation-project` |
+| Azure AI Foundry, West US | Model deployments | `gpt5mini`, `gpt-5.4`, and `text-embedding-3-small` |
+| Azure AI Foundry, West US | Prompt agent | `supply-chain-bi-agent`, using only `gpt5mini` with the instruction `You are my Supply chain agent.` |
+
+The standalone `gpt-5.4` and embedding deployments are not connected to the dummy Foundry agent.
+
+### Expected completion output
+
+Names contain a random five-character lowercase-alphanumeric suffix. A successful run ends with output similar to:
+
+```text
+Uploaded <n> file(s) to the ADLS Gen2 data container.
+Created 7 Delta table(s) in the Lakehouse Tables area.
+Creating and refreshing the Direct Lake semantic model...
+Creating and publishing the Data Agent...
+Creating the Foundry Supply Chain agent...
+Completed. Storage account: adlsubiquitous<suffix>; Workspace: Ubiquitous-Innovation-<suffix>; Lakehouse: Ubiquitous_Lakehouse; Semantic model: Ubiquitous_Innovation_SemanticModel; Data Agent: Ubiquitous_Innovation_DataAgent; Foundry project: ubiquitous-innovation-project; Foundry agent: SupplyChainAgent
+```
+
+### Where to verify the deployment
+
+- **Azure portal**: Open **Resource groups** → `rg-Ubiquitous`. You will see the Fabric capacity, ADLS Gen2 storage account, and Foundry resource. Open the storage account → **Data storage** → **Containers** → `data` to verify the `BlobData` upload.
+- **Microsoft Fabric**: Open [Fabric](https://app.fabric.microsoft.com/) → **Workspaces** → `Ubiquitous-Innovation-<suffix>`. The workspace contains `Ubiquitous_Lakehouse`, `Ubiquitous_Innovation_SemanticModel`, and `Ubiquitous_Innovation_DataAgent`. Open the Lakehouse → **Tables** to see the ingested Delta tables.
+- **Microsoft Foundry**: Open [Microsoft Foundry](https://ai.azure.com/) and select `ubiquitous-innovation-project` under the new `foundryubiquitous<suffix>` resource. **Models** shows the three deployments and **Agents** shows `supply-chain-bi-agent`.
+
+---
