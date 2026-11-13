@@ -116,6 +116,26 @@ A **Fabric Administrator** must turn these on once, for the whole organization o
 
 Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), Python 3, and `winget` available in the terminal. Keep the supplied `Analytical`, `Operational`, and `BusinessApplication` folders beside `up.ps1`; the pipeline validates and uploads their contents.
 
+#### Enable Azure resource providers
+
+In the Azure portal, open **Subscriptions** → select the deployment subscription → **Resource providers**. Search for and register these namespaces if their status is not **Registered**:
+
+- `Microsoft.Fabric` — Fabric F16 capacity.
+- `Microsoft.Storage` — Storage account and Blob container.
+- `Microsoft.Sql` — Azure SQL Server and `OperationalData` database.
+- `Microsoft.Logic` — Logic App and Integration Account.
+- `Microsoft.Web` — managed SQL API connection used by the Logic App.
+
+Alternatively, after signing in to Azure CLI with an identity that can register providers, run:
+
+```powershell
+az provider register --namespace Microsoft.Fabric --wait
+az provider register --namespace Microsoft.Storage --wait
+az provider register --namespace Microsoft.Sql --wait
+az provider register --namespace Microsoft.Logic --wait
+az provider register --namespace Microsoft.Web --wait
+```
+
 #### 2. Open the exact package folder
 
 Open PowerShell 7. Set `$repoRoot` to the complete folder where **you** cloned `Sellers-Customer-Technical-Workshops` (for example, `C:\Repos\Sellers-Customer-Technical-Workshops`), then run:

@@ -104,6 +104,22 @@ The pipeline provisions Azure infrastructure, imports the supplied relational da
 
 Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), .NET 10 SDK, and Git available in the terminal. Keep the supplied CSV files in `Miq-project-package\data`; the pipeline imports eleven source tables and generates the embeddings table itself.
 
+#### Enable Azure resource providers
+
+In the Azure portal, open **Subscriptions** → select the deployment subscription → **Resource providers**. Search for and register these namespaces if their status is not **Registered**:
+
+- `Microsoft.Sql` — Azure SQL Server and database.
+- `Microsoft.Web` — App Service plan, web application, and API connections.
+- `Microsoft.CognitiveServices` — Azure OpenAI account and model deployments.
+
+Alternatively, after signing in to Azure CLI with an identity that can register providers, run:
+
+```powershell
+az provider register --namespace Microsoft.Sql --wait
+az provider register --namespace Microsoft.Web --wait
+az provider register --namespace Microsoft.CognitiveServices --wait
+```
+
 #### 2. Open the exact package folder
 
 Open PowerShell 7. Set `$repoRoot` to the complete folder where **you** cloned `Sellers-Customer-Technical-Workshops` (for example, `C:\Repos\Sellers-Customer-Technical-Workshops`), then run:

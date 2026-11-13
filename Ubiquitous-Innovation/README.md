@@ -129,6 +129,22 @@ Use PowerShell 7 with Azure CLI (`az`) and Python 3 available in the terminal. K
 
 The subscription must be able to create the F16 capacity in West US 2 and the Foundry model deployments in West US.
 
+#### Enable Azure resource providers
+
+In the Azure portal, open **Subscriptions** → select the deployment subscription → **Resource providers**. Search for and register these namespaces if their status is not **Registered**:
+
+- `Microsoft.Fabric` — Fabric F16 capacity.
+- `Microsoft.Storage` — ADLS Gen2 Storage account and container.
+- `Microsoft.CognitiveServices` — Foundry account, project, and model deployments.
+
+Alternatively, after signing in to Azure CLI with an identity that can register providers, run:
+
+```powershell
+az provider register --namespace Microsoft.Fabric --wait
+az provider register --namespace Microsoft.Storage --wait
+az provider register --namespace Microsoft.CognitiveServices --wait
+```
+
 #### 2. Open the exact deployment folder
 
 Open PowerShell 7. Set `$repoRoot` to the complete folder where **you** cloned `Sellers-Customer-Technical-Workshops` (for example, `C:\Repos\Sellers-Customer-Technical-Workshops`), then run:
