@@ -1,6 +1,6 @@
 # Prerequisites
 
-This document lists everything needed to run the **Unify Data – Rapid Prototyping using GitHub Copilot** exercises on your **own local machine and tenant**.
+This document lists everything needed to run the **Unify Data – Rapid Prototyping using GitHub Copilot** exercises on your **own local/VM machine and Azure tenant**.
 
 ## What the exercises build
 
