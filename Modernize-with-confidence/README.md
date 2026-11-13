@@ -94,29 +94,40 @@ The prompts tell Copilot to **reuse existing resources**, so create these **befo
 
 ## 7. Deploy `Miq-project-package` locally
 
-`Miq-project-package` is the automated Azure deployment path for the Caldova modernization demo. It treats the local CSV files in its `data` folder as a **simulated on-premises export**; it does not connect to an on-premises server or require source-system credentials.
+`Miq-project-package` is the automated Azure deployment path for the Caldova modernization demo. It uses the local CSV files in its `data` folder to build the application data estate.
 
 The pipeline provisions Azure infrastructure, imports the supplied relational data, generates vector embeddings, configures managed-identity access, deploys the ASP.NET Core web application, and validates the live semantic-search route.
 
-> **Important:** This package is separate from the earlier manual prototype instructions. Its automated deployment uses `rg-MWC`, not `rg-caldova-modernize`.
+### Deployment steps
 
-### Before you run it
+#### 1. Confirm the local tools and source data
 
-1. Install **PowerShell 7**, **Azure CLI**, **Azure Developer CLI (`azd`)**, **.NET 10 SDK**, and **Git** on the local machine or VM.
-2. Ensure the subscription can create Azure SQL Hyperscale, App Service Basic B1, and Azure OpenAI resources. The resource providers `Microsoft.Sql`, `Microsoft.Web`, and `Microsoft.CognitiveServices` must be registered.
-3. Confirm Azure OpenAI quota and model availability in **West US** for:
-   - `gpt-5-mini`, version `2025-08-07`, Global Standard: 1K TPM.
-   - `text-embedding-ada-002`, version `2`, Standard: 10K TPM.
-4. Keep all supplied files in `Miq-project-package/data`. The pipeline imports 11 source CSV files and deliberately excludes `ProductDescriptionEmbeddings.csv`; it generates that 12th table during embedding creation.
-5. Create a local `.env` file from the supplied template. Keep it private and never commit it.
+Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), .NET 10 SDK, and Git available in the terminal. Keep the supplied CSV files in `Miq-project-package\data`; the pipeline imports eleven source tables and generates the embeddings table itself.
+
+#### 2. Open the exact package folder
+
+Open PowerShell 7. Set `$repoRoot` to the complete folder where **you** cloned `Sellers-Customer-Technical-Workshops` (for example, `C:\Repos\Sellers-Customer-Technical-Workshops`), then run:
 
 ```powershell
-cd "<repo-root>\Modernize-with-confidence\Miq-project-package"
+$repoRoot = "C:\path\to\Sellers-Customer-Technical-Workshops"
+Set-Location (Join-Path $repoRoot "Modernize-with-confidence\Miq-project-package")
+Get-Location
+```
+
+The displayed location must end with `Modernize-with-confidence\Miq-project-package`.
+
+#### 3. Create and store the environment file
+
+Create `.env` **inside this `Miq-project-package` folder**, at the same level as `up.ps1`. Keep this file on the deployment machine and do not commit it.
+
+```powershell
 Copy-Item .env.example .env
 notepad .env
 ```
 
-The following `.env` values are required:
+#### 4. Enter the required `.env` values
+
+Replace these four placeholders in the opened `.env` file:
 
 ```dotenv
 AZURE_SUBSCRIPTION_ID=<SUBSCRIPTION_GUID>
@@ -125,7 +136,16 @@ SQL_ENTRA_ADMIN_LOGIN=<MICROSOFT_ENTRA_ADMIN_UPN>
 SQL_ENTRA_ADMIN_OBJECT_ID=<MICROSOFT_ENTRA_ADMIN_OBJECT_ID>
 ```
 
-Optional values:
+| `.env` entry | Enter this value |
+|---|---|
+| `AZURE_SUBSCRIPTION_ID` | The target Azure subscription GUID. |
+| `SQL_ADMINISTRATOR_PASSWORD` | A strong password for the newly created SQL logical server. |
+| `SQL_ENTRA_ADMIN_LOGIN` | The Microsoft Entra administrator UPN for the new SQL server. |
+| `SQL_ENTRA_ADMIN_OBJECT_ID` | The Entra object ID for the same SQL administrator user. |
+
+#### 5. Review the optional `.env` values
+
+These values may be retained as shown in `.env.example`, or changed when your deployment requires them:
 
 ```dotenv
 AZURE_ENV_NAME=Miq-project-package
@@ -138,26 +158,20 @@ AZURE_TENANT_ID=<TENANT_ID>
 AZURE_CLIENT_SECRET=<SERVICE_PRINCIPAL_CLIENT_SECRET>
 ```
 
-If `SQL_MIGRATION_CLIENT_IP` is omitted, the pipeline discovers the current public IP address and creates a temporary SQL firewall rule for the migration. The SQL administrator password must have at least eight characters, use at least three character categories, and must not contain the administrator login name.
+| `.env` entry | How it is used |
+|---|---|
+| `AZURE_ENV_NAME` | Local Azure Developer CLI environment name. `Miq-project-package` is the default. |
+| `SQL_ADMINISTRATOR_LOGIN` | SQL authentication administrator login. `sqladmincaldova` is the default. |
+| `SQL_MIGRATION_CLIENT_IP` | Optional public IP used while loading the initial data. When left blank, the pipeline detects the current public IP. |
+| `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET` | Set all three together only when deployment signs in using a service principal. Leave all three unset for interactive sign-in. |
+| `AZURE_OPENAI_*` values already in `.env.example` | Package defaults for the app model names and API versions. The pipeline creates the OpenAI account and writes the deployed endpoint to the application configuration. |
 
-### Required access and permissions
+#### 6. Save and run the complete deployment
 
-| Area | Requirement | Why |
-|------|-------------|-----|
-| Azure RBAC | **Owner** at subscription scope is the simplest setup. A least-privilege alternative is **Contributor** plus **User Access Administrator** at subscription or `rg-MWC` scope. | Creates resource groups, Azure SQL, App Service, Azure OpenAI, firewall rules, and the role assignment for the web app managed identity. |
-| Azure SQL | The deployment identity must be the configured SQL Microsoft Entra administrator, or otherwise already be authorized to connect and create database users. | Imports CSV data, creates the schema/vector table, and grants database access to the web app managed identity. |
-| Microsoft Graph | For unattended service-principal deployments, grant **Application.Read.All** application permission with tenant-admin consent, or grant equivalent directory-read access. | Resolves the generated web app managed identity application ID before creating its Azure SQL user. |
-| Azure OpenAI | Permission to deploy models and list account keys; **Cognitive Services Contributor** or broader Azure RBAC covers this. | Creates/checks deployments and temporarily retrieves an OpenAI key to generate the initial SQL embeddings. |
-| App identity | The pipeline assigns **Cognitive Services OpenAI User** to the generated App Service managed identity. | Lets the live web app call the embedding and chat deployments without storing an OpenAI secret. |
-| Local network | Outbound HTTPS access to Azure, Azure OpenAI, NuGet, and `api.ipify.org`; a public client IP that can be allowed through Azure SQL firewall rules. | Required for provisioning, package restore, data migration, and temporary database access. |
-
-With an interactive user, the first run may open Azure CLI / azd sign-in prompts. With all three `AZURE_CLIENT_*` variables present, `up.ps1` signs in to both Azure CLI and Azure Developer CLI non-interactively.
-
-### Single deployment command
-
-After completing the preparation above, run this one command from `Miq-project-package`:
+Save and close Notepad. Return to the same PowerShell window, confirm it is still in the full `Miq-project-package` path, then run:
 
 ```powershell
+Set-Location (Join-Path $repoRoot "Modernize-with-confidence\Miq-project-package")
 .\up.ps1
 ```
 

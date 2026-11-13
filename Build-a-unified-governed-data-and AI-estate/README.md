@@ -108,32 +108,38 @@ A **Fabric Administrator** must turn these on once, for the whole organization o
 
 ## 6. Deploy `Unify-Package` locally
 
-`Unify-Package` is the automated implementation of this scenario. It validates the bundled source files, provisions the required Azure and Fabric foundation, loads the three source domains, and creates the governed Fabric analytics artifacts. It does **not** require the manually pre-provisioned resources described in the earlier exercise sections.
+`Unify-Package` is the automated implementation of this scenario. It validates the bundled source files, provisions the Azure and Fabric foundation, loads the three source domains, and creates the governed Fabric analytics artifacts.
 
-> The package intentionally creates a new Azure SQL logical server on every run. The resource group, Storage account, and Fabric capacity use deterministic names for the subscription and resource group; do not run this in a subscription where creating an F16 capacity is not approved.
+### Deployment steps
 
-### Local prerequisites
+#### 1. Confirm the local tools and source folders
 
-- Windows PowerShell 7 or newer.
-- [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli-windows) (`az`) and [Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) (`azd`).
-- Python 3.10 or newer available on `PATH`. The package installs its required Python libraries during deployment.
-- `winget`, if Microsoft ODBC Driver 18 for SQL Server is not already installed. The script checks for it and installs it automatically when required.
-- An Entra work account in the target Azure and Fabric tenant. The standard local workflow uses that account with `az login` and `azd auth login` when no existing sessions are available.
-- The source folders retained in the package:
-  - `Analytical/` — 13 CSV files.
-  - `Operational/` — 8 CSV files.
-  - `BusinessApplication/` — `CustomerDetails.json` and `CustomerAddress.json`.
+Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), Python 3, and `winget` available in the terminal. Keep the supplied `Analytical`, `Operational`, and `BusinessApplication` folders beside `up.ps1`; the pipeline validates and uploads their contents.
 
-### Configure `.env`
+#### 2. Open the exact package folder
 
-From the package directory, copy the example and replace every placeholder. Do not commit the populated file.
+Open PowerShell 7. Set `$repoRoot` to the complete folder where **you** cloned `Sellers-Customer-Technical-Workshops` (for example, `C:\Repos\Sellers-Customer-Technical-Workshops`), then run:
 
 ```powershell
-cd ".\Build-a-unified-governed-data-and AI-estate\Unify-Package"
-Copy-Item .env.example .env
+$repoRoot = "C:\path\to\Sellers-Customer-Technical-Workshops"
+Set-Location (Join-Path $repoRoot "Build-a-unified-governed-data-and AI-estate\Unify-Package")
+Get-Location
 ```
 
-Set these values in `.env`:
+The displayed location must end with `Build-a-unified-governed-data-and AI-estate\Unify-Package`.
+
+#### 3. Create and store the environment file
+
+Create `.env` **inside this `Unify-Package` folder**, at the same level as `up.ps1`. Keep this local file private and do not commit it.
+
+```powershell
+Copy-Item .env.example .env
+notepad .env
+```
+
+#### 4. Enter the `.env` values
+
+Replace the placeholders in the opened `.env` file:
 
 ```dotenv
 AZURE_ENV_NAME=unify-local
@@ -146,29 +152,23 @@ SQL_ADMINISTRATOR_LOGIN=squnify
 SQL_ADMINISTRATOR_PASSWORD=<STRONG_SQL_PASSWORD>
 ```
 
-`AZURE_RESOURCE_GROUP`, the capacity location, and the Storage location should be left as supplied unless the infrastructure templates are deliberately changed: the package deploys the resource group, SQL, and F16 Fabric capacity in **West US 2**, and Storage in **West US 3**. The script persists these values to the selected `azd` environment; it does not commit the values to source control.
+| `.env` entry | Enter this value |
+|---|---|
+| `AZURE_ENV_NAME` | A local Azure Developer CLI environment name, for example `unify-local`. |
+| `AZURE_SUBSCRIPTION_ID` | The subscription GUID for the new Azure and Fabric resources. |
+| `AZURE_TENANT_ID` | The Microsoft Entra tenant GUID for the deployment account. |
+| `AZURE_LOCATION` | Keep `westus2`; it is used by the resource group and SQL deployment. |
+| `AZURE_RESOURCE_GROUP` | Keep `rg-Build-Unify`; this is the resource group created by the package. |
+| `FABRIC_CAPACITY_ADMIN_UPN` | The Fabric user principal name that becomes capacity and workspace administrator. |
+| `SQL_ADMINISTRATOR_LOGIN` | SQL authentication administrator name. Keep `squnify` unless a different name is required. |
+| `SQL_ADMINISTRATOR_PASSWORD` | Strong password for the new Azure SQL Server. |
 
-### Required access and tenant configuration
+#### 5. Save and run the complete deployment
 
-The identity running the command needs the following access before deployment starts:
-
-| Requirement | Scope | Why it is needed |
-|---|---|---|
-| **Owner**, or **Contributor** plus **User Access Administrator** | Subscription or `rg-Build-Unify` | Creates the resource group, Storage, SQL, Fabric capacity, Logic App, API connection, and assigns/accesses managed identities. |
-| **Storage Blob Data Contributor** | Subscription, resource group, or created Storage account | Uploads the local source folders to the private `data` container through Entra authentication. Management-plane Contributor alone is not sufficient for blob data upload. |
-| Azure SQL Server administrator write permission and Microsoft Entra directory read access | Subscription/resource group and tenant | Sets the SQL Entra administrator, resolves the configured UPN, and loads the operational data. |
-| **Fabric capacity administrator** | New Fabric capacity | The `FABRIC_CAPACITY_ADMIN_UPN` is added as capacity administrator and is the workspace administrator/creator. |
-| Fabric workspace creation and item creation access | Fabric tenant and new capacity | Creates the workspace, Lakehouse, Fabric SQL Database, notebook, semantic model, report, and Data Agent. If a service principal is used, tenant settings must allow that service principal or its security group to use Fabric APIs. |
-| **Data agent item types (preview)** tenant setting enabled | Fabric Admin portal | Allows the package to create and publish the Fabric Data Agent. |
-| Existing Fabric or Power BI entitlement for the capacity admin | User | Required to use Fabric. The package checks for an existing Fabric/Power BI license first and only assigns an already tenant-exposed free or trial SKU; it never creates a new trial or assigns a paid SKU. |
-
-If the automatic license step may assign a free/trial SKU, the caller must also have Microsoft Graph permissions sufficient to read the target user's licenses and tenant SKUs and to assign a license (for example, delegated/admin-consented `User.Read.All`, `Organization.Read.All`, and `LicenseAssignment.ReadWrite.All`, or equivalent administrative access). A Fabric or Microsoft 365 administrator must first make any trial/free SKU available in the tenant.
-
-### Deploy everything with one command
-
-Run the following from `Unify-Package` after saving `.env`:
+Save and close Notepad. Return to the same PowerShell window, confirm it is still in the full `Unify-Package` path, then run:
 
 ```powershell
+Set-Location (Join-Path $repoRoot "Build-a-unified-governed-data-and AI-estate\Unify-Package")
 .\up.ps1
 ```
 

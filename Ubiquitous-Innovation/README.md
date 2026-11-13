@@ -116,28 +116,43 @@ A **Fabric Administrator** must turn these on once, for the whole organization o
 
 ## 7. Deploy Fabric Automation locally
 
-The `FabricAutomation` folder provisions the Ubiquitous Innovation Fabric, Azure data, and Foundry foundation in one creation-only pipeline. It signs in to Azure non-interactively with the service principal in `.env`; it does not require an interactive `az login`.
+The `FabricAutomation` folder provisions the Ubiquitous Innovation Fabric, Azure data, and Foundry foundation in one creation-only pipeline. It signs in to Azure with the service-principal values stored in `.env`.
 
-### Before you run it
+### Deployment steps
 
-1. Install **Azure CLI** and **Python 3** on the local machine or VM. The script installs the Python packages listed in `FabricAutomation/requirements.txt` automatically.
-2. Confirm that the subscription has the Azure resource providers needed by the deployment: `Microsoft.Fabric`, `Microsoft.Storage`, and `Microsoft.CognitiveServices`.
-3. Confirm that the subscription can create an **F16 Fabric capacity** in West US 2. This is a paid Fabric capacity and incurs Azure charges while it is running.
-4. Confirm Foundry quota in **West US** for all three Global Standard deployments:
-   - `gpt-5-mini` (`2025-08-07`): 1K TPM
-   - `gpt-5.4` (`2026-03-05`): 100K TPM
-   - `text-embedding-3-small` (`1`): 50K TPM
-5. Keep the supplied CSV files in `FabricAutomation/Fabric Data`. The semantic model requires these six CSVs: `EquipmentQualification.csv`, `Inventory.csv`, `Plant.csv`, `PlantCapacity.csv`, `Product.csv`, and `ProductionPlan.csv`. The folder must contain CSV files only.
-6. Keep at least one file in `FabricAutomation/BlobData`. Every file in that folder is uploaded to the new ADLS Gen2 `data` container.
-7. From the `FabricAutomation` folder, create a local `.env` file from the template and fill in real values. Do not commit `.env` or the client secret.
+#### 1. Confirm the local tools and source folders
+
+Use PowerShell 7 with Azure CLI (`az`) and Python 3 available in the terminal. Keep the supplied source folders beside `up.ps1`:
+
+- `Fabric Data` — the six CSV files used to create Lakehouse tables.
+- `BlobData` — one or more files to upload to the new ADLS Gen2 `data` container.
+
+The subscription must be able to create the F16 capacity in West US 2 and the Foundry model deployments in West US.
+
+#### 2. Open the exact deployment folder
+
+Open PowerShell 7. Set `$repoRoot` to the complete folder where **you** cloned `Sellers-Customer-Technical-Workshops` (for example, `C:\Repos\Sellers-Customer-Technical-Workshops`), then run:
 
 ```powershell
-cd "<repo-root>\Ubiquitous-Innovation\FabricAutomation"
+$repoRoot = "C:\path\to\Sellers-Customer-Technical-Workshops"
+Set-Location (Join-Path $repoRoot "Ubiquitous-Innovation\FabricAutomation")
+Get-Location
+```
+
+The displayed location must end with `Ubiquitous-Innovation\FabricAutomation`.
+
+#### 3. Create and store the environment file
+
+Create `.env` **inside this `FabricAutomation` folder**, at the same level as `up.ps1`. It is a local-only file and must not be committed or copied outside the deployment machine.
+
+```powershell
 Copy-Item .env.example .env
 notepad .env
 ```
 
-Use these values in `.env`:
+#### 4. Enter the `.env` values
+
+Replace every placeholder in the opened `.env` file:
 
 ```dotenv
 AZURE_SUBSCRIPTION_ID=<SUBSCRIPTION_GUID>
@@ -149,31 +164,28 @@ AZURE_RESOURCE_GROUP=rg-Ubiquitous
 FABRIC_CAPACITY_ADMIN_UPN=<USER_UPN_TO_ADMINISTER_THE_CAPACITY_AND_WORKSPACE>
 ```
 
-`AZURE_LOCATION` applies to the resource group, Fabric capacity, and storage account. Azure AI Foundry and all three model deployments are intentionally fixed to **West US**, regardless of this value. `AZURE_RESOURCE_GROUP` must remain exactly `rg-Ubiquitous`.
+| `.env` entry | Enter this value |
+|---|---|
+| `AZURE_SUBSCRIPTION_ID` | The Azure subscription GUID where the resources will be created. |
+| `AZURE_TENANT_ID` | The Microsoft Entra tenant GUID containing the subscription and Fabric tenant. |
+| `AZURE_CLIENT_ID` | Application (client) ID of the deployment service principal. |
+| `AZURE_CLIENT_SECRET` | Active client secret value for that same service principal. |
+| `AZURE_LOCATION` | Keep `westus2`; it is used for the resource group, capacity, and storage account. |
+| `AZURE_RESOURCE_GROUP` | Keep exactly `rg-Ubiquitous`; the creation-only workflow validates this name. |
+| `FABRIC_CAPACITY_ADMIN_UPN` | The user principal name that should see and administer the created Fabric workspace and capacity. |
 
-### Required access and permissions
+Foundry and its model deployments use West US independently of `AZURE_LOCATION`.
 
-The service principal identified by `AZURE_CLIENT_ID` needs the following before deployment:
+#### 5. Save and run the complete deployment
 
-| Area | Requirement | Why |
-|------|-------------|-----|
-| Azure RBAC | **Owner** at subscription scope is the simplest supported setup. A least-privilege alternative is **Contributor** plus **User Access Administrator** at subscription scope. | The pipeline creates a new resource group, Fabric capacity, storage account, Foundry account/project/model deployments, and Azure role assignments. |
-| Microsoft Graph | **User.Read.All** application permission with tenant-admin consent | Resolves `FABRIC_CAPACITY_ADMIN_UPN` to its Entra object ID before assigning that user as workspace Admin. |
-| Power BI Service | **Dataset.ReadWrite.All** application permission with tenant-admin consent | Runs the enhanced API refresh for the Direct Lake semantic model. |
-| Fabric tenant settings | Enable **Service principals can use Fabric APIs** for the service principal or a security group containing it. Enable **Data agent item types (preview)**. If shown in the tenant, also allow service principals to create workspaces. | Lets the pipeline create and manage the Fabric workspace, Lakehouse, semantic model, and Data Agent. |
-| Foundry quota | Sufficient West US Global Standard quota for the three models listed above | Model deployment validation fails if the quota is fully allocated. |
-
-`FABRIC_CAPACITY_ADMIN_UPN` must be a valid Entra member user who can use Fabric in the tenant and has an appropriate Fabric/Power BI license. The script does **not** assign any user license. During deployment, that user is added as a capacity administrator, workspace Admin, and Foundry User on the new project.
-
-### Single deployment command
-
-After completing the preparation above, run this one command from `FabricAutomation`:
+Save and close Notepad. Return to the same PowerShell window, confirm it is still in the full `FabricAutomation` path, then run:
 
 ```powershell
+Set-Location (Join-Path $repoRoot "Ubiquitous-Innovation\FabricAutomation")
 .\up.ps1
 ```
 
-The script automatically signs in to Azure CLI as the configured service principal if the current CLI session is not already that same application and tenant. It then creates all resources, ingests the local data, and publishes the Fabric Data Agent.
+The script uses `.env`, signs in to Azure, creates all resources, ingests the local data, and publishes the Fabric Data Agent.
 
 This is deliberately **creation-only**. It stops before provisioning if `rg-Ubiquitous` already exists; it does not reuse, reassign, or overwrite an earlier deployment.
 
