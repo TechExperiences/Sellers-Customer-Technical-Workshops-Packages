@@ -9,6 +9,13 @@ param sqlDatabaseName string
 param fabricCapacityName string
 param fabricCapacityLocation string
 param fabricCapacityAdministrators array
+param deploymentPrincipalObjectId string
+param deploymentPrincipalType string
+
+var storageBlobDataContributorRoleDefinitionId = subscriptionResourceId(
+  'Microsoft.Authorization/roleDefinitions',
+  'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
+)
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   name: storageAccountName
@@ -33,6 +40,18 @@ resource dataContainer 'Microsoft.Storage/storageAccounts/blobServices/container
   parent: blobService
   name: 'data'
   properties: { publicAccess: 'None' }
+}
+
+// The deployment identity uses Azure AD data-plane authentication (--auth-mode login)
+// for all source uploads, reads, and cleanup. Shared keys are intentionally disabled.
+resource deploymentPrincipalStorageBlobDataContributor 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(storageAccount.id, deploymentPrincipalObjectId, storageBlobDataContributorRoleDefinitionId)
+  scope: storageAccount
+  properties: {
+    principalId: deploymentPrincipalObjectId
+    principalType: deploymentPrincipalType
+    roleDefinitionId: storageBlobDataContributorRoleDefinitionId
+  }
 }
 
 resource sqlServer 'Microsoft.Sql/servers@2023-08-01-preview' = {

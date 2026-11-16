@@ -23,6 +23,13 @@ if (-not $env:SQL_ADMINISTRATOR_PASSWORD) {
 # UNIFY-SP-SUPPORT
 $operator = $env:FABRIC_CAPACITY_ADMIN_UPN
 $signedIn = az account show --query user -o json | ConvertFrom-Json
+$deploymentPrincipalType = if ($signedIn.type -eq 'servicePrincipal') { 'ServicePrincipal' } else { 'User' }
+$deploymentToken = (az account get-access-token --resource https://management.azure.com/ --query accessToken -o tsv).Trim()
+if ($LASTEXITCODE -ne 0 -or -not $deploymentToken) { throw 'Could not determine the object ID of the deployment identity.' }
+$deploymentPayload = $deploymentToken.Split('.')[1].Replace('-', '+').Replace('_', '/')
+switch ($deploymentPayload.Length % 4) { 2 { $deploymentPayload += '==' } 3 { $deploymentPayload += '=' } }
+$deploymentPrincipalObjectId = ([Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($deploymentPayload)) | ConvertFrom-Json).oid
+if (-not $deploymentPrincipalObjectId) { throw 'The deployment access token does not contain an object ID.' }
 if ($signedIn.type -eq 'servicePrincipal') {
     $token = (az account get-access-token --resource https://database.windows.net --query accessToken -o tsv).Trim()
     $payload = $token.Split('.')[1].Replace('-', '+').Replace('_', '/')
@@ -31,3 +38,7 @@ if ($signedIn.type -eq 'servicePrincipal') {
 }
 azd env set FABRIC_CAPACITY_ADMIN_OPERATOR $operator | Out-Null
 $env:FABRIC_CAPACITY_ADMIN_OPERATOR = $operator
+azd env set DEPLOYMENT_PRINCIPAL_OBJECT_ID $deploymentPrincipalObjectId | Out-Null
+azd env set DEPLOYMENT_PRINCIPAL_TYPE $deploymentPrincipalType | Out-Null
+$env:DEPLOYMENT_PRINCIPAL_OBJECT_ID = $deploymentPrincipalObjectId
+$env:DEPLOYMENT_PRINCIPAL_TYPE = $deploymentPrincipalType
