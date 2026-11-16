@@ -4,23 +4,26 @@
 
 ## Run from the VS Code integrated terminal
 
-1. Start **Visual Studio Code** and select **File** → **Open Folder**. Choose the cloned `Sellers-Customer-Technical-Workshops` repository folder.
-2. Select **Terminal** → **New Terminal** to open the integrated PowerShell terminal.
-3. Set your cloned-repository path and move to this package folder:
+1. Start **Visual Studio Code** and select **Terminal** → **New Terminal**.
+2. In the VS Code terminal, choose a parent folder for the repository, clone it once, and open the clone in VS Code:
 
 ```powershell
-$repoRoot = "C:\path\to\Sellers-Customer-Technical-Workshops"
-Set-Location (Join-Path $repoRoot "Build-a-unified-governed-data-and AI-estate\Unify-Package")
+New-Item -ItemType Directory -Path "C:\Repos" -Force | Out-Null
+Set-Location "C:\Repos"
+git clone https://github.com/TechExperiences/Sellers-Customer-Technical-Workshops.git
+Set-Location ".\Sellers-Customer-Technical-Workshops"
+code .
 ```
 
-4. Create `.env` on the first run, then edit it in VS Code:
+3. In the VS Code window opened for the clone, select **Terminal** → **New Terminal** again. Move to this package folder, create `.env` if it does not exist, and open it for editing:
 
 ```powershell
-Copy-Item .env.example .env
+Set-Location ".\Build-a-unified-governed-data-and AI-estate\Unify-Package"
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 code .env
 ```
 
-5. Save `.env`, return to the same terminal, and run the complete deployment:
+4. Enter the required `.env` values, save the file, return to the same terminal, and run the one deployment command:
 
 ```powershell
 .\up.ps1
@@ -28,11 +31,12 @@ code .env
 
 ```mermaid
 flowchart LR
-    A[Open repository in VS Code] --> B[Terminal: New Terminal]
-    B --> C[Move to Unify-Package]
-    C --> D[Create and edit .env]
-    D --> E[Run up.ps1]
-    E --> F[Review Azure and Fabric output]
+    A[Open VS Code terminal] --> B[Clone repository]
+    B --> C[Open cloned repository]
+    C --> D[Move to Unify-Package]
+    D --> E[Create and edit .env]
+    E --> F[Run up.ps1]
+    F --> G[Review Azure and Fabric output]
 ```
 
 ## 1. Confirm the local tools and source folders

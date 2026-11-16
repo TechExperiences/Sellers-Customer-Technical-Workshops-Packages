@@ -37,23 +37,26 @@ Prerequisites: Azure CLI, Python, Azure RBAC that permits the service principal 
 
 ### Run from the VS Code integrated terminal
 
-1. Start **Visual Studio Code** and select **File** → **Open Folder**. Choose the cloned `Sellers-Customer-Technical-Workshops` repository folder.
-2. Select **Terminal** → **New Terminal**. The terminal opens at the bottom of VS Code.
-3. Set your cloned-repository path and move to this package folder:
+1. Start **Visual Studio Code** and select **Terminal** → **New Terminal**.
+2. In the VS Code terminal, choose a parent folder for the repository, clone it once, and open the clone in VS Code:
 
 ```powershell
-$repoRoot = "C:\path\to\Sellers-Customer-Technical-Workshops"
-Set-Location (Join-Path $repoRoot "Ubiquitous-Innovation\FabricAutomation")
+New-Item -ItemType Directory -Path "C:\Repos" -Force | Out-Null
+Set-Location "C:\Repos"
+git clone https://github.com/TechExperiences/Sellers-Customer-Technical-Workshops.git
+Set-Location ".\Sellers-Customer-Technical-Workshops"
+code .
 ```
 
-4. Create `.env` on the first run, then edit it in VS Code:
+3. In the VS Code window opened for the clone, select **Terminal** → **New Terminal** again. Move to this package folder, create `.env` if it does not exist, and open it for editing:
 
 ```powershell
-Copy-Item .env.example .env
+Set-Location ".\Ubiquitous-Innovation\FabricAutomation"
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 code .env
 ```
 
-5. Save `.env`, return to the same terminal, and run `./up.ps1`:
+4. Enter the required `.env` values, save the file, return to the same terminal, and run the one deployment command:
 
 ```powershell
 .\up.ps1
@@ -61,11 +64,12 @@ code .env
 
 ```mermaid
 flowchart LR
-    A[Open repository in VS Code] --> B[Terminal: New Terminal]
-    B --> C[Move to FabricAutomation]
-    C --> D[Create and edit .env]
-    D --> E[Run up.ps1]
-    E --> F[Review completed output]
+    A[Open VS Code terminal] --> B[Clone repository]
+    B --> C[Open cloned repository]
+    C --> D[Move to FabricAutomation]
+    D --> E[Create and edit .env]
+    E --> F[Run up.ps1]
+    F --> G[Review completed output]
 ```
 
 ### 1. Confirm the local tools and source folders
