@@ -18,6 +18,14 @@ param sqlDatabaseName string = 'OperationalData'
 param fabricCapacityName string = toLower('fabriccapacity${take(uniqueString(subscription().id, resourceGroupName), 12)}')
 @description('UPNs of Fabric capacity administrators.')
 param fabricCapacityAdministrators array
+@description('Object ID of the Azure CLI identity that will upload and download Blob data.')
+param deploymentPrincipalObjectId string
+@description('Microsoft Entra principal type of the Azure CLI deployment identity.')
+@allowed([
+  'ServicePrincipal'
+  'User'
+])
+param deploymentPrincipalType string
 
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
   name: resourceGroupName
@@ -42,6 +50,8 @@ module estate './modules/estate.bicep' = {
     fabricCapacityName: fabricCapacityName
     fabricCapacityLocation: 'westus2'
     fabricCapacityAdministrators: union(fabricCapacityAdministrators, [])
+    deploymentPrincipalObjectId: deploymentPrincipalObjectId
+    deploymentPrincipalType: deploymentPrincipalType
   }
 }
 

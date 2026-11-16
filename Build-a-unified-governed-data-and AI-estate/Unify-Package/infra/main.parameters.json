@@ -11,6 +11,8 @@
     "sqlAdministratorPassword": { "value": "${SQL_ADMINISTRATOR_PASSWORD}" },
     "fabricCapacityAdministrators": {
       "value": ["${FABRIC_CAPACITY_ADMIN_UPN}", "${FABRIC_CAPACITY_ADMIN_OPERATOR}"]
-    }
+    },
+    "deploymentPrincipalObjectId": { "value": "${DEPLOYMENT_PRINCIPAL_OBJECT_ID}" },
+    "deploymentPrincipalType": { "value": "${DEPLOYMENT_PRINCIPAL_TYPE}" }
   }
 }
