@@ -42,8 +42,8 @@ resource dataContainer 'Microsoft.Storage/storageAccounts/blobServices/container
   properties: { publicAccess: 'None' }
 }
 
-// The deployment identity uses Azure AD data-plane authentication (--auth-mode login)
-// for all source uploads, reads, and cleanup. Shared keys are intentionally disabled.
+// Source-data scripts use az storage --auth-mode login. Give that Azure CLI
+// identity data-plane access without enabling shared keys on the storage account.
 resource deploymentPrincipalStorageBlobDataContributor 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(storageAccount.id, deploymentPrincipalObjectId, storageBlobDataContributorRoleDefinitionId)
   scope: storageAccount

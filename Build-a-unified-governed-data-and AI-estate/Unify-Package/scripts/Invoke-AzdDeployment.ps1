@@ -29,6 +29,23 @@ function Invoke-Checked {
     if ($LASTEXITCODE -ne 0) { throw $FailureMessage }
 }
 
+function Get-TokenObjectId {
+    param([Parameter(Mandatory)] [string]$AccessToken)
+
+    $tokenParts = $AccessToken.Split('.')
+    if ($tokenParts.Count -lt 2) { throw 'Azure access token is invalid.' }
+    $payload = $tokenParts[1].Replace('-', '+').Replace('_', '/')
+    switch ($payload.Length % 4) {
+        0 { break }
+        2 { $payload += '==' }
+        3 { $payload += '=' }
+        default { throw 'Azure access token payload is invalid.' }
+    }
+    $claims = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($payload)) | ConvertFrom-Json
+    if (-not $claims.oid) { throw 'Azure access token did not contain the deployment identity object ID.' }
+    return [string]$claims.oid
+}
+
 $environment = Import-DotEnv -Path (Resolve-Path -LiteralPath $EnvFile)
 foreach ($required in @('AZURE_ENV_NAME', 'AZURE_SUBSCRIPTION_ID', 'AZURE_LOCATION', 'AZURE_RESOURCE_GROUP', 'FABRIC_CAPACITY_ADMIN_UPN', 'SQL_ADMINISTRATOR_LOGIN', 'SQL_ADMINISTRATOR_PASSWORD')) {
     $value = [string]$environment[$required]
@@ -47,6 +64,20 @@ if ($LASTEXITCODE -ne 0) {
     Invoke-Checked -Command { & az login @tenantArgument --only-show-errors } -FailureMessage 'Azure CLI sign-in did not complete.'
 }
 Invoke-Checked -Command { & az account set --subscription $environment.AZURE_SUBSCRIPTION_ID } -FailureMessage "Cannot select subscription $($environment.AZURE_SUBSCRIPTION_ID). Sign in to the lab tenant and verify access."
+
+# The post-provision scripts use Azure CLI data-plane authentication, so grant Blob
+# access to that exact identity. This must happen before azd up: azd validates all
+# Bicep parameters before executing pre-provision hooks.
+$signedInIdentity = & az account show --query user -o json | ConvertFrom-Json
+if ($LASTEXITCODE -ne 0 -or -not $signedInIdentity.type) { throw 'Could not determine the signed-in Azure identity type.' }
+$deploymentPrincipalType = switch ($signedInIdentity.type) {
+    'servicePrincipal' { 'ServicePrincipal'; break }
+    'user' { 'User'; break }
+    default { throw "Unsupported Azure identity type for Blob role assignment: $($signedInIdentity.type)" }
+}
+$managementAccessToken = (& az account get-access-token --resource https://management.azure.com/ --query accessToken -o tsv).Trim()
+if ($LASTEXITCODE -ne 0 -or -not $managementAccessToken) { throw 'Could not acquire an Azure Resource Manager token for the deployment identity.' }
+$deploymentPrincipalObjectId = Get-TokenObjectId -AccessToken $managementAccessToken
 
 # A new logical server is intentional for every run.  The UTC timestamp makes the
 # name traceable; the random suffix protects against two runs starting in one second.
@@ -72,6 +103,9 @@ if (-not (Test-Path -LiteralPath $azdEnvironmentPath)) {
 foreach ($entry in $environment.GetEnumerator()) {
     Invoke-Checked -Command { & azd env set $entry.Key $entry.Value --environment $environment.AZURE_ENV_NAME } -FailureMessage "Could not save $($entry.Key) to the azd environment."
 }
+
+Invoke-Checked -Command { & azd env set DEPLOYMENT_PRINCIPAL_OBJECT_ID $deploymentPrincipalObjectId --environment $environment.AZURE_ENV_NAME } -FailureMessage 'Could not save DEPLOYMENT_PRINCIPAL_OBJECT_ID to the azd environment.'
+Invoke-Checked -Command { & azd env set DEPLOYMENT_PRINCIPAL_TYPE $deploymentPrincipalType --environment $environment.AZURE_ENV_NAME } -FailureMessage 'Could not save DEPLOYMENT_PRINCIPAL_TYPE to the azd environment.'
 
 # The Fabric capacity ARM resource consumes this value from the azd environment
 # while resolving infra/main.parameters.json.  Do an explicit final write and a

@@ -122,7 +122,7 @@ Set-Location (Join-Path $repoRoot "Build-a-unified-governed-data-and AI-estate\U
 
 The command checks Azure CLI authentication, installs ODBC Driver 18 when necessary, imports `.env` into the selected Azure Developer CLI environment, validates the source data, and runs `azd up --no-prompt`.
 
-The pipeline identifies the signed-in deployment identity automatically and assigns it **Storage Blob Data Contributor** on the newly created storage account. No Storage Blob role needs to be entered in `.env` or assigned manually for that deployment identity.
+Before provisioning, the pipeline identifies the Azure CLI deployment identity and saves its object ID and type into the local azd environment. Bicep then assigns that identity **Storage Blob Data Contributor** on the new storage account. No Blob role values are required in `.env`; the upload stage waits for the new assignment to propagate.
 
 ## What is created
 

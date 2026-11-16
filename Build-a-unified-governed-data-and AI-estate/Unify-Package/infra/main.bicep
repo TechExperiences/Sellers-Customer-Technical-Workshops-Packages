@@ -18,9 +18,9 @@ param sqlDatabaseName string = 'OperationalData'
 param fabricCapacityName string = toLower('fabriccapacity${take(uniqueString(subscription().id, resourceGroupName), 12)}')
 @description('UPNs of Fabric capacity administrators.')
 param fabricCapacityAdministrators array
-@description('Object ID of the identity running this deployment. It receives Blob data-plane access on the new storage account.')
+@description('Object ID of the Azure CLI identity that will upload and download Blob data.')
 param deploymentPrincipalObjectId string
-@description('Microsoft Entra principal type of the deployment identity.')
+@description('Microsoft Entra principal type of the Azure CLI deployment identity.')
 @allowed([
   'ServicePrincipal'
   'User'
