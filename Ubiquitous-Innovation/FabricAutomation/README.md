@@ -31,6 +31,8 @@ code .env
 .\up.ps1
 ```
 
+![Deployment output](images/image3.png)
+
 ## 1. Confirm the local tools and source folders
 
 Use PowerShell 7 with Azure CLI (`az`) and Python 3 available in the terminal. Keep the supplied source folders beside `up.ps1`:
@@ -131,8 +133,18 @@ The `BlobData` folder is uploaded recursively to the `data` container. Both sour
 ## Verify the result
 
 - **Azure portal** → **Resource groups** → `rg-Ubiquitous` for the Fabric capacity, storage account, and Foundry resource.
+
+  ![rg-Ubiquitous](images/image4.png)
+
 - **Microsoft Fabric** → **Workspaces** → `Ubiquitous-Innovation-<suffix>` for `Ubiquitous_Lakehouse`, `Ubiquitous_Innovation_SemanticModel`, and `Ubiquitous_Innovation_DataAgent`.
+
+  ![Fabric workspace](images/image5.png)
+
 - **Microsoft Foundry** → `ubiquitous-innovation-project` for the model deployments and `supply-chain-bi-agent`.
+
+  ![Foundry agents](images/image6.png)
+
+  ![supply-chain-bi-agent](images/image7.png)
 
 ## Additional deployment details
 
