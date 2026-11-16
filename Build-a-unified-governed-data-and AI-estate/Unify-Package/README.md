@@ -29,16 +29,6 @@ code .env
 .\up.ps1
 ```
 
-```mermaid
-flowchart LR
-    A[Open VS Code terminal] --> B[Clone repository]
-    B --> C[Open cloned repository]
-    C --> D[Move to Unify-Package]
-    D --> E[Create and edit .env]
-    E --> F[Run up.ps1]
-    F --> G[Review Azure and Fabric output]
-```
-
 ## 1. Confirm the local tools and source folders
 
 Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), Python 3, and `winget` available in the terminal. Keep the supplied `Analytical`, `Operational`, and `BusinessApplication` folders beside `up.ps1`; the pipeline validates and uploads their contents.
@@ -116,21 +106,6 @@ Set-Location (Join-Path $repoRoot "Build-a-unified-governed-data-and AI-estate\U
 ```
 
 The command checks Azure CLI authentication, installs ODBC Driver 18 when necessary, imports `.env` into the selected Azure Developer CLI environment, validates the source data, and runs `azd up --no-prompt`.
-
-```mermaid
-flowchart TB
-    RG[rg-Build-Unify] --> STORAGE[Storage account: data container]
-    RG --> SQL[Azure SQL: OperationalData]
-    RG --> CAP[F16 Fabric capacity]
-    RG --> LOGIC[Logic App and SQL connection]
-    STORAGE --> LH[Lakehouse]
-    SQL --> LH
-    LOGIC --> FSQL[Fabric SQL Database]
-    CAP --> WS[Fabric workspace]
-    WS --> LH
-    LH --> SM[Semantic model and report]
-    SM --> DA[Published Data Agent]
-```
 
 ## What is created
 

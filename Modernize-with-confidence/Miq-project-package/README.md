@@ -119,16 +119,6 @@ code .env
 .\up.ps1
 ```
 
-```mermaid
-flowchart LR
-    A[Open VS Code terminal] --> B[Clone repository]
-    B --> C[Open cloned repository]
-    C --> D[Move to Miq-project-package]
-    D --> E[Create and edit .env]
-    E --> F[Run up.ps1]
-    F --> G[Open web app URL]
-```
-
 ### 1. Confirm the local tools and source data
 
 Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), .NET 10 SDK, and Git available in the terminal. Keep the supplied CSV files in `data`; the pipeline imports eleven source tables and generates the embeddings table itself.
@@ -198,17 +188,6 @@ Set-Location (Join-Path $repoRoot "Modernize-with-confidence\Miq-project-package
 ```
 
 The command creates/selects the local azd environment and runs the full Azure SQL, Azure OpenAI, App Service, data migration, vector-embedding, and web-application deployment.
-
-```mermaid
-flowchart TB
-    RG[rg-MWC] --> WEB[App Service plan and web app]
-    RG --> SQL[Azure SQL: CaldovaOrderManagement]
-    RG --> AI[Azure OpenAI]
-    DATA[Local CSV files] --> SQL
-    AI --> EMBED[ProductDescriptionEmbeddings]
-    SQL --> WEB
-    AI --> WEB
-```
 
 ### Verify the result
 
