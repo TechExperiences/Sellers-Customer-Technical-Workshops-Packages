@@ -10,7 +10,7 @@
 | 4 | Azure SQL logical server | `sql-operational-<unique-suffix>` | West US 2 | Hosts the operational source database. |
 | 5 | Azure SQL database | `OperationalData` | West US 2 | Holds the eight operational tables before Fabric mirroring. |
 | 6 | Fabric capacity | `fabriccapacity<unique-suffix>` | West US 2 | F16 capacity, deployed inside `rg-Build-Unify`. |
-| 7 | Fabric license | `FABRIC_FREE` by default | Tenant level | Checked and assigned to the capacity administrator before workspace creation. |
+| 7 | Fabric/Power BI licence | Existing active entitlement, otherwise an available free/trial SKU | Tenant level | Uses an existing Fabric/Power BI entitlement first, including bundled service plans such as `BI_AZURE_P2` (Power BI Pro in Microsoft 365 E5). Only when none is active does it assign a tenant-exposed free/trial SKU to the capacity administrator before workspace creation. |
 | 8 | Fabric workspace | `Caldova-Build-Unify` | Assigned to West US 2 capacity | Governs Fabric items and access. |
 | 8 | Fabric Lakehouse | `Caldova_Lakehouse` | Workspace capacity | Delta storage for the unified analytical estate. |
 | 9 | Fabric SQL database | `Caldova_SQLDatabase` | Workspace capacity | Customer-master target if the Logic App pattern is retained. |
