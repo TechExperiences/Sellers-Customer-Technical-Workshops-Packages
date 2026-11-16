@@ -28,6 +28,23 @@ function Invoke-AzChecked {
   if ($LASTEXITCODE -ne 0) { throw "Azure CLI command failed: az $($Arguments -join ' ')" }
 }
 
+function Get-TokenObjectId {
+  param([Parameter(Mandatory)] [string]$AccessToken)
+
+  $tokenParts = $AccessToken.Split('.')
+  if ($tokenParts.Count -lt 2) { throw 'Azure SQL access token is invalid.' }
+  $payload = $tokenParts[1].Replace('-', '+').Replace('_', '/')
+  switch ($payload.Length % 4) {
+    0 { break }
+    2 { $payload += '==' }
+    3 { $payload += '=' }
+    default { throw 'Azure SQL access token payload is invalid.' }
+  }
+  $claims = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($payload)) | ConvertFrom-Json
+  if (-not $claims.oid) { throw 'Azure SQL access token does not contain the deployment identity object ID.' }
+  return [string]$claims.oid
+}
+
 function Wait-CaldovaEmbeddingDeployment {
   param(
     [Parameter(Mandatory)][string] $AccountName,
@@ -65,6 +82,23 @@ Write-Host '[MIQ 2/6] Preparing the SQL migration connection...'
 Write-Host "[MIQ 2/6] Opening temporary SQL firewall access for $clientIp..."
 Invoke-AzChecked @('sql', 'server', 'firewall-rule', 'create', '--resource-group', $resourceGroup, '--server', $sqlServerName, '--name', $firewallRuleName, '--start-ip-address', $clientIp, '--end-ip-address', $clientIp, '--output', 'none')
 Start-Sleep -Seconds 15
+
+$signedInIdentity = & az account show --query user -o json | ConvertFrom-Json
+if ($LASTEXITCODE -ne 0 -or -not $signedInIdentity.type) { throw 'Could not determine the current Azure CLI identity.' }
+$restoreConfiguredSqlAdministrator = $false
+if ($signedInIdentity.type -eq 'servicePrincipal') {
+  # The post-provision migration uses an Azure SQL access token from Azure CLI.
+  # A service principal has no database login unless it is temporarily made the
+  # server Entra admin; restore the configured lab user after all SQL work ends.
+  $sqlAccessToken = (& az account get-access-token --resource https://database.windows.net --query accessToken --output tsv).Trim()
+  if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($sqlAccessToken)) { throw 'Unable to acquire an Azure SQL token for the deploying service principal.' }
+  $servicePrincipalObjectId = Get-TokenObjectId -AccessToken $sqlAccessToken
+  Write-Host '[MIQ 2/6] Temporarily assigning the deploying service principal as the Azure SQL Entra administrator...'
+  Invoke-AzChecked @('sql', 'server', 'ad-admin', 'create', '--resource-group', $resourceGroup, '--server', $sqlServerName, '--display-name', $signedInIdentity.name, '--object-id', $servicePrincipalObjectId, '--output', 'none')
+  $restoreConfiguredSqlAdministrator = $true
+  Write-Host '[MIQ 2/6] Waiting for the temporary Azure SQL Entra administrator to take effect...'
+  Start-Sleep -Seconds 90
+}
 
 try {
   $connection = New-CaldovaSqlConnection -ServerName $sqlServerName -DatabaseName $databaseName
@@ -138,6 +172,14 @@ try {
   Write-Host '[MIQ 6/6] Deployment complete. The App Service URL is shown above.'
 }
 finally {
-  Write-Host 'Removing temporary SQL migration firewall access...'
-  & az sql server firewall-rule delete --resource-group $resourceGroup --server $sqlServerName --name $firewallRuleName --yes 2>$null
+  try {
+    if ($restoreConfiguredSqlAdministrator) {
+      Write-Host '[MIQ 6/6] Restoring the configured Azure SQL Entra administrator...'
+      Invoke-AzChecked @('sql', 'server', 'ad-admin', 'create', '--resource-group', $resourceGroup, '--server', $sqlServerName, '--display-name', $env:SQL_ENTRA_ADMIN_LOGIN, '--object-id', $env:SQL_ENTRA_ADMIN_OBJECT_ID, '--output', 'none')
+    }
+  }
+  finally {
+    Write-Host 'Removing temporary SQL migration firewall access...'
+    & az sql server firewall-rule delete --resource-group $resourceGroup --server $sqlServerName --name $firewallRuleName --yes 2>$null
+  }
 }

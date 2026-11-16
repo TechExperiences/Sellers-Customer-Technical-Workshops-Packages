@@ -119,6 +119,8 @@ Set-Location (Join-Path $repoRoot "Modernize-with-confidence\Miq-project-package
 
 For unattended sign-in, provide `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_CLIENT_SECRET` in `.env`. Otherwise, Azure authentication may open an interactive sign-in prompt.
 
+For an unattended service-principal run, the pipeline temporarily makes that service principal the Azure SQL Microsoft Entra administrator for the migration and web-app database setup. It restores the user configured by `SQL_ENTRA_ADMIN_LOGIN` and `SQL_ENTRA_ADMIN_OBJECT_ID` before completion.
+
 ## What is created
 
 | Area | Created artifacts |
