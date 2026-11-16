@@ -92,6 +92,39 @@ The starter configuration enables public network access for SQL and Azure OpenAI
 
 ## Deployment guide
 
+### Run from the VS Code integrated terminal
+
+1. Start **Visual Studio Code** and select **File** → **Open Folder**. Choose the cloned `Sellers-Customer-Technical-Workshops` repository folder.
+2. Select **Terminal** → **New Terminal** to open the integrated PowerShell terminal.
+3. Set your cloned-repository path and move to this package folder:
+
+```powershell
+$repoRoot = "C:\path\to\Sellers-Customer-Technical-Workshops"
+Set-Location (Join-Path $repoRoot "Modernize-with-confidence\Miq-project-package")
+```
+
+4. Create `.env` on the first run, then edit it in VS Code:
+
+```powershell
+Copy-Item .env.example .env
+code .env
+```
+
+5. Save `.env`, return to the same terminal, and run the deployment:
+
+```powershell
+.\up.ps1
+```
+
+```mermaid
+flowchart LR
+    A[Open repository in VS Code] --> B[Terminal: New Terminal]
+    B --> C[Move to Miq-project-package]
+    C --> D[Create and edit .env]
+    D --> E[Run up.ps1]
+    E --> F[Open web app URL]
+```
+
 ### 1. Confirm the local tools and source data
 
 Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), .NET 10 SDK, and Git available in the terminal. Keep the supplied CSV files in `data`; the pipeline imports eleven source tables and generates the embeddings table itself.
@@ -161,6 +194,17 @@ Set-Location (Join-Path $repoRoot "Modernize-with-confidence\Miq-project-package
 ```
 
 The command creates/selects the local azd environment and runs the full Azure SQL, Azure OpenAI, App Service, data migration, vector-embedding, and web-application deployment.
+
+```mermaid
+flowchart TB
+    RG[rg-MWC] --> WEB[App Service plan and web app]
+    RG --> SQL[Azure SQL: CaldovaOrderManagement]
+    RG --> AI[Azure OpenAI]
+    DATA[Local CSV files] --> SQL
+    AI --> EMBED[ProductDescriptionEmbeddings]
+    SQL --> WEB
+    AI --> WEB
+```
 
 ### Verify the result
 

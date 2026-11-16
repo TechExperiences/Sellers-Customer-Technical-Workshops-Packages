@@ -2,6 +2,39 @@
 
 `Unify-Package` validates the bundled source files, provisions the Azure and Fabric foundation, loads the three source domains, and creates the governed Fabric analytics artifacts.
 
+## Run from the VS Code integrated terminal
+
+1. Start **Visual Studio Code** and select **File** → **Open Folder**. Choose the cloned `Sellers-Customer-Technical-Workshops` repository folder.
+2. Select **Terminal** → **New Terminal** to open the integrated PowerShell terminal.
+3. Set your cloned-repository path and move to this package folder:
+
+```powershell
+$repoRoot = "C:\path\to\Sellers-Customer-Technical-Workshops"
+Set-Location (Join-Path $repoRoot "Build-a-unified-governed-data-and AI-estate\Unify-Package")
+```
+
+4. Create `.env` on the first run, then edit it in VS Code:
+
+```powershell
+Copy-Item .env.example .env
+code .env
+```
+
+5. Save `.env`, return to the same terminal, and run the complete deployment:
+
+```powershell
+.\up.ps1
+```
+
+```mermaid
+flowchart LR
+    A[Open repository in VS Code] --> B[Terminal: New Terminal]
+    B --> C[Move to Unify-Package]
+    C --> D[Create and edit .env]
+    D --> E[Run up.ps1]
+    E --> F[Review Azure and Fabric output]
+```
+
 ## 1. Confirm the local tools and source folders
 
 Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), Python 3, and `winget` available in the terminal. Keep the supplied `Analytical`, `Operational`, and `BusinessApplication` folders beside `up.ps1`; the pipeline validates and uploads their contents.
@@ -79,6 +112,21 @@ Set-Location (Join-Path $repoRoot "Build-a-unified-governed-data-and AI-estate\U
 ```
 
 The command checks Azure CLI authentication, installs ODBC Driver 18 when necessary, imports `.env` into the selected Azure Developer CLI environment, validates the source data, and runs `azd up --no-prompt`.
+
+```mermaid
+flowchart TB
+    RG[rg-Build-Unify] --> STORAGE[Storage account: data container]
+    RG --> SQL[Azure SQL: OperationalData]
+    RG --> CAP[F16 Fabric capacity]
+    RG --> LOGIC[Logic App and SQL connection]
+    STORAGE --> LH[Lakehouse]
+    SQL --> LH
+    LOGIC --> FSQL[Fabric SQL Database]
+    CAP --> WS[Fabric workspace]
+    WS --> LH
+    LH --> SM[Semantic model and report]
+    SM --> DA[Published Data Agent]
+```
 
 ## What is created
 

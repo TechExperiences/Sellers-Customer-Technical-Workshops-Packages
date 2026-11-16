@@ -35,6 +35,39 @@ Prerequisites: Azure CLI, Python, Azure RBAC that permits the service principal 
 
 ## Deployment guide
 
+### Run from the VS Code integrated terminal
+
+1. Start **Visual Studio Code** and select **File** → **Open Folder**. Choose the cloned `Sellers-Customer-Technical-Workshops` repository folder.
+2. Select **Terminal** → **New Terminal**. The terminal opens at the bottom of VS Code.
+3. Set your cloned-repository path and move to this package folder:
+
+```powershell
+$repoRoot = "C:\path\to\Sellers-Customer-Technical-Workshops"
+Set-Location (Join-Path $repoRoot "Ubiquitous-Innovation\FabricAutomation")
+```
+
+4. Create `.env` on the first run, then edit it in VS Code:
+
+```powershell
+Copy-Item .env.example .env
+code .env
+```
+
+5. Save `.env`, return to the same terminal, and run `./up.ps1`:
+
+```powershell
+.\up.ps1
+```
+
+```mermaid
+flowchart LR
+    A[Open repository in VS Code] --> B[Terminal: New Terminal]
+    B --> C[Move to FabricAutomation]
+    C --> D[Create and edit .env]
+    D --> E[Run up.ps1]
+    E --> F[Review completed output]
+```
+
 ### 1. Confirm the local tools and source folders
 
 Use PowerShell 7 with Azure CLI (`az`) and Python 3 available in the terminal. Keep the supplied source folders beside `up.ps1`:
@@ -110,6 +143,19 @@ Set-Location (Join-Path $repoRoot "Ubiquitous-Innovation\FabricAutomation")
 ```
 
 The workflow is creation-only. It creates `rg-Ubiquitous`, an F16 capacity, ADLS Gen2 storage, a Fabric workspace and Lakehouse, Lakehouse tables, a Direct Lake semantic model, a published Data Agent, and a Foundry project with model deployments and the Supply Chain agent.
+
+```mermaid
+flowchart TB
+    RG[rg-Ubiquitous] --> CAP[F16 Fabric capacity]
+    RG --> ADLS[ADLS Gen2: data container]
+    RG --> FOUNDRY[Foundry account and project]
+    CAP --> WS[Fabric workspace]
+    WS --> LH[Lakehouse and Delta tables]
+    LH --> SM[Direct Lake semantic model]
+    SM --> DA[Published Data Agent]
+    FOUNDRY --> MODELS[Model deployments]
+    FOUNDRY --> AGENT[Supply Chain agent]
+```
 
 ### Verify the result
 
