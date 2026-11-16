@@ -14,6 +14,8 @@ git clone https://github.com/TechExperiences/Sellers-Customer-Technical-Workshop
 Set-Location ".\Sellers-Customer-Technical-Workshops"
 code .
 ```
+![Miq-project-package .env](images/image2.png)
+
 
 3. In the VS Code window opened for the clone, select **Terminal** → **New Terminal** again. Move to this package folder, create `.env` if it does not exist, and open it for editing:
 
@@ -22,6 +24,8 @@ Set-Location ".\Modernize-with-confidence\Miq-project-package"
 if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 code .env
 ```
+
+![Miq-project-package .env](images/image1.png)
 
 4. Enter the required `.env` values, save the file, return to the same terminal, and run the one deployment command:
 

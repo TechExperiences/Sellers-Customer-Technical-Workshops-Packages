@@ -5,6 +5,7 @@
 ## Run from the VS Code integrated terminal
 
 1. Start **Visual Studio Code** and select **Terminal** → **New Terminal**.
+
 2. In the VS Code terminal, choose a parent folder for the repository, clone it once, and open the clone in VS Code:
 
 ```powershell
@@ -15,6 +16,8 @@ Set-Location ".\Sellers-Customer-Technical-Workshops"
 code .
 ```
 
+![Clone repo](images/image0.png)
+
 3. In the VS Code window opened for the clone, select **Terminal** → **New Terminal** again. Move to this package folder, create `.env` if it does not exist, and open it for editing:
 
 ```powershell
@@ -22,6 +25,8 @@ Set-Location ".\Build-a-unified-governed-data-and AI-estate\Unify-Package"
 if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 code .env
 ```
+
+![Unify-Package .env](images/image1.png)
 
 4. Enter the required `.env` values, save the file, return to the same terminal, and run the one deployment command:
 
@@ -130,3 +135,5 @@ The command checks Azure CLI authentication, installs ODBC Driver 18 when necess
 - **Azure portal** → **Resource groups** → `rg-Build-Unify` for Storage, generated SQL Server, Fabric capacity, Logic App, Integration Account, and API connection.
 - **Microsoft Fabric** → **Workspaces** → `Caldova-Build-Unify-<stable-suffix>` for the Lakehouse, Fabric SQL Database, notebook, semantic model, report, and Data Agent.
 - **Fabric Lakehouse** → **Tables** for the unified Delta tables.
+
+![Unify-Package .env](images/image2.png)
