@@ -71,6 +71,15 @@ Use PowerShell 7 with Azure CLI (`az`) and Python 3 available in the terminal. K
 
 The subscription must be able to create the F16 capacity in West US 2 and the Foundry model deployments in West US.
 
+### Deployment regions
+
+| Resource or workload | Region |
+|---|---|
+| Resource group `rg-Ubiquitous` | `AZURE_LOCATION` from `.env`; set to **West US 2** (`westus2`) in this guide. |
+| F16 Fabric capacity, ADLS Gen2 account, and `data` container | **West US 2** — they use `AZURE_LOCATION`. |
+| Fabric workspace, Lakehouse, Delta tables, semantic model, and Data Agent | **West US 2** — these are created on the West US 2 Fabric capacity. |
+| Foundry hub, Foundry project, and all Foundry model deployments (`gpt-5-mini`, `gpt-5.4`, and `text-embedding-3-small`) | **West US** (`westus`) — this is fixed in the infrastructure, independent of `AZURE_LOCATION`. |
+
 ### Enable Azure resource providers
 
 In Azure portal, open **Subscriptions** → select the deployment subscription → **Resource providers**. Register these namespaces if their status is not **Registered**:

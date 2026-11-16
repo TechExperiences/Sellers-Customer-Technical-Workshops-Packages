@@ -123,6 +123,18 @@ code .env
 
 Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), .NET 10 SDK, and Git available in the terminal. Keep the supplied CSV files in `data`; the pipeline imports eleven source tables and generates the embeddings table itself.
 
+### Deployment regions
+
+The deployment automatically tries the listed regions in order when a resource cannot be created in an earlier region. The final terminal output reports the exact region selected for each workload.
+
+| Resource or workload | Region selection |
+|---|---|
+| Resource group `rg-MWC` | First available of **West US 2**, **West US**, **East US**, then **East US 2**. Its location is retained on later runs. |
+| Azure SQL logical server and `CaldovaOrderManagement` database | First available of **West US 2**, **West US**, **East US**, then **East US 2**. |
+| App Service plan and web app | First available of **West US 2**, **West Central US**, **West US**, **East US**, then **East US 2**. |
+| Azure OpenAI account and its chat/embedding model deployments | **West US** (`westus`) only. |
+| Azure Developer CLI subscription deployment record | **West US 2** only; it is deployment metadata, not an application resource. |
+
 ### Enable Azure resource providers
 
 In Azure portal, open **Subscriptions** → select the deployment subscription → **Resource providers**. Register these namespaces if their status is not **Registered**:

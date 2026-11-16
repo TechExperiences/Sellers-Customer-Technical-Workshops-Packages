@@ -33,6 +33,16 @@ code .env
 
 Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), Python 3, and `winget` available in the terminal. Keep the supplied `Analytical`, `Operational`, and `BusinessApplication` folders beside `up.ps1`; the pipeline validates and uploads their contents.
 
+## Deployment regions
+
+| Resource or workload | Region |
+|---|---|
+| Resource group `rg-Build-Unify` | **West US 2** (`westus2`). |
+| Azure SQL Server, `OperationalData` database, Integration Account, SQL API connection, and Business Application ingestion Logic App | **West US 2**. |
+| F16 Fabric capacity | **West US 2**. |
+| Fabric workspace, Lakehouse, Fabric SQL Database, notebook, semantic model, report, and Data Agent | **West US 2** — these are created on the West US 2 Fabric capacity. |
+| Storage account and private `data` container | **West US 3** (`westus3`). |
+
 ## Enable Azure resource providers
 
 In Azure portal, open **Subscriptions** → select the deployment subscription → **Resource providers**. Register these namespaces if their status is not **Registered**:
