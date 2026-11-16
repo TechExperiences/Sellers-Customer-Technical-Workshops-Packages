@@ -87,3 +87,83 @@ AZURE_OPENAI_EMBEDDING_API_VERSION=2023-05-15
 ## Security note
 
 The starter configuration enables public network access for SQL and Azure OpenAI so the migration can run from the deployment client. The pipeline automatically removes its temporary SQL firewall rule afterward. Use Private Link/VNet integration for production app-to-SQL connectivity. The script does not commit the SQL password or Azure OpenAI key.
+
+---
+
+## Deployment guide
+
+### 1. Confirm the local tools and source data
+
+Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), .NET 10 SDK, and Git available in the terminal. Keep the supplied CSV files in `data`; the pipeline imports eleven source tables and generates the embeddings table itself.
+
+### Enable Azure resource providers
+
+In Azure portal, open **Subscriptions** → select the deployment subscription → **Resource providers**. Register these namespaces if their status is not **Registered**:
+
+- `Microsoft.Sql`
+- `Microsoft.Web`
+- `Microsoft.CognitiveServices`
+
+Or run:
+
+```powershell
+az provider register --namespace Microsoft.Sql --wait
+az provider register --namespace Microsoft.Web --wait
+az provider register --namespace Microsoft.CognitiveServices --wait
+```
+
+### 2. Open this deployment folder
+
+Set `$repoRoot` to the folder where you cloned `Sellers-Customer-Technical-Workshops`, then run:
+
+```powershell
+$repoRoot = "C:\path\to\Sellers-Customer-Technical-Workshops"
+Set-Location (Join-Path $repoRoot "Modernize-with-confidence\Miq-project-package")
+Get-Location
+```
+
+### 3. Create and edit `.env`
+
+Create `.env` in this `Miq-project-package` folder, beside `up.ps1`. Keep it local and do not commit it.
+
+```powershell
+Copy-Item .env.example .env
+notepad .env
+```
+
+Set these required values:
+
+```dotenv
+AZURE_SUBSCRIPTION_ID=<SUBSCRIPTION_GUID>
+SQL_ADMINISTRATOR_PASSWORD=<STRONG_SQL_ADMIN_PASSWORD>
+SQL_ENTRA_ADMIN_LOGIN=<MICROSOFT_ENTRA_ADMIN_UPN>
+SQL_ENTRA_ADMIN_OBJECT_ID=<MICROSOFT_ENTRA_ADMIN_OBJECT_ID>
+```
+
+| Entry | Value |
+|---|---|
+| `AZURE_SUBSCRIPTION_ID` | Target Azure subscription GUID. |
+| `SQL_ADMINISTRATOR_PASSWORD` | Strong password for the new SQL logical server. |
+| `SQL_ENTRA_ADMIN_LOGIN` | Microsoft Entra administrator UPN for the new SQL server. |
+| `SQL_ENTRA_ADMIN_OBJECT_ID` | Object ID for the same Entra administrator. |
+| `AZURE_ENV_NAME` | Optional local Azure Developer CLI environment name. |
+| `SQL_ADMINISTRATOR_LOGIN` | Optional SQL authentication login; `sqladmincaldova` is the default. |
+| `SQL_MIGRATION_CLIENT_IP` | Optional public IP for the migration; the pipeline detects it when left blank. |
+| `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET` | Set all three only for service-principal sign-in. |
+
+### 4. Run the complete deployment
+
+Save `.env`, remain in this folder, then run:
+
+```powershell
+Set-Location (Join-Path $repoRoot "Modernize-with-confidence\Miq-project-package")
+.\up.ps1
+```
+
+The command creates/selects the local azd environment and runs the full Azure SQL, Azure OpenAI, App Service, data migration, vector-embedding, and web-application deployment.
+
+### Verify the result
+
+- **Azure portal** → **Resource groups** → `rg-MWC` for the App Service plan/web app, SQL server/database, and Azure OpenAI account.
+- Open the generated `https://app-caldova-ordermgmt-<suffix>.azurewebsites.net` URL printed at completion.
+- In Azure SQL, verify `CaldovaOrderManagement` and `dbo.ProductDescriptionEmbeddings`.
