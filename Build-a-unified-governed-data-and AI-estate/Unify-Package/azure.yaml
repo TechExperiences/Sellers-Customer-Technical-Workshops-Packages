@@ -9,6 +9,3 @@ hooks:
   preprovision:
     shell: pwsh
     run: ./scripts/Ensure-AzureCliLogin.ps1; ./scripts/Prepare-AzdEnvironment.ps1; ./scripts/Test-SourceData.ps1
-  postprovision:
-    shell: pwsh
-    run: ./scripts/Post-Provision.ps1

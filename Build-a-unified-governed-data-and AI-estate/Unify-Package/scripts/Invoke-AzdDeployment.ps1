@@ -125,3 +125,16 @@ if ([string]::IsNullOrWhiteSpace($effectiveAdminUpn) -or $effectiveAdminUpn -ne 
 Write-Host 'Verified Fabric capacity administrator from .env in the azd environment.' -ForegroundColor Cyan
 
 Invoke-Checked -Command { & azd up --environment $environment.AZURE_ENV_NAME --no-prompt } -FailureMessage 'azd up failed. Review the preceding deployment output for the failing resource or permission.'
+
+# Keep Fabric deployment under this one-command wrapper rather than an azd lifecycle
+# hook.  Some azd executions reported successful ARM provisioning without emitting
+# the postprovision hook, which left Azure resources in place but no Fabric items.
+# Invoking the existing script directly makes Fabric creation visible and causes
+# .\up.ps1 to fail if any workspace, Lakehouse, ingestion, model, report, or Data
+# Agent step fails.
+Write-Host 'Azure provisioning completed. Starting the required Fabric post-provision stage...' -ForegroundColor Cyan
+& (Join-Path $PSScriptRoot 'Post-Provision.ps1')
+if ($LASTEXITCODE -ne 0) {
+    throw 'Fabric post-provisioning failed. Review the preceding Fabric output for the failing step.'
+}
+Write-Host 'Fabric post-provision stage completed.' -ForegroundColor Green
