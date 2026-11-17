@@ -1,5 +1,7 @@
 [CmdletBinding()]
-param()
+param(
+    [Parameter(Mandatory)] [string]$WorkspaceName
+)
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
@@ -81,7 +83,9 @@ $env:AZURE_FABRIC_ACCESS_TOKEN = Get-AzureAccessToken -Resource 'https://api.fab
 $env:AZURE_STORAGE_ACCESS_TOKEN = Get-AzureAccessToken -Resource 'https://storage.azure.com/' -Purpose 'Azure Blob Storage and OneLake'
 $env:AZURE_POWERBI_ACCESS_TOKEN = Get-AzureAccessToken -Resource 'https://analysis.windows.net/powerbi/api' -Purpose 'Power BI semantic model refresh'
 try {
-    $fabric = & (Join-Path $PSScriptRoot 'Deploy-FabricFoundation.ps1') -FabricCapacityResourceId $capacityResourceId
+    $fabric = & (Join-Path $PSScriptRoot 'Deploy-FabricFoundation.ps1') `
+        -FabricCapacityResourceId $capacityResourceId `
+        -WorkspaceName $WorkspaceName
     if (-not $fabric.workspaceId -or -not $fabric.lakehouseId) {
         throw 'Fabric foundation provisioning did not return a workspace or Lakehouse ID.'
     }

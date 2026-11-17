@@ -1,4 +1,4 @@
-"""Create or reuse the Fabric workspace, Lakehouse, and Fabric SQL Database through Fabric REST APIs."""
+"""Create a fresh Fabric workspace, Lakehouse, and Fabric SQL Database through Fabric REST APIs."""
 from __future__ import annotations
 
 import argparse
@@ -160,76 +160,36 @@ def fabric_capacity_id(fabric: Api, azure_capacity_resource_id: str) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--capacity-resource-id", required=True)
-    parser.add_argument("--workspace", default="Caldova-Build-Unify")
+    parser.add_argument("--workspace", required=True)
     parser.add_argument("--lakehouse", default="Caldova_Lakehouse")
     parser.add_argument("--sql-database", default="Caldova_SQLDatabase")
     args = parser.parse_args()
 
     fabric = Api(FABRIC_API, token("https://api.fabric.microsoft.com"))
 
-    # Always resolved by display name, every run - no ID is ever persisted/trusted
-    # across runs. This matches the pattern in Microsoft's own microsoft-iq-solution-
-    # accelerator (infra/scripts/fabric/step_workspace_setup.py): a pinned ID is only
-    # a correctness risk in a sandbox tenant that can delete workspaces or drop their
-    # capacity binding between runs, whereas a fresh by-name lookup self-heals for
-    # free (a deleted workspace simply isn't found, and a fresh one is created).
     capacity_id = fabric_capacity_id(fabric, args.capacity_resource_id)
-    workspaces = fabric.list_all("/workspaces")
-    workspace = next(
-        (w for w in workspaces if w.get("displayName") == args.workspace and w.get("capacityId") == capacity_id),
-        None,
-    )
-    if workspace is None:
-        # Also consider a same-named workspace that has lost its capacity binding
-        # (observed directly in this sandbox), rather than creating a duplicate
-        # workspace next to one that just needs reassigning.
-        workspace = next((w for w in workspaces if w.get("displayName") == args.workspace), None)
-    if workspace is None:
-        workspace = fabric.request("POST", "/workspaces", {
-            "displayName": args.workspace,
-            "capacityId": capacity_id,
-        })
+    # Every invocation receives a run-specific workspace name from .\up.ps1.  Do
+    # not list, repair, or reuse prior workspaces: a prior partial deployment must
+    # never block this run from receiving an entirely fresh set of Fabric items.
+    workspace = fabric.request("POST", "/workspaces", {
+        "displayName": args.workspace,
+        "capacityId": capacity_id,
+    })
     workspace_id = workspace["id"]
 
-    # Idempotent: reassigning to the same capacity is a safe no-op when already bound,
-    # and self-heals the workspace when the assignment has silently dropped (also
-    # observed directly in this sandbox).
+    # Wait for the new workspace's capacity assignment before creating items.
     fabric.request("POST", f"/workspaces/{workspace_id}/assignToCapacity", {"capacityId": capacity_id})
     wait_for_capacity_assignment(fabric, workspace_id)
 
-    items = fabric.list_all(f"/workspaces/{workspace_id}/items")
-    lakehouse = first(items, args.lakehouse)
-    if lakehouse is not None:
-        lakehouse_details = get_or_none(fabric, f"/workspaces/{workspace_id}/lakehouses/{lakehouse['id']}")
-        # A Lakehouse created without creationPayload.enableSchemas is permanently flat -
-        # schemas cannot be enabled in place - so the notebook's "CREATE SCHEMA dbo" and
-        # every dbo.<table> write fail immediately. Treat a schema-less Lakehouse the same
-        # as an orphaned one: discard and recreate with schemas enabled from the start.
-        if lakehouse_details is None or not lakehouse_details.get("properties", {}).get("defaultSchema"):
-            # The generic Items API DELETE returns 400 OperationNotSupportedForItem for a
-            # Lakehouse; its own dedicated endpoint is required.
-            fabric.request("DELETE", f"/workspaces/{workspace_id}/lakehouses/{lakehouse['id']}")
-            lakehouse = None
-    if lakehouse is None:
-        fabric.request("POST", f"/workspaces/{workspace_id}/lakehouses", {
-            "displayName": args.lakehouse,
-            "creationPayload": {"enableSchemas": True},
-        })
-        lakehouse = wait_for_workspace_item(fabric, workspace_id, args.lakehouse)
+    fabric.request("POST", f"/workspaces/{workspace_id}/lakehouses", {
+        "displayName": args.lakehouse,
+        "creationPayload": {"enableSchemas": True},
+    })
+    lakehouse = wait_for_workspace_item(fabric, workspace_id, args.lakehouse)
 
-    sql_database = first(items, args.sql_database)
-    sql_database_details = None
-    if sql_database is not None:
-        sql_database_details = get_or_none(fabric, f"/workspaces/{workspace_id}/sqlDatabases/{sql_database['id']}")
-        if sql_database_details is None:
-            # Same orphaned-leftover situation as the Lakehouse check above - and the same
-            # dedicated-endpoint requirement for DELETE.
-            fabric.request("DELETE", f"/workspaces/{workspace_id}/sqlDatabases/{sql_database['id']}")
-            sql_database = None
-    if sql_database is None:
-        fabric.request("POST", f"/workspaces/{workspace_id}/sqlDatabases", {"displayName": args.sql_database})
-        sql_database = wait_for_workspace_item(fabric, workspace_id, args.sql_database)
-        sql_database_details = fabric.request("GET", f"/workspaces/{workspace_id}/sqlDatabases/{sql_database['id']}")
+    fabric.request("POST", f"/workspaces/{workspace_id}/sqlDatabases", {"displayName": args.sql_database})
+    sql_database = wait_for_workspace_item(fabric, workspace_id, args.sql_database)
+    sql_database_details = fabric.request("GET", f"/workspaces/{workspace_id}/sqlDatabases/{sql_database['id']}")
 
     # The item list's entry has no "properties"; the dedicated detail fetch above
     # (either reused or freshly created) carries the TDS connection details for
