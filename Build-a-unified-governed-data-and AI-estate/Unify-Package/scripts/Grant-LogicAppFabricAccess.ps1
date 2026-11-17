@@ -1,7 +1,10 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)] [string]$WorkspaceId,
-    [Parameter(Mandatory)] [string]$LogicAppPrincipalId,
+    [Parameter(Mandatory)] [string]$PrincipalId,
+    [Parameter(Mandatory)] [ValidateSet('User', 'ServicePrincipal')] [string]$PrincipalType,
+    [Parameter(Mandatory)] [ValidateSet('Admin', 'Contributor')] [string]$Role,
+    [Parameter(Mandatory)] [string]$PrincipalDescription,
     [Parameter(Mandatory)] [string]$FabricAccessToken
 )
 
@@ -11,23 +14,21 @@ $ErrorActionPreference = 'Stop'
 $headers = @{ Authorization = "Bearer $FabricAccessToken" }
 $roleAssignmentsUri = "https://api.fabric.microsoft.com/v1/workspaces/$WorkspaceId/roleAssignments"
 
-# The Fabric Core API takes the service principal's Entra object ID directly, unlike
-# the legacy Power BI membership API, which required the application (client) ID and
-# did its own internal Microsoft Graph lookup - the lookup that was flaky for a
-# managed identity created moments earlier by this same deployment.
+# The Fabric Core API takes Entra object IDs directly, avoiding the legacy Power BI
+# membership API's separate Microsoft Graph application-ID lookup.
 $roleAssignments = Invoke-RestMethod -Method Get -Uri $roleAssignmentsUri -Headers $headers
-$existing = @($roleAssignments.value | Where-Object { $_.principal.id -eq $LogicAppPrincipalId })
+$existing = @($roleAssignments.value | Where-Object { $_.principal.id -eq $PrincipalId })
 if ($existing) {
-    Write-Host "Logic App managed identity already has Fabric workspace access." -ForegroundColor Green
+    Write-Host "$PrincipalDescription already has Fabric workspace access." -ForegroundColor Green
     return
 }
 
 $body = @{
     principal = @{
-        id   = $LogicAppPrincipalId
-        type = 'ServicePrincipal'
+        id   = $PrincipalId
+        type = $PrincipalType
     }
-    role = 'Contributor'
+    role = $Role
 } | ConvertTo-Json -Compress
 
 # Kept as defense-in-depth for any residual propagation delay, though the Fabric Core
@@ -37,11 +38,11 @@ $delaySeconds = 15
 for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
     try {
         Invoke-RestMethod -Method Post -Uri $roleAssignmentsUri -Headers $headers -ContentType 'application/json' -Body $body | Out-Null
-        Write-Host "Granted the Logic App managed identity Contributor access to Fabric workspace $WorkspaceId." -ForegroundColor Green
+        Write-Host "Granted $PrincipalDescription the $Role role in Fabric workspace $WorkspaceId." -ForegroundColor Green
         return
     } catch {
         if ($attempt -eq $maxAttempts) { throw }
-        Write-Host "Granting Fabric workspace access attempt $attempt of $maxAttempts failed ($($_.Exception.Message)); retrying in $delaySeconds seconds..." -ForegroundColor Yellow
+        Write-Host "Granting $PrincipalDescription Fabric workspace access attempt $attempt of $maxAttempts failed ($($_.Exception.Message)); retrying in $delaySeconds seconds..." -ForegroundColor Yellow
         Start-Sleep -Seconds $delaySeconds
         $delaySeconds = [Math]::Min($delaySeconds * 2, 120)
     }

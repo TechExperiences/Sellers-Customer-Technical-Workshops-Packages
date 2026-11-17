@@ -93,6 +93,22 @@ try {
         throw 'Fabric foundation provisioning did not return the Fabric SQL Database connection details.'
     }
 
+    # The workspace is created by the service principal in unattended runs. Add the
+    # configured human capacity administrator explicitly so the new workspace and all
+    # of its Lakehouse, SQL, notebook, semantic model, report, and Data Agent items
+    # are visible in the Fabric portal under that user's normal sign-in.
+    $capacityAdminObjectId = (az ad user show --id $env:FABRIC_CAPACITY_ADMIN_UPN --query id -o tsv).Trim()
+    if ($LASTEXITCODE -ne 0 -or -not $capacityAdminObjectId) {
+        throw "Could not resolve the Entra object ID for Fabric capacity administrator $($env:FABRIC_CAPACITY_ADMIN_UPN)."
+    }
+    & (Join-Path $PSScriptRoot 'Grant-LogicAppFabricAccess.ps1') `
+        -WorkspaceId $fabric.workspaceId `
+        -PrincipalId $capacityAdminObjectId `
+        -PrincipalType User `
+        -Role Admin `
+        -PrincipalDescription $env:FABRIC_CAPACITY_ADMIN_UPN `
+        -FabricAccessToken $env:AZURE_FABRIC_ACCESS_TOKEN
+
     # Runs as the signed-in operator (the workspace creator, hence its Admin), so CREATE
     # TABLE succeeds regardless of what the Logic App's Contributor access maps to below.
     $env:AZURE_SQL_ACCESS_TOKEN = Get-AzureAccessToken -Resource 'https://database.windows.net' -Purpose 'Fabric SQL Database schema'
@@ -110,11 +126,13 @@ try {
         throw 'The managed identity for caldova-businessapp-ingest was not created.'
     }
 
-    # Uses the Fabric Core role-assignments API with the identity's object ID directly,
-    # avoiding the legacy Power BI membership API's separate Microsoft Graph app-ID lookup.
+    # The Logic App only needs Contributor access to execute the Fabric SQL ingestion.
     & (Join-Path $PSScriptRoot 'Grant-LogicAppFabricAccess.ps1') `
         -WorkspaceId $fabric.workspaceId `
-        -LogicAppPrincipalId $logicAppPrincipalId `
+        -PrincipalId $logicAppPrincipalId `
+        -PrincipalType ServicePrincipal `
+        -Role Contributor `
+        -PrincipalDescription 'Logic App managed identity' `
         -FabricAccessToken $env:AZURE_FABRIC_ACCESS_TOKEN
 
     & (Join-Path $PSScriptRoot 'Invoke-BusinessApplicationIngestion.ps1') `
