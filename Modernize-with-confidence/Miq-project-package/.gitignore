@@ -3,6 +3,7 @@
 .azure/
 .deployment-state.json
 .artifacts/
+.dotnet/
 infra/sql/.embedding-runtime.sql
 src/CaldovaOrderManagement.Web/bin/
 src/CaldovaOrderManagement.Web/obj/

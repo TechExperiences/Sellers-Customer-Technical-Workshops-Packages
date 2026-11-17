@@ -9,7 +9,8 @@ $projectRoot = Split-Path $PSScriptRoot -Parent
 $webProject = Join-Path $projectRoot 'src\CaldovaOrderManagement.Web\CaldovaOrderManagement.Web.csproj'
 $artifactRoot = Join-Path $projectRoot '.artifacts\webapp'
 $zipPath = Join-Path $projectRoot '.artifacts\caldova-webapp.zip'
-if (-not (Get-Command dotnet -ErrorAction SilentlyContinue)) { throw '.NET 10 SDK is required to publish the web application.' }
+. (Join-Path $PSScriptRoot 'Ensure-DotNetSdk.ps1')
+Initialize-CaldovaDotNetSdk -ProjectRoot $projectRoot -MajorVersion 10
 
 function Save-CaldovaAppServiceDiagnostics {
   param([Parameter(Mandatory)][string] $Group, [Parameter(Mandatory)][string] $App)

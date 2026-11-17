@@ -5,7 +5,10 @@ $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
 . (Join-Path $PSScriptRoot 'Import-DotEnv.ps1')
 . (Join-Path $PSScriptRoot 'Sql-Helpers.ps1')
+. (Join-Path $PSScriptRoot 'Ensure-DotNetSdk.ps1')
 Import-DotEnv -Path (Join-Path $projectRoot '.env')
+# Resolve the .NET 10 SDK before any SQL work so a missing SDK cannot fail the run at the final publish step.
+Initialize-CaldovaDotNetSdk -ProjectRoot $projectRoot -MajorVersion 10
 
 $statePath = Join-Path $projectRoot '.deployment-state.json'
 if (-not (Test-Path -LiteralPath $statePath -PathType Leaf)) { throw 'Deployment state is missing. The preprovision stage did not complete.' }

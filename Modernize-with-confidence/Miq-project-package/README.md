@@ -35,7 +35,7 @@ code .env
 
 ## 1. Confirm the local tools and source data
 
-Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), .NET 10 SDK, and Git available in the terminal. Keep the supplied CSV files in `data`; the pipeline imports eleven source tables and generates the embeddings table itself.
+Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), and Git available in the terminal. The .NET 10 SDK is used when already installed; if it is missing, the pipeline downloads it automatically into the package-local `.dotnet` folder (no admin rights required). Keep the supplied CSV files in `data`; the pipeline imports eleven source tables and generates the embeddings table itself.
 
 The local CSVs are a **simulated on-premises export**. The package does not connect to an on-premises VM and does not store source-system credentials.
 
