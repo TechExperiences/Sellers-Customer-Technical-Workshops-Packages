@@ -6,6 +6,8 @@
 
 1. Start **Visual Studio Code** and select **Terminal** → **New Terminal**.
 
+![New Terminal](images/image8.png)
+
 2. In the VS Code terminal, choose a parent folder for the repository, clone it once, and open the clone in VS Code:
 
 ```powershell
@@ -135,7 +137,19 @@ Before provisioning, the pipeline identifies the Azure CLI deployment identity a
 ## Verify the result
 
 - **Azure portal** → **Resource groups** → `rg-Build-Unify` for Storage, generated SQL Server, Fabric capacity, Logic App, Integration Account, and API connection.
-- **Microsoft Fabric** → **Workspaces** → `Caldova-Build-Unify-<stable-suffix>` for the Lakehouse, Fabric SQL Database, notebook, semantic model, report, and Data Agent.
-- **Fabric Lakehouse** → **Tables** for the unified Delta tables.
 
-![Unify-Package .env](images/image2.png)
+  ![rg-Build-Unify](images/image2.png)
+
+  ![data container](images/image4.png)
+
+  ![Analytical files](images/image5.png)
+
+  ![BusinessApplication files](images/image6.png)
+
+- **Microsoft Fabric** → **Workspaces** → `Caldova-Build-Unify-<stable-suffix>` for the Lakehouse, Fabric SQL Database, notebook, semantic model, report, and Data Agent.
+
+  ![Fabric workspace](images/image7.png)
+
+  ![Data Agent test](images/image3.png)
+
+- **Fabric Lakehouse** → **Tables** for the unified Delta tables.

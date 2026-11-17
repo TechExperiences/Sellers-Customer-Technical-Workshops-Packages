@@ -5,6 +5,9 @@
 ## Run from the VS Code integrated terminal
 
 1. Start **Visual Studio Code** and select **Terminal** → **New Terminal**.
+
+![New Terminal](images/image7.png)
+
 2. In the VS Code terminal, choose a parent folder for the repository, clone it once, and open the clone in VS Code:
 
 ```powershell
@@ -32,6 +35,8 @@ code .env
 ```powershell
 .\up.ps1
 ```
+
+![Deployment output](images/image4.png)
 
 ## 1. Confirm the local tools and source data
 
@@ -137,8 +142,15 @@ The deployment sets the supplied Microsoft Entra administrator on Azure SQL, cre
 ## Verify the result
 
 - **Azure portal** → **Resource groups** → `rg-MWC` for the App Service plan/web app, SQL server/database, and Azure OpenAI account.
+
+  ![rg-MWC](images/image3.png)
+
 - Open the generated `https://app-caldova-ordermgmt-<suffix>.azurewebsites.net` URL printed at completion.
 - In Azure SQL, verify `CaldovaOrderManagement` and `dbo.ProductDescriptionEmbeddings`.
+
+![caldova-launch-planning-agent](images/image5.png)
+
+![caldova-supplier-terms-agent](images/image6.png)
 
 ## Additional deployment details
 
