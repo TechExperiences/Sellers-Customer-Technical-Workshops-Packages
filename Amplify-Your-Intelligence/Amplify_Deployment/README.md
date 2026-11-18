@@ -21,6 +21,8 @@ You do not need to run `az login` yourself. `up.ps1` authenticates Azure CLI wit
 
 1. Open PowerShell or the VS Code integrated terminal at the cloned repository root.
 
+   ![New Terminal](images/image3.png)
+
 2. Move to this deployment folder:
 
    ```powershell
@@ -64,6 +66,8 @@ After saving `.env`, run this single command from `Amplify_Deployment`:
 .\up.ps1
 ```
 
+![Deployment output](images/image1.png)
+
 The script performs the following sequence automatically:
 
 1. Signs Azure CLI in as the configured service principal, or safely reuses the matching session.
@@ -74,3 +78,5 @@ The script performs the following sequence automatically:
 6. Prints the completed resource group and capacity name.
 
 Both the configured UPN and the deployment service principal are added as Fabric capacity administrators. The only resources the command creates or changes are the resource group and that Fabric capacity.
+
+![rg-caldova-iq](images/image2.png)
