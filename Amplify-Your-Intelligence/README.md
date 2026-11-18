@@ -39,10 +39,12 @@ This document lists everything needed to run the **Microsoft IQ** exercises on y
 
 | Resource | Name in guide | Configuration notes |
 |----------|---------------|---------------------|
-| **Resource group** | `rg-caldova-iq` | Any region for Fabric. Foundry resources go to **Sweden Central**. |
+| **Resource group** | `rg-caldova-iq` | The automated guide creates it in **West US 2**. Foundry resources go to **Sweden Central**. |
 | **Fabric capacity** (`Microsoft.Fabric/capacities`) | `fabriccapacity<ID>` | **F16 recommended**, state **Active (not paused)**. Your UPN (and SP, if used) is a **Capacity administrator**. |
 | **Model** | — | **gpt-5-mini** (Global Standard) and **text-embedding-3-small** in your subscription |
 | **Power Platform environment** | **Default** environment | Copilot Studio uses it. It must have **Copilot Studio capacity / credits**, and **DLP policies must allow** the *Azure AI Foundry Agent Service* and *Microsoft Fabric* connectors. |
+
+If you do not already have the `rg-caldova-iq` resource group and an active `fabriccapacity<ID>` Fabric capacity, deploy those two resources first by following the [Amplify deployment guide](./Amplify_Deployment/README.md). The guide uses **West US 2**, creates no workspace or other Fabric/Azure resources, and finishes only when the F16 capacity is active.
 
 ## 4. Roles / Permissions / API Permissions
 
