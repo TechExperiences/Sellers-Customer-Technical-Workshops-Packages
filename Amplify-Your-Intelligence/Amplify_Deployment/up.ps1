@@ -160,4 +160,4 @@ if ($capacityState -ne 'Active') {
 }
 
 Write-Host "Completed. Resource group: $ResourceGroupName; Fabric capacity: $capacityName; State: Active." -ForegroundColor Green
-Write-Host "No workspace, Lakehouse, Ontology, Data Agent, Foundry, storage, or other Azure resource was created." -ForegroundColor Green
+
