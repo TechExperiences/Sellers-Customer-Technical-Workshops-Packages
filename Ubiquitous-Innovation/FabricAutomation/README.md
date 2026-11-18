@@ -10,8 +10,8 @@
 ```powershell
 New-Item -ItemType Directory -Path "C:\Repos" -Force | Out-Null
 Set-Location "C:\Repos"
-git clone https://github.com/TechExperiences/Sellers-Customer-Technical-Workshops.git
-Set-Location ".\Sellers-Customer-Technical-Workshops"
+git clone https://github.com/TechExperiences/Sellers-Customer-Technical-Workshops-Packages.git
+Set-Location ".\Sellers-Customer-Technical-Workshops-Packages"
 code .
 ```
 
@@ -69,10 +69,10 @@ az provider register --namespace Microsoft.CognitiveServices --wait
 
 ## 2. Open this deployment folder
 
-Set `$repoRoot` to the folder where you cloned `Sellers-Customer-Technical-Workshops`, then run:
+Set `$repoRoot` to the folder where you cloned `Sellers-Customer-Technical-Workshops-Packages`, then run:
 
 ```powershell
-$repoRoot = "C:\path\to\Sellers-Customer-Technical-Workshops"
+$repoRoot = "C:\path\to\Sellers-Customer-Technical-Workshops-Packages"
 Set-Location (Join-Path $repoRoot "Ubiquitous-Innovation\FabricAutomation")
 Get-Location
 ```
