@@ -1,6 +1,6 @@
-# Modernize_package deployment guide
+# Modernize_Package deployment guide
 
-`Modernize_project` provisions the Caldova modernization demo, migrates the bundled local CSV data to Azure SQL, creates vector embeddings, and publishes the ASP.NET Core web application.
+`Modernize_Package` provisions the Caldova modernization demo, migrates the bundled local CSV data to Azure SQL, creates vector embeddings, and publishes the ASP.NET Core web application.
 
 ## Run from the VS Code integrated terminal
 
@@ -17,18 +17,18 @@ git clone https://github.com/TechExperiences/Sellers-Customer-Technical-Workshop
 Set-Location ".\Sellers-Customer-Technical-Workshops-Packages"
 code .
 ```
-![Miq-project-package .env](images/image2.png)
+![Modernize_Package .env](images/image2.png)
 
 
 3. In the VS Code window opened for the clone, select **Terminal** → **New Terminal** again. Move to this package folder, create `.env` if it does not exist, and open it for editing:
 
 ```powershell
-Set-Location ".\Modernize-with-confidence\Miq-project-package"
+Set-Location ".\Modernize-with-confidence\Modernize_Package"
 if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 code .env
 ```
 
-![Miq-project-package .env](images/image1.png)
+![Modernize_Package .env](images/image1.png)
 
 4. Enter the required `.env` values, save the file, return to the same terminal, and run the one deployment command:
 
@@ -78,13 +78,13 @@ Set `$repoRoot` to the folder where you cloned `Sellers-Customer-Technical-Works
 
 ```powershell
 $repoRoot = "C:\path\to\Sellers-Customer-Technical-Workshops-Packages"
-Set-Location (Join-Path $repoRoot "Modernize-with-confidence\Miq-project-package")
+Set-Location (Join-Path $repoRoot "Modernize-with-confidence\Modernize_Package")
 Get-Location
 ```
 
 ## 3. Create and edit `.env`
 
-Create `.env` in this `Miq-project-package` folder, beside `up.ps1`. Keep it local and do not commit it.
+Create `.env` in this `Modernize_Package` folder, beside `up.ps1`. Keep it local and do not commit it.
 
 ```powershell
 Copy-Item .env.example .env
@@ -116,7 +116,7 @@ SQL_ENTRA_ADMIN_OBJECT_ID=<MICROSOFT_ENTRA_ADMIN_OBJECT_ID>
 Save `.env`, remain in this folder, then run:
 
 ```powershell
-Set-Location (Join-Path $repoRoot "Modernize-with-confidence\Miq-project-package")
+Set-Location (Join-Path $repoRoot "Modernize-with-confidence\Modernize_Package")
 .\up.ps1
 ```
 

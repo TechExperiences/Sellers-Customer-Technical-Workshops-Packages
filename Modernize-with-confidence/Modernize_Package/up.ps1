@@ -11,7 +11,7 @@ foreach ($name in @('AZURE_SUBSCRIPTION_ID', 'SQL_ADMINISTRATOR_PASSWORD', 'SQL_
   }
 }
 
-$environmentName = if ([string]::IsNullOrWhiteSpace($env:AZURE_ENV_NAME)) { 'Miq-project-package' } else { $env:AZURE_ENV_NAME }
+$environmentName = if ([string]::IsNullOrWhiteSpace($env:AZURE_ENV_NAME)) { 'Modernize_Package' } else { $env:AZURE_ENV_NAME }
 # This is only the location required by azd's subscription-level deployment
 # record. Resource locations remain exclusively controlled by deploy.ps1.
 $azdDeploymentLocation = 'westus2'
