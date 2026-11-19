@@ -25,6 +25,8 @@ if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 code .env
 ```
 
+![FabricAutomation .env](images/image8.png)
+
 4. Enter the required `.env` values, save the file, return to the same terminal, and run the one deployment command:
 
 ```powershell
