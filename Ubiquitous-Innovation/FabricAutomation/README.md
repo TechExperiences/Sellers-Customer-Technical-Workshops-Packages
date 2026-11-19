@@ -15,7 +15,6 @@ Set-Location ".\Sellers-Customer-Technical-Workshops-Packages"
 code .
 ```
 
-![Clone repo](images/image1.png)
 
 3. In the VS Code window opened for the clone, select **Terminal** → **New Terminal** again. Move to this package folder, create `.env` if it does not exist, and open it for editing:
 
