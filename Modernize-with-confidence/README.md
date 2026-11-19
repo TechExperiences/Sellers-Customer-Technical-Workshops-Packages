@@ -74,7 +74,7 @@ The prompts tell Copilot to **reuse existing resources**, so create these **befo
 | Embedding model deployment | e.g. `text-embedding-3-small` (1536 dims) or `text-embedding-ada-002` | Needs enough **TPM quota** in your region. The vector dimension must match the model. |
 | App Service plan + Web App | Created by Copilot (`app-caldova-<id>`) | You need **App Service quota** (Basic B1 or higher) in the region. |
 
-If these resources are not already available, deploy the complete Azure modernization environment by following the [Miq-project-package deployment guide](Miq-project-package/README.md).
+If these resources are not already available, deploy the complete Azure modernization environment by following the [Miq-project-package deployment guide](Modernize_Package/README.md).
 
 ---
 

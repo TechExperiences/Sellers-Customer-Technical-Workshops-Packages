@@ -1,6 +1,6 @@
-# Miq-project-package deployment guide
+# Modernize_package deployment guide
 
-`Miq-project-package` provisions the Caldova modernization demo, migrates the bundled local CSV data to Azure SQL, creates vector embeddings, and publishes the ASP.NET Core web application.
+`Modernize_project` provisions the Caldova modernization demo, migrates the bundled local CSV data to Azure SQL, creates vector embeddings, and publishes the ASP.NET Core web application.
 
 ## Run from the VS Code integrated terminal
 
