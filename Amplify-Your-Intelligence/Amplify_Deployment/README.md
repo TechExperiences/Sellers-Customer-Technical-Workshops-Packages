@@ -17,25 +17,42 @@ You need:
 
 You do not need to run `az login` yourself. `up.ps1` authenticates Azure CLI with the service-principal values stored in `.env`.
 
-## Configure `.env` locally
+## 1. Clone the `dev` branch locally
 
-1. Open PowerShell or the VS Code integrated terminal at the cloned repository root.
+1. Start **Visual Studio Code** and select **Terminal** → **New Terminal**.
 
    ![New Terminal](images/image3.png)
 
-2. Move to this deployment folder:
+2. Choose a parent folder, clone the Packages repository directly on its `dev` branch, and open the clone in VS Code:
 
    ```powershell
-   cd .\Amplify-Your-Intelligence\Amplify_Deployment
+   New-Item -ItemType Directory -Path "C:\Repos" -Force | Out-Null
+   Set-Location "C:\Repos"
+   git clone --branch dev --single-branch https://github.com/TechExperiences/Sellers-Customer-Technical-Workshops-Packages.git
+   Set-Location ".\Sellers-Customer-Technical-Workshops-Packages"
+   git branch --show-current
+   code .
    ```
 
-3. Create your local environment file from the safe template:
+   The `git branch --show-current` command must print `dev`. If Git requests browser sign-in, complete that sign-in and rerun the clone command if needed.
+
+3. In the VS Code window opened for the clone, select **Terminal** → **New Terminal** again. That terminal starts at the repository root.
+
+## 2. Configure `.env` locally
+
+1. Move to the actual Amplify deployment folder:
+
+   ```powershell
+   Set-Location ".\Amplify-Your-Intelligence\Amplify_Deployment"
+   ```
+
+2. Create your local environment file from the safe template:
 
    ```powershell
    Copy-Item .env.example .env
    ```
 
-4. Open `.env` in your editor and replace every placeholder. The completed file has this shape:
+3. Open `.env` in your editor and replace every placeholder. The completed file has this shape:
 
    ```dotenv
    AZURE_SUBSCRIPTION_ID=<your-azure-subscription-guid>
@@ -47,7 +64,7 @@ You do not need to run `az login` yourself. `up.ps1` authenticates Azure CLI wit
    FABRIC_CAPACITY_ID=<lowercase-letters-and-numbers-only>
    ```
 
-5. Choose `FABRIC_CAPACITY_ID` carefully. It becomes part of the capacity name, exactly as stated in the workshop README:
+4. Choose `FABRIC_CAPACITY_ID` carefully. It becomes part of the capacity name, exactly as stated in the workshop README:
 
    ```text
    FABRIC_CAPACITY_ID=workshop01
