@@ -93,9 +93,9 @@ resource fabricCapacity 'Microsoft.Fabric/capacities@2023-11-01' = {
   }
 }
 
-// Foundation for the BusinessApplication-to-Fabric SQL integration. The Logic App
-// ingests BusinessApplication blobs into the Fabric SQL Database on each invocation
-// from Invoke-BusinessApplicationIngestion.ps1, once Fabric workspace access is granted.
+// Azure integration foundation for the BusinessApplication source domain. The Logic
+// App and its SQL API connection are retained with the rest of the Azure foundation;
+// this package does not create or invoke a Fabric SQL Database target.
 resource integrationAccount 'Microsoft.Logic/integrationAccounts@2019-05-01' = {
   name: 'caldova-integration-account'
   location: sqlLocation
@@ -107,9 +107,8 @@ resource integrationAccount 'Microsoft.Logic/integrationAccounts@2019-05-01' = {
   properties: {}
 }
 
-// Connects to the Fabric SQL Database at runtime using the Logic App's own managed
-// identity. The server/database are supplied per-call by the trigger body, because
-// the Fabric SQL Database does not exist yet when this connection is deployed.
+// The SQL API connection is retained as part of the Azure integration foundation.
+// This package intentionally does not configure a runtime SQL target for it.
 resource sqlConnection 'Microsoft.Web/connections@2016-06-01' = {
   name: 'sql'
   location: sqlLocation
@@ -147,20 +146,11 @@ resource businessApplicationIngestLogicApp 'Microsoft.Logic/workflows@2019-05-01
           type: 'Object'
           defaultValue: {}
         }
-        // Set via an ARM PATCH immediately before each run (Invoke-BusinessApplicationIngestion.ps1),
-        // then fired through the ARM "run trigger" action - never through the public callback URL.
-        // This keeps every control step on the same reliable ARM control plane the rest of this
-        // pipeline already uses, instead of the separate multi-tenant data-plane trigger gateway.
-        // The blob content itself is also read by that script (via "az storage blob download
-        // --auth-mode login", the same proven pattern as Upload-SourceData.ps1) and passed in
-        // here, rather than having the workflow read blobs itself.
+        // These parameters remain as part of the retained Azure integration definition.
+        // This package does not configure or invoke the workflow.
         sqlServer: { type: 'String', defaultValue: '' }
         sqlDatabase: { type: 'String', defaultValue: '' }
-        // Full INSERT...FROM OPENJSON(N'<escaped json>') WITH (...) statements, built by
-        // Invoke-BusinessApplicationIngestion.ps1 with the data embedded as a string literal.
-        // The SQL connector's formalParameters/@json binding does not reliably parameterize
-        // a query containing an OPENJSON ... WITH (...) clause (it left @json unresolved and
-        // misparsed the WITH keyword), so the query text is now fully self-contained instead.
+        // The integration definition retains the query parameter for a future Azure SQL target.
         customerDetailsQuery: { type: 'String', defaultValue: '' }
         customerAddressQuery: { type: 'String', defaultValue: '' }
       }

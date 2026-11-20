@@ -14,15 +14,14 @@ $resourceGroup = $values.resourceGroupName.value
 $storageAccount = $values.storageAccountName.value
 $sqlServer = $values.sqlServerName.value
 $sqlDatabase = $values.sqlDatabaseName.value
-$capacity = $values.fabricCapacityName.value
 
-Write-Host 'Phase 1/5: Provisioning Azure foundation and Fabric capacity.' -ForegroundColor Cyan
+Write-Host 'Phase 1/4: Provisioning Azure foundation and Fabric capacity.' -ForegroundColor Cyan
 & (Join-Path $PSScriptRoot 'Deploy-Foundation.ps1') -ParametersFile $ParametersFile -SqlAdministratorPassword $SqlAdministratorPassword
 
-Write-Host 'Phase 2/5: Uploading validated source folders to Blob Storage.' -ForegroundColor Cyan
+Write-Host 'Phase 2/4: Uploading validated source folders to Blob Storage.' -ForegroundColor Cyan
 & (Join-Path $PSScriptRoot 'Upload-SourceData.ps1') -StorageAccountName $storageAccount
 
-Write-Host 'Phase 3/5: Configuring SQL Entra administrator and loading OperationalData.' -ForegroundColor Cyan
+Write-Host 'Phase 3/4: Configuring SQL Entra administrator and loading OperationalData.' -ForegroundColor Cyan
 & (Join-Path $PSScriptRoot 'Configure-SqlEntraAdmin.ps1') -SqlServerName $sqlServer -AdministratorUpn $SqlEntraAdministratorUpn -ResourceGroupName $resourceGroup
 $env:AZURE_SQL_ACCESS_TOKEN = az account get-access-token --resource https://database.windows.net --query accessToken -o tsv
 if ($LASTEXITCODE -ne 0 -or -not $env:AZURE_SQL_ACCESS_TOKEN) { throw 'Could not acquire an Entra access token for Azure SQL.' }
@@ -34,12 +33,5 @@ try {
     Remove-Item Env:AZURE_SQL_ACCESS_TOKEN -ErrorAction SilentlyContinue
 }
 
-Write-Host 'Phase 4/5: Creating Fabric workspace, Lakehouse, and Fabric SQL Database.' -ForegroundColor Cyan
-$capacityResourceId = az resource show --resource-group $resourceGroup --resource-type Microsoft.Fabric/capacities `
-    --name $capacity --query id -o tsv
-if (-not $capacityResourceId) { throw "Fabric capacity $capacity was not found in $resourceGroup." }
-& (Join-Path $PSScriptRoot 'Ensure-FabricLicense.ps1') -UserPrincipalName $SqlEntraAdministratorUpn
-& (Join-Path $PSScriptRoot 'Deploy-FabricFoundation.ps1') -FabricCapacityResourceId $capacityResourceId
-
-Write-Host 'Phase 5/5: Azure and Fabric foundation deployment completed.' -ForegroundColor Green
-Write-Host 'Next: deploy the notebook to the Lakehouse, configure mirroring, and publish the semantic model/Data Agent.' -ForegroundColor Yellow
+Write-Host 'Phase 4/4: Azure foundation deployment completed.' -ForegroundColor Green
+Write-Host 'The F16 Fabric capacity is retained, but this workflow creates no Fabric workspace or Fabric items.' -ForegroundColor Yellow

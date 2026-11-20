@@ -85,7 +85,6 @@ $runStamp = (Get-Date).ToUniversalTime().ToString('yyyyMMddHHmmss')
 $runSuffix = -join ((48..57) + (97..122) | Get-Random -Count 5 | ForEach-Object { [char]$_ })
 $environment['SQL_SERVER_NAME'] = "sql-operational-$runStamp$runSuffix"
 $env:SQL_SERVER_NAME = $environment['SQL_SERVER_NAME']
-$fabricWorkspaceName = "rg-Build-Unify-$runStamp$runSuffix"
 Write-Host "Creating a new operational SQL Server: $($environment['SQL_SERVER_NAME'])" -ForegroundColor Cyan
 
 & azd auth login --check-status 1>$null 2>$null
@@ -127,15 +126,9 @@ Write-Host 'Verified Fabric capacity administrator from .env in the azd environm
 
 Invoke-Checked -Command { & azd up --environment $environment.AZURE_ENV_NAME --no-prompt } -FailureMessage 'azd up failed. Review the preceding deployment output for the failing resource or permission.'
 
-# Keep Fabric deployment under this one-command wrapper rather than an azd lifecycle
-# hook.  Some azd executions reported successful ARM provisioning without emitting
-# the postprovision hook, which left Azure resources in place but no Fabric items.
-# Invoking the existing script directly makes Fabric creation visible and causes
-# .\up.ps1 to fail if any workspace, Lakehouse, ingestion, model, report, or Data
-# Agent step fails.
-Write-Host "Azure provisioning completed. Creating fresh Fabric workspace $fabricWorkspaceName and its required items..." -ForegroundColor Cyan
-& (Join-Path $PSScriptRoot 'Post-Provision.ps1') -WorkspaceName $fabricWorkspaceName
+Write-Host 'Azure provisioning completed. Uploading source data and loading OperationalData...' -ForegroundColor Cyan
+& (Join-Path $PSScriptRoot 'Post-Provision.ps1')
 if ($LASTEXITCODE -ne 0) {
-    throw 'Fabric post-provisioning failed. Review the preceding Fabric output for the failing step.'
+    throw 'Azure data post-provisioning failed. Review the preceding output for the failing step.'
 }
-Write-Host 'Fabric post-provision stage completed.' -ForegroundColor Green
+Write-Host 'Azure data post-provision stage completed. The Fabric capacity was created without a workspace or Fabric items.' -ForegroundColor Green
