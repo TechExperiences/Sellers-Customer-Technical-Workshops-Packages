@@ -1,6 +1,6 @@
 # Unify-Package deployment guide
 
-`Unify-Package` validates the bundled source files, provisions the Azure and Fabric foundation, loads the three source domains, and creates the governed Fabric analytics artifacts.
+`Unify-Package` validates the bundled source files, provisions the Azure foundation and F16 Fabric capacity, uploads the three source domains to Azure Storage, and loads the operational source domain into Azure SQL.
 
 ## Run from the VS Code integrated terminal
 
@@ -47,7 +47,6 @@ Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), Python 3, a
 | Resource group `rg-Build-Unify` | **West US 2** (`westus2`). |
 | Azure SQL Server, `OperationalData` database, Integration Account, SQL API connection, and Business Application ingestion Logic App | **West US 2**. |
 | F16 Fabric capacity | **West US 2**. |
-| Fabric workspace, Lakehouse, Fabric SQL Database, notebook, semantic model, report, and Data Agent | **West US 2** — these are created on the West US 2 Fabric capacity. |
 | Storage account and private `data` container | **West US 3** (`westus3`). |
 
 ## Enable Azure resource providers
@@ -109,7 +108,7 @@ SQL_ADMINISTRATOR_PASSWORD=<STRONG_SQL_PASSWORD>
 | `AZURE_TENANT_ID` | Microsoft Entra tenant GUID for the deployment account. |
 | `AZURE_LOCATION` | Keep `westus2`. |
 | `AZURE_RESOURCE_GROUP` | Keep `rg-Build-Unify`. |
-| `FABRIC_CAPACITY_ADMIN_UPN` | Fabric user principal name that becomes capacity and workspace administrator. |
+| `FABRIC_CAPACITY_ADMIN_UPN` | Fabric user principal name that becomes the capacity administrator. |
 | `SQL_ADMINISTRATOR_LOGIN` | SQL authentication administrator name. |
 | `SQL_ADMINISTRATOR_PASSWORD` | Strong password for the new Azure SQL Server. |
 
@@ -132,7 +131,7 @@ Before provisioning, the pipeline identifies the Azure CLI deployment identity a
 |---|---|
 | Azure foundation | `rg-Build-Unify`; Storage account with private `data` container; a new Azure SQL Server and `OperationalData` database; F16 Fabric capacity. |
 | Integration | `caldova-integration-account`, `caldova-businessapp-ingest` Logic App, and managed-identity SQL API connection. |
-| Fabric | `Caldova-Build-Unify-<stable-suffix>` workspace, `Caldova_Lakehouse`, `Caldova_SQLDatabase`, ingestion notebook, semantic model, report, and Data Agent. |
+| Fabric | F16 Fabric capacity only. No Fabric workspace, Lakehouse, Fabric SQL Database, notebook, semantic model, report, or Data Agent is created. |
 
 ## Verify the result
 
@@ -146,10 +145,6 @@ Before provisioning, the pipeline identifies the Azure CLI deployment identity a
 
   ![BusinessApplication files](images/image6.png)
 
-- **Microsoft Fabric** → **Workspaces** → `Caldova-Build-Unify-<stable-suffix>` for the Lakehouse, Fabric SQL Database, notebook, semantic model, report, and Data Agent.
+- **Azure portal** → select the generated Azure SQL Server → **Databases** → `OperationalData` to confirm the operational tables were loaded.
 
-  ![Fabric workspace](images/image7.png)
-
-  ![Data Agent test](images/image3.png)
-
-- **Fabric Lakehouse** → **Tables** for the unified Delta tables.
+- **Microsoft Fabric** → **Capacity settings** to confirm the F16 Fabric capacity. This package intentionally creates no workspace or workspace items.

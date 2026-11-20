@@ -20,7 +20,10 @@ if (-not $env:SQL_ADMINISTRATOR_PASSWORD) {
     $env:SQL_ADMINISTRATOR_PASSWORD = $plainPassword
 }
 
-# UNIFY-SP-SUPPORT
+# Keep the signed-in service principal (or the configured capacity administrator for
+# an interactive user) in the Fabric capacity administrator list. This setting is
+# required only to provision the retained F16 capacity; it is not used to create a
+# Fabric workspace or any Fabric item.
 $operator = $env:FABRIC_CAPACITY_ADMIN_UPN
 $signedIn = az account show --query user -o json | ConvertFrom-Json
 if ($signedIn.type -eq 'servicePrincipal') {

@@ -8,14 +8,8 @@
 | 2 | Storage account | `stcaldova<unique-suffix>` | West US 3 | Landing zone for the three local source domains. |
 | 3 | Blob container | `data` | Inherits storage account | Holds source data without modification. |
 | 4 | Azure SQL logical server | `sql-operational-<unique-suffix>` | West US 2 | Hosts the operational source database. |
-| 5 | Azure SQL database | `OperationalData` | West US 2 | Holds the eight operational tables before Fabric mirroring. |
+| 5 | Azure SQL database | `OperationalData` | West US 2 | Holds the eight operational tables. |
 | 6 | Fabric capacity | `fabriccapacity<unique-suffix>` | West US 2 | F16 capacity, deployed inside `rg-Build-Unify`. |
-| 7 | Fabric/Power BI licence | Existing active entitlement, otherwise an available free/trial SKU | Tenant level | Uses an existing Fabric/Power BI entitlement first, including bundled service plans such as `BI_AZURE_P2` (Power BI Pro in Microsoft 365 E5). Only when none is active does it assign a tenant-exposed free/trial SKU to the capacity administrator before workspace creation. |
-| 8 | Fabric workspace | `Caldova-Build-Unify` | Assigned to West US 2 capacity | Governs Fabric items and access. |
-| 8 | Fabric Lakehouse | `Caldova_Lakehouse` | Workspace capacity | Delta storage for the unified analytical estate. |
-| 9 | Fabric SQL database | `Caldova_SQLDatabase` | Workspace capacity | Customer-master target if the Logic App pattern is retained. |
-| 10 | Semantic model | `Caldova_Unified_SemanticModel` | Workspace capacity | Governed reporting layer. |
-| 11 | Data Agent | `Caldova_Unified_DataAgent` | Workspace capacity | Natural-language interface to the semantic model. |
 
 ## Storage landing layout
 
@@ -28,11 +22,11 @@ data/
 
 ## Domain mapping
 
-| Local source | Landing zone | Initial target | Fabric consumption |
-|---|---|---|---|
-| `Analytical/*.csv` | `data/Analytical/` | Lakehouse `dbo` Delta tables | Direct Lake |
-| `BusinessApplication/*.json` | `data/BusinessApplication/` | Fabric SQL Database customer tables | Direct Lake |
-| `Operational/*.csv` | `data/Operational/` | Azure SQL `OperationalData.dbo` tables | Fabric Mirroring, then Lakehouse shortcut |
+| Local source | Landing zone | Initial target |
+|---|---|---|
+| `Analytical/*.csv` | `data/Analytical/` | Blob landing storage |
+| `BusinessApplication/*.json` | `data/BusinessApplication/` | Blob landing storage |
+| `Operational/*.csv` | `data/Operational/` | Azure SQL `OperationalData.dbo` tables |
 
 ## Verified data inventory
 
@@ -46,4 +40,4 @@ All operational referential checks pass, including joins to the supplied analyti
 
 ## Provisioning prerequisite
 
-The Azure identity used for deployment must have **Contributor** (or equivalent resource-create permission) at the target subscription or `rg-Build-Unify` scope. It also needs capacity-creation permission for `Microsoft.Fabric/capacities` and a Fabric tenant/capacity entitlement for F16.
+The Azure identity used for deployment must have **Contributor** (or equivalent resource-create permission) at the target subscription or `rg-Build-Unify` scope. It also needs capacity-creation permission for `Microsoft.Fabric/capacities`.
