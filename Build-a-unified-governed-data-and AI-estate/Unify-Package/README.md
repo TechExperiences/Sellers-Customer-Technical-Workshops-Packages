@@ -18,8 +18,6 @@ Set-Location ".\Sellers-Customer-Technical-Workshops-Packages"
 code .
 ```
 
-![Clone repo](images/image0.png)
-
 3. In the VS Code window opened for the clone, select **Terminal** → **New Terminal** again. Move to this package folder, create `.env` if it does not exist, and open it for editing:
 
 ```powershell
@@ -28,7 +26,7 @@ if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 code .env
 ```
 
-![Unify-Package .env](images/image1.png)
+![Clone the repository and open the Unify-Package .env file](images/vscode-clone-and-env-setup.png)
 
 4. Enter the required `.env` values, save the file, return to the same terminal, and run the one deployment command:
 
