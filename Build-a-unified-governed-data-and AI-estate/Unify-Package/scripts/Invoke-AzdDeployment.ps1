@@ -131,4 +131,4 @@ Write-Host 'Azure provisioning completed. Uploading source data and loading Oper
 if ($LASTEXITCODE -ne 0) {
     throw 'Azure data post-provisioning failed. Review the preceding output for the failing step.'
 }
-Write-Host 'Azure data post-provision stage completed. The Fabric capacity was created without a workspace or Fabric items.' -ForegroundColor Green
+Write-Host 'Azure data post-provision stage completed.' -ForegroundColor Green
