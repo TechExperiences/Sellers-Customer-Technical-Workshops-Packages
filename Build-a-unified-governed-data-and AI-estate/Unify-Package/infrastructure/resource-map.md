@@ -17,8 +17,9 @@
 data/
   Analytical/                 <- 13 CSV files from ./Analytical
   BusinessApplication/        <- CustomerDetails.json, CustomerAddress.json
-  Operational/                <- 8 CSV files from ./Operational
 ```
+
+`Operational/*.csv` files are uploaded temporarily to `data/Operational/` for the load, then deleted after the Azure SQL load succeeds.
 
 ## Domain mapping
 
@@ -26,7 +27,7 @@ data/
 |---|---|---|
 | `Analytical/*.csv` | `data/Analytical/` | Blob landing storage |
 | `BusinessApplication/*.json` | `data/BusinessApplication/` | Blob landing storage |
-| `Operational/*.csv` | `data/Operational/` | Azure SQL `OperationalData.dbo` tables |
+| `Operational/*.csv` | Temporary `data/Operational/` staging | Azure SQL `OperationalData.dbo` tables |
 
 ## Verified data inventory
 

@@ -64,4 +64,6 @@ if ($runningAsServicePrincipal) {
     & (Join-Path $PSScriptRoot 'Configure-SqlEntraAdmin.ps1') -SqlServerName $sqlServer -AdministratorUpn $env:FABRIC_CAPACITY_ADMIN_UPN -ResourceGroupName $resourceGroup
 }
 
-Write-Host 'Source data uploaded and OperationalData loaded. No Fabric workspace or Fabric items are created by this package.' -ForegroundColor Green
+& (Join-Path $PSScriptRoot 'Remove-OperationalBlobs.ps1') -StorageAccountName $storageAccount
+
+Write-Host 'Source data uploaded and OperationalData loaded. The Operational Blob landing files were deleted; no Fabric workspace or Fabric items are created by this package.' -ForegroundColor Green

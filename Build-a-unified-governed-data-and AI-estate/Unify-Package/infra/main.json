@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.46.1.21595",
-      "templateHash": "3395334121129834353"
+      "templateHash": "7928945094172462432"
     }
   },
   "parameters": {
@@ -66,6 +66,22 @@
       "metadata": {
         "description": "UPNs of Fabric capacity administrators."
       }
+    },
+    "deploymentPrincipalObjectId": {
+      "type": "string",
+      "metadata": {
+        "description": "Object ID of the Azure CLI identity that will upload and download Blob data."
+      }
+    },
+    "deploymentPrincipalType": {
+      "type": "string",
+      "allowedValues": [
+        "ServicePrincipal",
+        "User"
+      ],
+      "metadata": {
+        "description": "Microsoft Entra principal type of the Azure CLI deployment identity."
+      }
     }
   },
   "resources": [
@@ -118,7 +134,13 @@
             "value": "westus2"
           },
           "fabricCapacityAdministrators": {
-            "value": "[parameters('fabricCapacityAdministrators')]"
+            "value": "[union(parameters('fabricCapacityAdministrators'), createArray())]"
+          },
+          "deploymentPrincipalObjectId": {
+            "value": "[parameters('deploymentPrincipalObjectId')]"
+          },
+          "deploymentPrincipalType": {
+            "value": "[parameters('deploymentPrincipalType')]"
           }
         },
         "template": {
@@ -128,7 +150,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.46.1.21595",
-              "templateHash": "1387397759861099287"
+              "templateHash": "7795308379336987834"
             }
           },
           "parameters": {
@@ -161,7 +183,16 @@
             },
             "fabricCapacityAdministrators": {
               "type": "array"
+            },
+            "deploymentPrincipalObjectId": {
+              "type": "string"
+            },
+            "deploymentPrincipalType": {
+              "type": "string"
             }
+          },
+          "variables": {
+            "storageBlobDataContributorRoleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')]"
           },
           "resources": [
             {
@@ -198,6 +229,20 @@
               },
               "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccountName'), 'default')]"
+              ]
+            },
+            {
+              "type": "Microsoft.Authorization/roleAssignments",
+              "apiVersion": "2022-04-01",
+              "scope": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+              "name": "[guid(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), parameters('deploymentPrincipalObjectId'), variables('storageBlobDataContributorRoleDefinitionId'))]",
+              "properties": {
+                "principalId": "[parameters('deploymentPrincipalObjectId')]",
+                "principalType": "[parameters('deploymentPrincipalType')]",
+                "roleDefinitionId": "[variables('storageBlobDataContributorRoleDefinitionId')]"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
               ]
             },
             {
@@ -254,51 +299,6 @@
                   "members": "[parameters('fabricCapacityAdministrators')]"
                 }
               }
-            },
-            {
-              "type": "Microsoft.Logic/integrationAccounts",
-              "apiVersion": "2019-05-01",
-              "name": "caldova-integration-account",
-              "location": "[parameters('sqlLocation')]",
-              "sku": {
-                "name": "Free"
-              },
-              "properties": {}
-            },
-            {
-              "type": "Microsoft.Logic/workflows",
-              "apiVersion": "2019-05-01",
-              "name": "caldova-businessapp-ingest",
-              "location": "[parameters('sqlLocation')]",
-              "identity": {
-                "type": "SystemAssigned"
-              },
-              "properties": {
-                "state": "Disabled",
-                "integrationAccount": {
-                  "id": "[resourceId('Microsoft.Logic/integrationAccounts', 'caldova-integration-account')]"
-                },
-                "definition": {
-                  "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
-                  "contentVersion": "1.0.0.0",
-                  "parameters": {},
-                  "triggers": {
-                    "manual": {
-                      "type": "Request",
-                      "kind": "Http",
-                      "inputs": {
-                        "schema": {}
-                      }
-                    }
-                  },
-                  "actions": {},
-                  "outputs": {}
-                },
-                "parameters": {}
-              },
-              "dependsOn": [
-                "[resourceId('Microsoft.Logic/integrationAccounts', 'caldova-integration-account')]"
-              ]
             }
           ],
           "outputs": {
@@ -317,14 +317,6 @@
             "fabricCapacityResourceId": {
               "type": "string",
               "value": "[resourceId('Microsoft.Fabric/capacities', parameters('fabricCapacityName'))]"
-            },
-            "businessApplicationLogicAppName": {
-              "type": "string",
-              "value": "caldova-businessapp-ingest"
-            },
-            "businessApplicationLogicAppPrincipalId": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.Logic/workflows', 'caldova-businessapp-ingest'), '2019-05-01', 'full').identity.principalId]"
             }
           }
         }
@@ -354,14 +346,6 @@
     "fabricCapacityResourceId": {
       "type": "string",
       "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('resourceGroupName')), 'Microsoft.Resources/deployments', 'caldova-estate'), '2025-04-01').outputs.fabricCapacityResourceId.value]"
-    },
-    "businessApplicationLogicAppName": {
-      "type": "string",
-      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('resourceGroupName')), 'Microsoft.Resources/deployments', 'caldova-estate'), '2025-04-01').outputs.businessApplicationLogicAppName.value]"
-    },
-    "businessApplicationLogicAppPrincipalId": {
-      "type": "string",
-      "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('resourceGroupName')), 'Microsoft.Resources/deployments', 'caldova-estate'), '2025-04-01').outputs.businessApplicationLogicAppPrincipalId.value]"
     }
   }
 }

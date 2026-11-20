@@ -60,5 +60,3 @@ output storageAccountName string = estate.outputs.storageAccountName
 output sqlServerFqdn string = estate.outputs.sqlServerFqdn
 output sqlDatabaseName string = estate.outputs.sqlDatabaseName
 output fabricCapacityResourceId string = estate.outputs.fabricCapacityResourceId
-output businessApplicationLogicAppName string = estate.outputs.businessApplicationLogicAppName
-output businessApplicationLogicAppPrincipalId string = estate.outputs.businessApplicationLogicAppPrincipalId

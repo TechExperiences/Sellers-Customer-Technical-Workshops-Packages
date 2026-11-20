@@ -1,6 +1,6 @@
 # Unify-Package deployment guide
 
-`Unify-Package` validates the bundled source files, provisions the Azure foundation and F16 Fabric capacity, uploads the three source domains to Azure Storage, and loads the operational source domain into Azure SQL.
+`Unify-Package` validates the bundled source files, provisions the Azure foundation and F16 Fabric capacity, retains analytical and business-application source data in Azure Storage, and loads the operational source domain into Azure SQL before removing its temporary Blob landing files.
 
 ## Run from the VS Code integrated terminal
 
@@ -38,14 +38,14 @@ code .env
 
 ## 1. Confirm the local tools and source folders
 
-Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), Python 3, and `winget` available in the terminal. Keep the supplied `Analytical`, `Operational`, and `BusinessApplication` folders beside `up.ps1`; the pipeline validates and uploads their contents.
+Use PowerShell 7 with Azure CLI (`az`), Azure Developer CLI (`azd`), Python 3, and `winget` available in the terminal. Keep the supplied `Analytical`, `Operational`, and `BusinessApplication` folders beside `up.ps1`; the pipeline validates all three, retains Analytical and BusinessApplication files in Blob Storage, then removes the temporary Operational Blob files after their Azure SQL load succeeds.
 
 ## Deployment regions
 
 | Resource or workload | Region |
 |---|---|
 | Resource group `rg-Build-Unify` | **West US 2** (`westus2`). |
-| Azure SQL Server, `OperationalData` database, Integration Account, SQL API connection, and Business Application ingestion Logic App | **West US 2**. |
+| Azure SQL Server and `OperationalData` database | **West US 2**. |
 | F16 Fabric capacity | **West US 2**. |
 | Storage account and private `data` container | **West US 3** (`westus3`). |
 
@@ -56,8 +56,6 @@ In Azure portal, open **Subscriptions** → select the deployment subscription �
 - `Microsoft.Fabric`
 - `Microsoft.Storage`
 - `Microsoft.Sql`
-- `Microsoft.Logic`
-- `Microsoft.Web`
 
 Or run:
 
@@ -65,8 +63,6 @@ Or run:
 az provider register --namespace Microsoft.Fabric --wait
 az provider register --namespace Microsoft.Storage --wait
 az provider register --namespace Microsoft.Sql --wait
-az provider register --namespace Microsoft.Logic --wait
-az provider register --namespace Microsoft.Web --wait
 ```
 
 ## 2. Open this deployment folder
@@ -130,12 +126,11 @@ Before provisioning, the pipeline identifies the Azure CLI deployment identity a
 | Area | Created artifacts |
 |---|---|
 | Azure foundation | `rg-Build-Unify`; Storage account with private `data` container; a new Azure SQL Server and `OperationalData` database; F16 Fabric capacity. |
-| Integration | `caldova-integration-account`, `caldova-businessapp-ingest` Logic App, and managed-identity SQL API connection. |
 | Fabric | F16 Fabric capacity only. No Fabric workspace, Lakehouse, Fabric SQL Database, notebook, semantic model, report, or Data Agent is created. |
 
 ## Verify the result
 
-- **Azure portal** → **Resource groups** → `rg-Build-Unify` for Storage, generated SQL Server, Fabric capacity, Logic App, Integration Account, and API connection.
+- **Azure portal** → **Resource groups** → `rg-Build-Unify` for Storage, generated SQL Server, and Fabric capacity.
 
   ![rg-Build-Unify](images/image2.png)
 
@@ -144,6 +139,8 @@ Before provisioning, the pipeline identifies the Azure CLI deployment identity a
   ![Analytical files](images/image5.png)
 
   ![BusinessApplication files](images/image6.png)
+
+  After the deployment succeeds, the `data` container contains only `Analytical/` and `BusinessApplication/`. `Operational/` is deleted after the Azure SQL load completes.
 
 - **Azure portal** → select the generated Azure SQL Server → **Databases** → `OperationalData` to confirm the operational tables were loaded.
 
