@@ -66,4 +66,4 @@ if ($runningAsServicePrincipal) {
 
 & (Join-Path $PSScriptRoot 'Remove-OperationalBlobs.ps1') -StorageAccountName $storageAccount
 
-Write-Host 'Source data uploaded and OperationalData loaded. The Operational Blob landing files were deleted; no Fabric workspace or Fabric items are created by this package.' -ForegroundColor Green
+Write-Host 'Deployment completed successfully. Analytical and BusinessApplication data uploaded to Azure Storage, OperationalData loaded into Azure SQL, and the F16 Fabric capacity is ready.' -ForegroundColor Green
